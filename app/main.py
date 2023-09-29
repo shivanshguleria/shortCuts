@@ -13,6 +13,7 @@ app = FastAPI()
 
 URI = os.getenv("DATABASEURL")
 
+
 #Change link_prod during dev
 while True:
     try:
@@ -35,7 +36,7 @@ def root():
 
 @app.post('/link')
 def add_link(req: Link):
-    cursor.execute("INSERT INTO links (link, short_link) VALUES (%s, %s) RETURNING *", (req.link, genrate_random_string()))
+    cursor.execute("INSERT INTO link_prod (link, short_link) VALUES (%s, %s) RETURNING *", (req.link, genrate_random_string()))
     post = cursor.fetchall()
     conn.commit()
     return {"message": post}
@@ -50,9 +51,9 @@ def add_link(req: Link):
 
 @app.get('/{id}')
 def get_link(id: str):
-    cursor.execute("""UPDATE links SET count = count + 1 WHERE short_link = (%s)""", [id] )
+    cursor.execute("""UPDATE link_prod SET count = count + 1 WHERE short_link = (%s)""", [id] )
     conn.commit()
-    cursor.execute("""SELECT link FROM links WHERE short_link = (%s);""",[id])
+    cursor.execute("""SELECT link FROM link_prod WHERE short_link = (%s);""",[id])
     post = cursor.fetchone()
     if post == None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Post with id {id} does not exist")
