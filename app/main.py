@@ -1,6 +1,7 @@
 from fastapi import FastAPI, status, HTTPException
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
+from typing import Optional
 from .generater import genrate_random_string
 import psycopg2,time
 from psycopg2.extras import RealDictCursor
@@ -12,11 +13,12 @@ app = FastAPI()
 
 URI = os.getenv("DATABASEURL")
 
+#Change link_prod during dev
 while True:
     try:
         conn = psycopg2.connect(URI, sslmode="require", cursor_factory=RealDictCursor)
         cursor =  conn.cursor()
-        cursor.execute("CREATE TABLE IF NOT EXISTS links (id serial NOT NULL, link varchar NOT NULL, short_link varchar PRIMARY KEY NOT NULL, created_at timestamp with time zone NOT NULL DEFAULT now())")
+        cursor.execute("CREATE TABLE IF NOT EXISTS link_prod (id serial NOT NULL, link varchar NOT NULL, short_link varchar PRIMARY KEY NOT NULL,count int NOT NULL DEFAULT 0, created_at timestamp with time zone NOT NULL DEFAULT now())")
         print("🗄️  🚀🚀")
         break
     except Exception as err:
@@ -25,8 +27,7 @@ while True:
 
 class Link(BaseModel):
     link: str
-    customLnk: str = None
-
+    customLnk: Optional[str] = None
 
 @app.get('/')
 def root():
@@ -39,12 +40,24 @@ def add_link(req: Link):
     conn.commit()
     return {"message": post}
 
-@app.get('/link/{id}')
+# @app.get("/{id}")
+# def get_shrinked_link(id:str):
+#     cursor.execute("""SELECT link FROM links WHERE short_link = (%s)""", [id])
+#     post = cursor.fetchone()
+#     if post == None:
+#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Post with {{id}} does not exists")
+#     return RedirectResponse(post['link'])
+
+@app.get('/{id}')
 def get_link(id: str):
-    print(id)
-    cursor.execute("""SELECT link FROM links WHERE short_link = (%s)""",[id])
+    cursor.execute("""UPDATE links SET count = count + 1 WHERE short_link = (%s)""", [id] )
+    conn.commit()
+    cursor.execute("""SELECT link FROM links WHERE short_link = (%s);""",[id])
     post = cursor.fetchone()
     if post == None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Post with id {id} does not exist")
-    return RedirectResponse(post["link"],status_code=status.HTTP_303_SEE_OTHER)
+    link = post['link'] # type: ignore
+    if(link[0:5] != 'https'):
+        link = "https://" + link + "/"
+    return RedirectResponse(link)
     #return {"hello": "world"}
