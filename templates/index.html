@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{url_for('public', path='/logo.svg')}}" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="{{url_for('public', path='/index1.css')}}">
+    <title>Shorten Your Links</title>
+</head>
+<body>
+    <div id="main">
+        <div id="main-1">
+            <div id="heading">
+                <h1>Shorten your long links with our mighty link <p style="color: rgb(210, 210, 10);">shortener</p></h1>
+     
+            </div>
+            <div id="card">
+                <input type="text" name="pass-link" id="pass-link" class="pass-link" placeholder="Paste your Long URL">
+                <a  type="submit" name="pass-submit" id="pass-submit" class="pass-submit" >
+                    <div class="material-symbols-outlined circle" >
+                        bolt
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div id = "bottom-nav">
+            <a href="#">About</a>
+            <a href="#">API</a>
+        </div>
+        <div id="wrapper">
+            <div id="popup">
+                <div class="popupcontrols">
+                    <span id="popupclose">&times;</span>
+                </div>
+                <div id="popupcontent">
+                    <h3>Your Shortened Link:)</h3>
+                    <div id="search-flex">
+                        <div id="search-flex-link"><p id="result">Generating Link ...</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="overlay"></div>
+        
+        <!--
+        <div class="overlay" id="overlay"></div>
+            <div id="popup">
+                <div id="wrapper">
+                    <div id="title-close">
+                        <a href="#" class="close">&times;</a>
+                    </div>
+                    <h2>Here is your link</h2>
+                    <div class="container">
+                        jsrfgjdiktrgjikdrfbgjrfikjbi
+                    </div>
+                </div>
+            </div>
+        
+        
+        
+        <div id="popup1" class="overlay">
+            <div class="popup">
+                <a class="close" href="#">&times;</a>
+                <h2>Here's Your link</h2>
+                <div class="content">
+                    <p id="link-generate">Link Loading</p>
+                </div>
+            </div>
+        </div>
+    -->
+    </div>
+    <script src="{{url_for('public', path='/index.js')}}"></script>
+</body>
+</html>

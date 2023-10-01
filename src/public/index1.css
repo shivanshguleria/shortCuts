@@ -1,0 +1,347 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: black;
+    color: white;
+    font-size: 20px;
+    font-family: 'Source Code Pro', monospace;
+}
+
+#main {
+    /*border: 1px blue solid;*/
+    display: flex;
+    flex-flow: column wrap;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow: hidden;
+}
+
+#main-1 {
+    /*border: 1px white solid;*/
+    margin: 5%;
+    width: 80%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 70px;
+}
+#heading {
+    /*border: 1px white solid;*/
+    width: 30%;
+    height: fit-content;
+    font-size: 2rem;
+}
+#card {
+    /*border: 1px white solid;*/
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 450px;
+    margin-right: 20px;
+}
+
+#pass-link {
+    background-color: white;
+    width: 350px;
+    height: 40px;
+    border-radius: 15px;
+    border: transparent;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    margin-right: 30px;
+}
+
+.circle {
+    margin: 7px 7px !important;
+    color: black; 
+    cursor: pointer;
+}
+
+#pass-submit {
+    background-color: rgb(210, 210, 10);
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+}
+
+#bottom-nav {
+    /*border: 1px solid white;*/
+    display: flex;
+    flex: row nowrap;
+    gap: 17px ;
+    margin: 5%;
+    margin-top: 2%;
+    font-size: 1.7rem;
+}
+
+#bottom-nav > a {
+    color: white;
+    text-decoration: none;
+}
+
+#bottom-nav > a:hover {
+    color: rgb(188, 188, 188);
+}
+
+
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background:  rgba(0, 0, 0, 1);
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+    z-index: 100;
+}
+
+
+#wrapper {
+    display: none;
+}
+
+#popup {
+    display: flex;
+    flex-flow: column wrap;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: white;
+    color: black;
+    border-radius: 10px;
+    width: 400px;
+    height: 200px;
+    max-width: 80%;
+    margin-left: -200px; /*Half the value of width to center div*/
+    margin-top: -200px; /*Half the value of height to center div*/
+    z-index: 200;
+}
+
+#popupcontent {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+ 
+}
+
+#search-flex-link  {
+    background-color: #1e1e1e;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    width: max-content;
+    padding-inline: 5px;
+    height: 40px;
+    border-radius: 15px;
+    border: transparent;
+    text-align: left;
+
+   
+    margin-top: 15px;
+
+    color: white;
+}
+
+#result {
+    margin-top: 10px;
+    font-size: 12px;
+}
+#popupclose {
+    float: right;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 40px;
+    font-weight: bolder;
+}
+
+#search-flex {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-content: center;
+}
+
+
+ul {
+    list-style: none;
+}
+/*
+#wrapper {
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: white;
+    color: black;
+    width: 400px;
+    height: 200px;
+    max-width: 80%;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: #fff;
+    margin-left: -250px; /*Half the value of width to center div
+    margin-top: -250px; /*Half the value of height to center div
+    z-index: 200;
+}
+
+.container {
+    background-color: black;
+    width: 200px;
+    max-width: calc(fit-content + 10px);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    height: 40px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 400;
+    margin: 0 auto;
+    color: white;
+}
+#title-close.a {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+
+#overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+    z-index: 100;
+}
+
+
+
+#popupclose {
+    float: right;
+    padding: 10px;
+    cursor: pointer;
+}
+*/
+
+@media only screen and (max-width: 600px) {
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+    body {
+        background-color: black;
+        color: white;
+        font-size: 20px;
+        font-family: 'Source Code Pro', monospace;
+    }
+    
+
+    #main {
+        /*border: 1px blue solid;*/
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    #main-1 {
+        /*border: 1px white solid;*/
+        margin: 5%;
+        width: 80%;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 70px;
+    }
+
+    #heading {
+        /*border: 1px white solid;*/
+        width: 30%;
+        height: fit-content;
+        font-size: 1.5rem;
+        text-indent: 1px;
+        word-spacing: 2px;
+        letter-spacing: 2px;
+    }
+    
+    #card {
+        /*border: 1px white solid;*/
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: center;
+        width: 340px;
+        margin-right: 2px;
+    }
+    .circle {
+        margin: 2px 2px;
+    }
+    #pass-link {
+        width: 300px;
+        height: 40px;
+        border-radius: 15px;
+        border: transparent;
+        text-align: center;
+        font-size: 15px;
+        font-weight: bold;
+        margin-right: 20px;
+    }
+
+    #pass-submit {
+        background-color: rgb(210, 210, 10);
+        border-radius: 80%;
+        height: 40px;
+        width: 40px;
+        padding: 5px;
+    }
+
+    #bottom-nav {
+        /*border: 1px solid white;*/
+        display: flex;
+        flex: row nowrap;
+        gap: 17px ;
+        margin: 5%;
+        margin-top: 2%;
+        font-size: 1.5rem;
+    }
+    
+    #popup {
+        display: flex;
+        flex-flow: column wrap;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        background: white;
+        color: black;
+        border-radius: 10px;
+        width: 400px;
+        height: 200px;
+        min-width: 200px;
+        max-width: 80%;
+        margin-left: -150px; /*Half the value of width to center div*/
+        margin-top: -100px; /*Half the value of height to center div*/
+        z-index: 200;
+    }
+    
+    }
+
+

@@ -1,13 +1,12 @@
-# fly.toml app configuration file generated for black-meadow-3250 on 2023-09-29T23:01:16+05:30
+# fly.toml app configuration file generated for shrink on 2023-10-01T22:51:10+05:30
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "black-meadow-3250"
+app = "shrink"
 primary_region = "sin"
 
 [build]
-  dockerfile = "./Dockerfile"
 
 [http_service]
   internal_port = 8080
