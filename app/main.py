@@ -11,19 +11,28 @@ import psycopg2,time
 from psycopg2.extras import RealDictCursor
 from dotenv import load_dotenv
 import os
+from urllib.parse import urlparse
 
 load_dotenv()
 app = FastAPI()
 
+app.mount("/public/src", StaticFiles(directory="src"), name="src")
 app.add_middleware(
     CORSMiddleware,
     allow_origins = ["*"],
     allow_methods=["GET", "POST","OPTIONS"],
     allow_headers=["*"]
 )
-URI = os.getenv("DATABASEURL")
-
-app.mount("/src/public", StaticFiles(directory="./src/public"), name="public")
+#Change link_prod during dev
+URI = os.getenv('DATABASEURL')
+print(URI)
+print(os.getenv)
+result = urlparse(URI)
+username = result.username
+password = result.password
+database = result.path[1:]
+hostname = result.hostname
+port = result.port
 
 templates = Jinja2Templates(directory="templates")
 
@@ -41,12 +50,20 @@ def root(request: Request):
 def add_link(req: Link):
     while True:
         try:
-            conn = psycopg2.connect(URI, sslmode="require", cursor_factory=RealDictCursor)
+            conn = psycopg2.connect(
+                database = database,
+                user = username,
+                password = password,
+                host = hostname,
+                port = port,
+                cursor_factory=RealDictCursor
+            )
+            #conn = psycopg2.connect(URI, cursor_factory=RealDictCursor)
             cursor =  conn.cursor()
             cursor.execute("CREATE TABLE IF NOT EXISTS link_prod (id serial NOT NULL, link varchar NOT NULL, short_link varchar PRIMARY KEY NOT NULL,count int NOT NULL DEFAULT 0, created_at timestamp with time zone NOT NULL DEFAULT now())")
             print("🗄️  🚀🚀")
             break
-        except KeyboardInterrupt and Exception as err:
+        except KeyboardInterrupt or Exception as err:
             print(err)
             time.sleep(2)
     cursor.execute("INSERT INTO link_prod (link, short_link) VALUES (%s, %s) RETURNING *", (req.link, genrate_random_string()))
@@ -67,7 +84,14 @@ def add_link(req: Link):
 def get_link(id: str):
     while True:
         try:
-            conn = psycopg2.connect(URI, sslmode="require", cursor_factory=RealDictCursor)
+            conn = psycopg2.connect(
+                database = database,
+                user = username,
+                password = password,
+                host = hostname,
+                port = port,
+                cursor_factory=RealDictCursor
+            )
             cursor =  conn.cursor()
             cursor.execute("CREATE TABLE IF NOT EXISTS link_prod (id serial NOT NULL, link varchar NOT NULL, short_link varchar PRIMARY KEY NOT NULL,count int NOT NULL DEFAULT 0, created_at timestamp with time zone NOT NULL DEFAULT now())")
             print("🗄️  🚀🚀")

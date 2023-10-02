@@ -7,6 +7,7 @@ app = "shrink"
 primary_region = "sin"
 
 [build]
+  dockerfile = "./Dockerfile"
 
 [http_service]
   internal_port = 8080

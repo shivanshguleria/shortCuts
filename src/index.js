@@ -1,4 +1,4 @@
-let passLink = document.getElementById('pass-link')
+const passLink = document.getElementById('pass-link')
 let passSubmit = document.getElementById('pass-submit')
 let generateEl = document.getElementById('result')
 
@@ -11,17 +11,20 @@ var popup = document.getElementById("wrapper");
 closePopup.onclick = function() {
   overlay.style.display = 'none';
   popup.style.display = 'none';
-  generateEl.textContent = "Generating Link ..."
+  generateEl.textContent = "Generating Link ...";
+  passLink.value = "Paste your Long URL"
 };
 // Show Overlay and Popup
-
+passLink.addEventListener("click", function() {
+  passLink.value = ""
+})
 
 passSubmit.addEventListener("click",async function() {
     let inputValue = passLink.value
     if(inputValue === "") {
       alert("Enter Link")
     } else {
-     
+      
         overlay.style.display = 'block';
         popup.style.display = 'block';
       
