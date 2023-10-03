@@ -14,7 +14,7 @@ import os
 from urllib.parse import urlparse
 
 load_dotenv()
-app = FastAPI()
+app = FastAPI(redoc_url="/documentation", docs_url=None)
 
 app.mount("/public/src", StaticFiles(directory="src"), name="src")
 app.add_middleware(
@@ -26,7 +26,7 @@ app.add_middleware(
 #Change link_prod during dev
 URI = os.getenv('DATABASEURL')
 
-result = urlparse(URI)
+result = urlparse("URI")
 username = result.username
 password = result.password
 database = result.path[1:]
@@ -44,6 +44,44 @@ class Link(BaseModel):
 def root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
     #return {"Hello": "World"}
+
+@app.get('/About', response_class=HTMLResponse)
+def about(request: Request):
+    return templates.TemplateResponse("about.html", {"request": request})
+
+@app.get('/{id}')
+def get_link(id: str):
+    while True:
+        try:
+            conn = psycopg2.connect(
+                database = database,
+                user = username,
+                password = password,
+                host = hostname,
+                port = port,
+                cursor_factory=RealDictCursor
+            )
+            cursor =  conn.cursor()
+            cursor.execute("CREATE TABLE IF NOT EXISTS link_prod (id serial NOT NULL, link varchar NOT NULL, short_link varchar PRIMARY KEY NOT NULL,count int NOT NULL DEFAULT 0, created_at timestamp with time zone NOT NULL DEFAULT now())")
+            print("🗄️  🚀🚀")
+            break
+        except Exception as err:
+            print(err)
+            time.sleep(2)
+    cursor.execute("""UPDATE link_prod SET count = count + 1 WHERE short_link = (%s)""", [id] )
+    conn.commit()
+    cursor.execute("""SELECT link FROM link_prod WHERE short_link = (%s);""",[id])
+    post = cursor.fetchone()
+    conn.close()
+    if post == None:
+    
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Post with id {id} does not exist")
+    link = post['link'] # type: ignore
+    if(link[0:5] != 'https'):
+        link = "https://" + link + "/"
+    return RedirectResponse(link)
+    #return {"hello": "world"}
+
 
 @app.post('/link')
 def add_link(req: Link):
@@ -78,35 +116,3 @@ def add_link(req: Link):
 #     if post == None:
 #         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Post with {{id}} does not exists")
 #     return RedirectResponse(post['link'])
-
-@app.get('/{id}')
-def get_link(id: str):
-    while True:
-        try:
-            conn = psycopg2.connect(
-                database = database,
-                user = username,
-                password = password,
-                host = hostname,
-                port = port,
-                cursor_factory=RealDictCursor
-            )
-            cursor =  conn.cursor()
-            cursor.execute("CREATE TABLE IF NOT EXISTS link_prod (id serial NOT NULL, link varchar NOT NULL, short_link varchar PRIMARY KEY NOT NULL,count int NOT NULL DEFAULT 0, created_at timestamp with time zone NOT NULL DEFAULT now())")
-            print("🗄️  🚀🚀")
-            break
-        except Exception as err:
-            print(err)
-            time.sleep(2)
-    cursor.execute("""UPDATE link_prod SET count = count + 1 WHERE short_link = (%s)""", [id] )
-    conn.commit()
-    cursor.execute("""SELECT link FROM link_prod WHERE short_link = (%s);""",[id])
-    post = cursor.fetchone()
-    conn.close()
-    if post == None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Post with id {id} does not exist")
-    link = post['link'] # type: ignore
-    if(link[0:5] != 'https'):
-        link = "https://" + link + "/"
-    return RedirectResponse(link)
-    #return {"hello": "world"}

@@ -97,10 +97,15 @@ body {
     /*border: 1px solid white;*/
     display: flex;
     flex: row nowrap;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
     gap: 17px ;
     margin: 5%;
     margin-top: 2%;
     font-size: 1.7rem;
+    cursor: none;
 }
 
 #bottom-nav > a {
@@ -192,8 +197,12 @@ body {
 }
 
 
-ul {
-    list-style: none;
+
+
+#copyright {
+    font-size: 18px;
+    font-weight: 900;
+    color: yellow;
 }
 /*
 #wrapper {
@@ -362,6 +371,12 @@ ul {
         margin-left: -150px; /*Half the value of width to center div*/
         margin-top: -100px; /*Half the value of height to center div*/
         z-index: 200;
+    }
+
+    #copyright {
+        font-size: 15px;
+        font-weight: 900;
+        color: yellow;
     }
     
     }
