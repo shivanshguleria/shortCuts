@@ -1,11 +1,16 @@
 * {
     margin: 0;
     padding: 0;
+    --background-color: black;
+    --color: white;
+    --color-hover: rgb(188, 188, 188);
+    --color-yellow: yellow;
+    --color-yellow-hover: rgb(209, 209, 2);
 }
 
 body {
-    background-color: black;
-    color: white;
+    background-color: var(--background-color);
+    color: var(--color);
     font-size: 20px;
     font-family: 'Source Code Pro', monospace;
 }
@@ -28,13 +33,13 @@ body {
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
-    gap: 70px;
+    gap: 10px;
 }
 #heading {
     /*border: 1px white solid;*/
-    width: 30%;
+    width: 47%;
     height: fit-content;
-    font-size: 2rem;
+    font-size: 2.25rem;
 }
 #card {
     /*border: 1px white solid;*/
@@ -43,13 +48,13 @@ body {
     justify-content: space-between;
     align-items: center;
     width: 450px;
-    margin-right: 20px;
+    margin-right: 0px;
     gap: 10px;
 }
 
 #pass-link {
-    color: black;
-    background-color: white;
+    color: var(--background-color);
+    background-color: var(--color);
     border: 0;
     padding: 15px;
     border-radius: 25px;
@@ -87,10 +92,14 @@ body {
     font-size: 35px !important;
 }
 #pass-submit {
-    background-color: yellow;
+    background-color: var(--color-yellow);
     border-radius: 100%;
     padding: 5px;
     
+}
+
+#pass-submit:hover{
+    background-color: var(--color-yellow-hover);
 }
 
 #bottom-nav {
@@ -102,8 +111,9 @@ body {
     align-items: center;
     align-content: center;
     gap: 17px ;
-    margin: 5%;
-    margin-top: 2%;
+    margin: 0;
+    margin-left: 5%;
+    margin-top: -2%;
     font-size: 1.7rem;
     cursor: none;
 }
@@ -114,7 +124,7 @@ body {
 }
 
 #bottom-nav > a:hover {
-    color: rgb(188, 188, 188);
+    color: var(--color-hover);
 }
 
 
@@ -133,6 +143,7 @@ body {
 }
 
 
+
 #wrapper {
     display: none;
 }
@@ -143,9 +154,9 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    background: white;
-    color: black;
-    border-radius: 10px;
+    background: var(--color);
+    color: var(--background-color);
+    border-radius: 25px;
     width: 400px;
     height: 200px;
     max-width: 80%;
@@ -164,19 +175,35 @@ body {
 }
 
 #search-flex-link  {
-    color: white;
-    background-color: black;
+    color: var(--color);
+    background-color: var(--background-color);
     border: 0;
     padding: 12px;
     border-radius: 25px;
-    font-size: 24px;
     font-weight: 700;
     text-align: center;
     font-family: 'Source Code Pro', monospace;
 
     margin: 10px 0;
+    padding-top: 15px;
 }
 
+#copy-button {
+    color: var(--color);
+    background-color: var(--background-color);
+        border: 0;
+        padding: 12px;
+        border-radius: 100px;
+        font-size: 25px !important;
+        text-align: center;
+        margin: 10px 0;
+        cursor: pointer;
+}
+
+#copy-button:hover {
+    color: var(--color);
+    background-color: #1e1e1e;
+}
 #result {
     margin-top: 0px;
     font-size: 14px;
@@ -194,6 +221,8 @@ body {
     flex-flow: row nowrap;
     justify-content: center;
     align-content: center;
+    align-items: center;
+    gap: 14px;
 }
 
 
@@ -202,82 +231,16 @@ body {
 #copyright {
     font-size: 18px;
     font-weight: 900;
-    color: yellow;
+    color: var(--color-yellow);
 }
-/*
-#wrapper {
-    border: 1px solid black;
-    border-radius: 10px;
-    background-color: white;
-    color: black;
-    width: 400px;
-    height: 200px;
-    max-width: 80%;
-    display: flex;
-    flex-flow: column wrap;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    background: #fff;
-    margin-left: -250px; /*Half the value of width to center div
-    margin-top: -250px; /*Half the value of height to center div
-    z-index: 200;
-}
-
-.container {
-    background-color: black;
-    width: 200px;
-    max-width: calc(fit-content + 10px);
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    height: 40px;
-    border-radius: 15px;
-    text-align: center;
-    font-size: 15px;
-    font-weight: 400;
-    margin: 0 auto;
-    color: white;
-}
-#title-close.a {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: flex-start;
-    align-items: flex-end;
-}
-
-#overlay {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    width: 100%;
-    height: 100%;
-    opacity: 0.8;
-    z-index: 100;
-}
-
-
-
-#popupclose {
-    float: right;
-    padding: 10px;
-    cursor: pointer;
-}
-*/
 
 @media only screen and (max-width: 600px) {
     * {
-        margin: 0;
-        padding: 0;
         box-sizing: border-box;
       }
     body {
-        background-color: black;
-        color: white;
+        color: var(--color);
+        background-color: var(--background-color);
         font-size: 20px;
         font-family: 'Source Code Pro', monospace;
     }
@@ -311,7 +274,14 @@ body {
         word-spacing: 2px;
         letter-spacing: 2px;
     }
-    
+    #search-flex {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+        gap: 14px;
+    }
     #card {
         /*border: 1px white solid;*/
         display: flex;
@@ -322,10 +292,10 @@ body {
         margin-right: 2px;
     }
     .material-symbols-outlined  {
-        margin: 1px 2px !important;
+        margin: 1px 1px !important;
         font-size: 30px !important;
+        
     }
-
     #pass-link {
         width: 300px;
         height: 50px;
@@ -338,12 +308,13 @@ body {
     }
 
     #pass-submit {
-        background-color: rgb(210, 210, 10);
+        background-color: var(--color-yellow);
         border-radius: 80%;
         height: 50px;
         width: 50px;
         padding: 10px;
     }
+
 
     #bottom-nav {
         /*border: 1px solid white;*/
@@ -354,15 +325,18 @@ body {
         margin-top: 2%;
         font-size: 1.5rem;
     }
-    
+    #pass-submit:hover{
+        background-color: var(--color-yellow-hover);
+        color: black;
+    }
     #popup {
         display: flex;
         flex-flow: column wrap;
         position: absolute;
         top: 50%;
         left: 50%;
-        background: white;
-        color: black;
+        background: var(--color);
+        color: var(--background-color);
         border-radius: 10px;
         width: 400px;
         height: 200px;
@@ -376,8 +350,13 @@ body {
     #copyright {
         font-size: 15px;
         font-weight: 900;
-        color: yellow;
+        color: var(--color-yellow);
     }
+    
+#copy-button:hover {
+    color: var(--color);
+    background-color: #1e1e1e;
+}
     
     }
 
