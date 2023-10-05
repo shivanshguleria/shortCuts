@@ -5,7 +5,12 @@
     --color: white;
     --color-hover: rgb(188, 188, 188);
     --color-yellow: yellow;
-    --color-yellow-hover: rgb(209, 209, 2);
+    --color-yellow-hover: rgb(232, 232, 1);
+}
+
+::selection{
+    background-color: var(--color-yellow-hover);
+    color: var(--background-color);
 }
 
 body {
@@ -280,7 +285,7 @@ body {
         justify-content: center;
         align-content: center;
         align-items: center;
-        gap: 14px;
+        gap: 5px;
     }
     #card {
         /*border: 1px white solid;*/
@@ -338,12 +343,12 @@ body {
         background: var(--color);
         color: var(--background-color);
         border-radius: 10px;
-        width: 400px;
+        width: 420px;
         height: 200px;
         min-width: 200px;
         max-width: 80%;
-        margin-left: -150px; /*Half the value of width to center div*/
-        margin-top: -100px; /*Half the value of height to center div*/
+        margin-left: -150px; 
+        margin-top: -100px; 
         z-index: 200;
     }
 
@@ -351,6 +356,7 @@ body {
         font-size: 15px;
         font-weight: 900;
         color: var(--color-yellow);
+        cursor: none;
     }
     
 #copy-button:hover {
