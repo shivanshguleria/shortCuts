@@ -70,22 +70,6 @@ body {
 
     margin: 10px 0;
 }
-/*
-#pass-link {
-    background-color: white;
-    width: 350px;
-    height: 40px;
-    border-radius: 15px;
-    border: transparent;
-    text-align: center;
-    font-size: 15px;
-    font-weight: bold;
-    margin-right: 30px;
-    font-family: 'Source Code Pro', monospace;
-}
-
-*/
-
 
 .circle {
     margin: 7px 7px !important;
@@ -96,6 +80,11 @@ body {
 .material-symbols-outlined {
     font-size: 35px !important;
 }
+
+.material-symbols-outlined {
+    user-select: none !important;
+}
+
 #pass-submit {
     background-color: var(--color-yellow);
     border-radius: 100%;
