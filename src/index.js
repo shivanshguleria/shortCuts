@@ -21,7 +21,7 @@ passSubmit.addEventListener("click",async function() {
     } else {
       overlay.style.display = 'block';
       popup.style.display = 'block';
-      await fetch("/link", {
+      await fetch("/link/preview", {
       method: "POST",
       body: JSON.stringify({
         link: inputValue

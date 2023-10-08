@@ -5,7 +5,7 @@
     --color: white;
     --color-hover: rgb(188, 188, 188);
     --color-yellow: yellow;
-    --color-yellow-hover: rgb(232, 232, 1);
+    --color-yellow-hover: rgb(188, 188, 0);
 }
 
 ::selection{
@@ -75,6 +75,7 @@ body {
     margin: 7px 7px !important;
     color: black; 
     cursor: pointer;
+    user-select: none !important;
 }
 
 .material-symbols-outlined {
@@ -99,7 +100,6 @@ body {
 #bottom-nav {
     /*border: 1px solid white;*/
     display: flex;
-    flex: row nowrap;
     flex-flow: row nowrap;
     justify-content: center;
     align-items: center;
@@ -192,11 +192,13 @@ body {
         text-align: center;
         margin: 10px 0;
         cursor: pointer;
+        user-select: none;
 }
 
 #copy-button:hover {
     color: var(--color);
     background-color: #1e1e1e;
+    user-select: none;
 }
 #result {
     margin-top: 0px;
@@ -288,7 +290,7 @@ body {
     .material-symbols-outlined  {
         margin: 1px 1px !important;
         font-size: 30px !important;
-        
+        user-select: none !important;
     }
     #pass-link {
         width: 300px;
