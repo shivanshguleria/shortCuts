@@ -7,13 +7,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
 from .generater import genrate_random_string
-import psycopg2,time
+import psycopg2,time,re
 from psycopg2.extras import RealDictCursor
-from dotenv import load_dotenv
+
 import os
 from urllib.parse import urlparse
 
-load_dotenv()
+
 app = FastAPI(redoc_url="/documentation", docs_url=None)
 
 app.mount("/public/src", StaticFiles(directory="src"), name="src")
@@ -52,23 +52,17 @@ def about(request: Request):
 
 @app.get('/{id}', response_class=HTMLResponse)
 def get_link(id: str, request: Request):
-    while True:
-        try:
-            conn = psycopg2.connect(
-                database = database,
-                user = username,
-                password = password,
-                host = hostname,
-                port = port,
-                cursor_factory=RealDictCursor
-            )
-            cursor =  conn.cursor()
-            cursor.execute("CREATE TABLE IF NOT EXISTS link_prod (id serial NOT NULL, link varchar NOT NULL, short_link varchar PRIMARY KEY NOT NULL,count int NOT NULL DEFAULT 0, created_at timestamp with time zone NOT NULL DEFAULT now(), is_preview BOOL DEFAULT false)")
-            print("🗄️  🚀🚀")
-            break
-        except Exception as err:
-            print(err)
-            time.sleep(2)
+    conn = psycopg2.connect(
+        database = database,
+        user = username,
+        password = password,
+        host = hostname,
+        port = port,
+        cursor_factory=RealDictCursor
+    )
+    cursor =  conn.cursor()
+    cursor.execute("CREATE TABLE IF NOT EXISTS link_prod (id serial NOT NULL, link varchar NOT NULL, short_link varchar PRIMARY KEY NOT NULL,count int NOT NULL DEFAULT 0, created_at timestamp with time zone NOT NULL DEFAULT now(), is_preview BOOL DEFAULT false)")
+    print("🗄️  🚀🚀")
     cursor.execute("""UPDATE link_prod SET count = count + 1 WHERE short_link = (%s)""", [id] )
     conn.commit()
     cursor.execute("""SELECT link, is_preview FROM link_prod WHERE short_link = (%s);""",[id])
@@ -87,24 +81,18 @@ def get_link(id: str, request: Request):
 
 @app.post('/link/preview')
 def add_caution_link(req: Link):
-    while True:
-        try:
-            conn = psycopg2.connect(
-                database = database,
-                user = username,
-                password = password,
-                host = hostname,
-                port = port,
-                cursor_factory=RealDictCursor
-            )
-            #conn = psycopg2.connect(URI, cursor_factory=RealDictCursor)
-            cursor =  conn.cursor()
-            cursor.execute("CREATE TABLE IF NOT EXISTS link_prod (id serial NOT NULL, link varchar NOT NULL, short_link varchar PRIMARY KEY NOT NULL,count int NOT NULL DEFAULT 0, created_at timestamp with time zone NOT NULL DEFAULT now(), is_preview BOOL DEFAULT false)")
-            print("🗄️  🚀🚀")
-            break
-        except KeyboardInterrupt or Exception as err:
-            print(err)
-            time.sleep(2)
+    conn = psycopg2.connect(
+        database = database,
+        user = username,
+        password = password,
+        host = hostname,
+        port = port,
+        cursor_factory=RealDictCursor
+    )
+    #conn = psycopg2.connect(URI, cursor_factory=RealDictCursor)
+    cursor =  conn.cursor()
+    cursor.execute("CREATE TABLE IF NOT EXISTS link_prod (id serial NOT NULL, link varchar NOT NULL, short_link varchar PRIMARY KEY NOT NULL,count int NOT NULL DEFAULT 0, created_at timestamp with time zone NOT NULL DEFAULT now(), is_preview BOOL DEFAULT false)")
+    print("🗄️  🚀🚀")
     cursor.execute("INSERT INTO link_prod (link, short_link, is_preview) VALUES (%s, %s, %s) RETURNING *", (req.link, genrate_random_string(), True))
     post = cursor.fetchall()
     conn.commit()
@@ -114,34 +102,19 @@ def add_caution_link(req: Link):
     
 @app.post('/link')
 def add_link(req: Link):
-    while True:
-        try:
-            conn = psycopg2.connect(
-                database = database,
-                user = username,
-                password = password,
-                host = hostname,
-                port = port,
-                cursor_factory=RealDictCursor
-            )
-            #conn = psycopg2.connect(URI, cursor_factory=RealDictCursor)
-            cursor =  conn.cursor()
-            cursor.execute("CREATE TABLE IF NOT EXISTS link_prod (id serial NOT NULL, link varchar NOT NULL, short_link varchar PRIMARY KEY NOT NULL,count int NOT NULL DEFAULT 0, created_at timestamp with time zone NOT NULL DEFAULT now(), is_preview BOOL DEFAULT false)")
-            print("🗄️  🚀🚀")
-            break
-        except KeyboardInterrupt or Exception as err:
-            print(err)
-            time.sleep(2)
+    conn = psycopg2.connect(
+        database = database,
+        user = username,
+        password = password,
+        host = hostname,
+        port = port,
+        cursor_factory=RealDictCursor
+    )
+    cursor =  conn.cursor()
+    cursor.execute("CREATE TABLE IF NOT EXISTS link_prod (id serial NOT NULL, link varchar NOT NULL, short_link varchar PRIMARY KEY NOT NULL,count int NOT NULL DEFAULT 0, created_at timestamp with time zone NOT NULL DEFAULT now(), is_preview BOOL DEFAULT false)")
+    print("🗄️  🚀🚀")
     cursor.execute("INSERT INTO link_prod (link, short_link) VALUES (%s, %s) RETURNING *", (req.link, genrate_random_string()))
     post = cursor.fetchall()
     conn.commit()
     conn.close()
     return {"message": post}
-
-# @app.get("/{id}")
-# def get_shrinked_link(id:str):
-#     cursor.execute("""SELECT link FROM links WHERE short_link = (%s)""", [id])
-#     post = cursor.fetchone()
-#     if post == None:
-#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Post with {{id}} does not exists")
-#     return RedirectResponse(post['link'])

@@ -3,3 +3,4 @@ app/__pycache__
 readme.txt
 .vscode
 .space
+app/.env
