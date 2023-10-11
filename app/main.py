@@ -115,7 +115,7 @@ def add_link(req: Link):
     cursor =  conn.cursor()
     cursor.execute("CREATE TABLE IF NOT EXISTS link_prod (id serial NOT NULL, link varchar NOT NULL, short_link varchar PRIMARY KEY NOT NULL,count int NOT NULL DEFAULT 0, created_at timestamp with time zone NOT NULL DEFAULT now(), is_preview BOOL DEFAULT false)")
     print("🗄️  🚀🚀")
-    cursor.execute("INSERT INTO link_prod (link, short_link) VALUES (%s, %s) RETURNING *", (req.link, genrate_random_string()))
+    cursor.execute("INSERT INTO link_prod (link, short_link, is_preview) VALUES (%s, %s, %s) RETURNING *", (req.link, genrate_random_string(), False))
     post = cursor.fetchall()
     conn.commit()
     conn.close()
