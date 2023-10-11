@@ -6,6 +6,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
+from .get_ver import get_version
 from .generater import genrate_random_string
 import psycopg2,time,re
 from psycopg2.extras import RealDictCursor
@@ -48,7 +49,7 @@ def root(request: Request):
 
 @app.get('/About', response_class=HTMLResponse)
 def about(request: Request):
-    return templates.TemplateResponse("about.html", {"request": request})
+    return templates.TemplateResponse("about.html", {"request": request, "version": get_version()})
 
 @app.get('/{id}', response_class=HTMLResponse)
 def get_link(id: str, request: Request):
