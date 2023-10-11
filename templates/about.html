@@ -39,34 +39,21 @@ body {
 
 #main-1 {
     /*border: 1px white solid;*/
-    margin: 5%;
-    width: 80%;
+    text-align: center;
+    width: 60%;
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: column nowrap;
     justify-content: space-evenly;
     align-items: center;
     align-content: center;
-    gap: 200px;
+    gap: 50px;
+    margin-bottom: 30px;
 }
 #heading {
     /*border: 1px white solid;*/
-    width: 30%;
+   margin-top: 20px;
     height: fit-content;
-    font-size: 4rem;
-}
-
-ul {
-        margin: 7%;
-    }
-li {
-    padding: 2%;
-}
-    #copyright {
-    font-size: 18px;
-    font-weight: 900;
-
-    margin: 7%;
-    margin-top: -10px;
+    font-size: 4.25rem;
 }
 
 a {
@@ -77,61 +64,10 @@ a:hover {
     color: rgb(221, 221, 3);
 }
 
-@media only screen and (max-width: 600px) {
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-    body {
-        background-color: black;
-        color: white;
-        font-size: 20px;
-        font-family: 'Source Code Pro', monospace;
-    }
-    
-
-    #main {
-        /*border: 1px blue solid;*/
-        display: flex;
-        flex-flow: column wrap;
-        justify-content: flex-start;
-        align-items: flex-start;
-    }
-
-    #main-1 {
-        /*border: 1px white solid;*/
-        margin: 5%;
-        width: 80%;
-        display: flex;
-        flex-flow: column nowrap;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 70px;
-    }
-
-    #heading {
-        /*border: 1px white solid;*/
-        width: 30%;
-        height: fit-content;
-        font-size: 3rem;
-        text-indent: 1px;
-        word-spacing: 4px;
-        letter-spacing: 5px;
-    }
-
-
-
-    ul {
-        margin: 7%;
-    }
-    #copyright {
-        font-size: 15px;
-        font-weight: 900;
-       
-        margin: 7%;
-    
-    }
+#img {
+    margin: 0 auto;
+    height: 70px; width: 70px;
+    margin-bottom: 30px;
 }
 
 </style>
@@ -139,14 +75,18 @@ a:hover {
     <div id="main">
         <div id="main-1">
             <h1 id="heading"> <a href="/">shortCuts</a> </h1>
-            <ul>
-                <li>Database- PostgresSQL</li>
-                <li>Host- <a href="http://fly.io">Fly</a></li>
-                <li style="font-weight: bold;"><em>Note</em> - All links will be deleted after a month</li>
-            </ul>
-            
+            <div>
+                <p><span style="font-size: 30px; font-weight: 700;">shortCuts</span> is link shrinker platform used to shrinkify your url to an five digit short code. Theoretically there can exist <span style="color: yellow;display: inline;">52 C 5</span> [25,980,960] unique links. As the application is currently under development it would be a good practice to delete all links at end of the month.<br> <br> We also have RESTfull API that supports basic GET, POST requests. You can visit <a href="/documentaion">documentaion</a> for more information.<p>
+                <br>
+                    <p>For support, feedback, new features you can contact me at <a href="mailto:contact@shivanshguleria.ml">contact@shivanshguleria.ml</a></p>
+                <br>
+                    <p>This app is running on commit version <a href="https://github.com/shivanshguleria/shortCuts">0.0.7-7</a></p>
+            </div>
         </div>
-        <p id="copyright">&copy;shortCuts</p>
+
+           
+            <img src="./public/src/logo.svg" id="img" alt="logo">
+        </div>
     </div>
 </body>
 </html>
