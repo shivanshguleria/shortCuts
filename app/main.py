@@ -75,7 +75,8 @@ def get_link(id: str, request: Request):
     if(link[0:5] != 'https'):
         link = "https://" + link + "/"
     if post['is_preview']: # type: ignore
-        return templates.TemplateResponse("preview.html", {"request": request, "link": link})
+        preview = link[0:40] + "\n..."
+        return templates.TemplateResponse("preview.html", {"request": request, "link": link, "preview": preview})
     return RedirectResponse(link)
     #return {"hello": "world"}
 
