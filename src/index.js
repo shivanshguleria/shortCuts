@@ -6,6 +6,9 @@ const searchFlexLink = document.getElementById("search-flex-link")
 const closePopup = document.getElementById("popupclose");
 const overlay = document.getElementById("overlay");
 const popup = document.getElementById("wrapper");
+import  {storage}  from "./modules/storage.js"
+
+const mainUser = document.getElementById("user")
 
 closePopup.onclick = function() {
   overlay.style.display = 'none';
@@ -34,11 +37,13 @@ passSubmit.addEventListener("click",async function() {
       .then((json) => {
         let data = "https://shrink.fly.dev/" + json.message[0].short_link
         generateEl.textContent =  data
-        console.log(data)
+        storage(inputValue, json.message[0].short_link)
         copyFunction()
+       
       }) 
     }
 })
+
 
 function copyFunction() {
   copyBtn.addEventListener('click', function(){
@@ -52,3 +57,5 @@ function copyFunction() {
   console.log("Copied ")
   })
 }
+
+
