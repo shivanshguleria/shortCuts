@@ -28,8 +28,8 @@ app.add_middleware(
     allow_headers=["*"]
 )
 #Change link_prod during dev
-
-result = urlparse('DATABASEURL')
+URI = os.getenv("DATABASEURL")
+result = urlparse(URI) 
 username = result.username
 password = result.password
 database = result.path[1:]
