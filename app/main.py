@@ -18,6 +18,9 @@ from urllib.parse import urlparse
 app = FastAPI(redoc_url="/documentation", docs_url=None)
 
 app.mount("/public/src", StaticFiles(directory="src"), name="src")
+
+app.mount("/public/src/modules", StaticFiles(directory="./src/modules"), name="modules")
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins = ["*"],
@@ -25,9 +28,8 @@ app.add_middleware(
     allow_headers=["*"]
 )
 #Change link_prod during dev
-URI = os.getenv('DATABASEURL')
-
-result = urlparse(URI)
+URI = os.getenv("DATABASEURL")
+result = urlparse(URI) 
 username = result.username
 password = result.password
 database = result.path[1:]
@@ -51,7 +53,11 @@ def root(request: Request):
 def about(request: Request):
     return templates.TemplateResponse("about.html", {"request": request, "version": get_version()})
 
-@app.get('/{id}', response_class=HTMLResponse)
+@app.get('/User', response_class=HTMLResponse)
+def user(request: Request):
+    return templates.TemplateResponse("user.html", {"request": request, "version": get_version()})
+
+@app.get('/{id}')
 def get_link(id: str, request: Request):
     conn = psycopg2.connect(
         database = database,
@@ -78,8 +84,26 @@ def get_link(id: str, request: Request):
     if post['is_preview']: # type: ignore
         preview = link[0:40] + "\n..."
         return templates.TemplateResponse("preview.html", {"request": request, "link": link, "preview": preview})
-    return RedirectResponse(link)
+    return {"shortLink": link}
     #return {"hello": "world"}
+
+
+@app.get("/count/{id}")
+def count(id: str):
+    conn = psycopg2.connect(
+        database = database,
+        user = username,
+        password = password,
+        host = hostname,
+        port = port,
+        cursor_factory=RealDictCursor
+    )
+    cursor =  conn.cursor()
+    print("🗄️  🚀🚀")
+    cursor.execute("""SELECT count FROM link_prod WHERE short_link = (%s) ;""",[id])
+    post = cursor.fetchall()
+    conn.close()
+    return post
 
 @app.post('/link/preview')
 def add_caution_link(req: Link):
