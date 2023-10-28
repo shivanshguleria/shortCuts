@@ -21,6 +21,8 @@ passSubmit.addEventListener("click",async function() {
     let inputValue = passLink.value
     if(inputValue === "") {
       alert("Enter Link")
+    } else if(isValidUrl(inputValue) === false) {
+      alert("Enter Valid Url")
     } else {
       overlay.style.display = 'block';
       popup.style.display = 'block';
@@ -59,3 +61,12 @@ function copyFunction() {
 }
 
 
+function isValidUrl(uri) {
+  try {
+    const newUrl = new URL(uri);
+    return true;
+    
+  } catch (err) {
+    return false;
+  }
+}

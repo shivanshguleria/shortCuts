@@ -28,8 +28,8 @@ app.add_middleware(
     allow_headers=["*"]
 )
 #Change link_prod during dev
-URI = os.getenv("DATABASEURL")
-result = urlparse(URI) 
+#URI = os.getenv("DATABASEURL")
+result = urlparse("postgres://postgres:root@localhost/postgres") 
 username = result.username
 password = result.password
 database = result.path[1:]
