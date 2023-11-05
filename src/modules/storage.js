@@ -1,8 +1,8 @@
 async function count(shortUrl) {
     const response = await fetch(`/count/${shortUrl}`);
     const count1 = await response.json();
-    console.log(count1[0].count)
-    return count1[0].count
+    console.log(count1)
+    return count1
   }
 
 function storage(link, shortLink) {
