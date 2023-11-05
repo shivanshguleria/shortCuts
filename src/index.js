@@ -30,7 +30,7 @@ passSubmit.addEventListener("click",async function() {
       method: "POST",
       body: JSON.stringify({
         link: inputValue,
-        is_preview: false
+        is_preview: true
       }),
       headers: {
         "Content-type": "application/json; charset=UTF-8"

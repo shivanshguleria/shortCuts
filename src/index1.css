@@ -37,7 +37,7 @@ body {
 #main-1 {
     /*border: 1px white solid;*/
     margin: 5%;
-    width: 90%;
+    width: 80%;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
@@ -46,9 +46,9 @@ body {
 }
 #heading {
     /*border: 1px white solid;*/
-    width: 49%;
+    width: 47%;
     height: fit-content;
-    font-size: 2.40rem;
+    font-size: 2.25rem;
 }
 #card {
     /*border: 1px white solid;*/
@@ -56,9 +56,9 @@ body {
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
-    width: 470px;
-    margin-right: 70px;
-    
+    width: 450px;
+    margin-right: 0px;
+    gap: 10px;
 }
 
 #pass-link {
@@ -71,6 +71,7 @@ body {
     font-weight: 700;
     text-align: center;
     font-family: 'Source Code Pro', monospace;
+
     margin: 10px 0;
 }
 
