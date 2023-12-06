@@ -1,16 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+    {% include 'redirect.html' %}
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="./public/src/logo.ico" type="image/x-icon">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
+    {% include 'commonHeader.html' %}
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <meta name="google-site-verification" content="psa1G6AQDoHUl2fSMsdhVpePPUGmvZQ-UFOyN5hkYc0" />
-    <!--<link rel="stylesheet" href="https://files.shivanshguleria.ml/src/misc/index1.css">-->
     <title>About | shortCuts</title>
 </head>
 <style>
@@ -83,13 +76,10 @@ a:hover {
             <div>
                 <p><span style="font-size: 30px; font-weight: 700;">shortCuts</span> shrinks your url to an unique five digit code. All links are stored in a relational database. Currently, we also store your shortened lijnks in local storage. You can delete all links by visiting <a href="/User">dashboard</a>.<br><br> Theoretically, there can exist only <span style="color: yellow;display: inline; font-size: 10px;">52 <span style="font-size: 20px;">C</span> 5</span> [25,980,960] unique links. As the application is currently under development it is a good practice to delete all links at end of the month.<br> <br> We also have RESTfull API that supports basic GET, POST requests. You can visit <a href="/documentation">documentation</a> for more information.<p>
                 <br>
-                    <p>For support, feedback, new features you can contact me at <a href="mailto:contact@shivanshguleria.ml">contact@shivanshguleria.ml</a></p>
+                    <p>For support, feedback, new features you can contact me at <a href="mailto:contact@shrk.xyz">contact@shrk.xyz</a></p>
                 <br>
-                    <p>This app is running on commit version <a href="https://github.com/shivanshguleria/shortCuts">{{version}}</a></p>
-            </div>
-        </div>
+                    <p>This app is running on commit version {{version}}</a></p>
 
-           
             <img src="./public/src/logo.svg" id="img" alt="logo">
         </div>
     </div>

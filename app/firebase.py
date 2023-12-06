@@ -3,6 +3,8 @@ from firebase_admin import credentials
 from firebase_admin import db
 import os,json
 
+# from app.main import count
+
 cred = {
   "type": "service_account",  #
   "project_id": "shortcuts-38cea",#
@@ -26,7 +28,7 @@ default_app = firebase_admin.initialize_app(cred_obj, {
 ref = db.reference('/')
 
 count_ref = ref.child("shortCuts")
-
+# count_ref1 = ref.child("pussy")
 def push_new_count(shrt_link):
   # new_short_link_ref = count_ref.push()
   count_ref.child(shrt_link).set({
@@ -57,7 +59,16 @@ def update_count(ref):
 
 def get_count(ref):
     get_count_ref = db.reference(f'shortCuts/{ref}/count')
+    print("[INFO] GOT COUNT FROM SERVER")
     return get_count_ref.get()
 
 
+def delete_routine():
+ return db.reference('/shortCuts').get()
+
+def get_count_reference():
+   db.reference('/shortcuts').delete()
+
+def push_updated_data(data):
+   count_ref.set(data)
   

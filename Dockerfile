@@ -3,7 +3,8 @@ FROM python:3.11.5-bookworm
 
 # 
 WORKDIR /code
-
+RUN ["apt-get", "update"]
+RUN ["apt-get", "install", "-y", "vim"]
 # 
 COPY ./requirements.txt /code/requirements.txt
 
