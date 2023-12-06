@@ -4,4 +4,7 @@ readme.txt
 .vscode
 .space
 app/.env
+src/index1.js
+src/modules/storage1.js
+src/modules/user1.js
 #This is test for workflow

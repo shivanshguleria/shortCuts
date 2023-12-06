@@ -1,21 +1,24 @@
+from sys import modules
 from fastapi import FastAPI, status, HTTPException, Request
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
+
+from sqlalchemy import null
 from .get_ver import get_version
-from .generater import genrate_random_string
+from .generater import genrate_random_string, generate_token
 import psycopg2,time,re
 from psycopg2.extras import RealDictCursor
-from .firebase import push_new_count, update_count, get_count
+from .firebase import delete_routine, get_count_reference , get_count_reference, push_updated_data, push_new_count, update_count, get_count
 
 import os
 from urllib.parse import urlparse
 
-app = FastAPI(redoc_url="/documentation", docs_url=None)
+app = FastAPI(redoc_url="/Documentation", docs_url=None)
 
 app.mount("/public/src", StaticFiles(directory="src"), name="src")
 
@@ -29,11 +32,16 @@ app.add_middleware(
     allow_headers=["*"]
 )
 #Change link_prod during dev
-TABLESTR="CREATE TABLE IF NOT EXISTS link_prod1 (id serial NOT NULL, link varchar NOT NULL, short_link varchar PRIMARY KEY NOT NULL,count int NOT NULL DEFAULT 0, created_at timestamp with time zone NOT NULL DEFAULT now(), is_preview BOOL DEFAULT false)"
-URI = os.getenv('DATABASEURL')
+TABLESTR="CREATE TABLE IF NOT EXISTS link_prod1 (id serial NOT NULL, link varchar NOT NULL, short_link varchar NOT NULL PRIMARY KEY,hex_code varchar DEFAULT NULL, created_at timestamp with time zone NOT NULL DEFAULT now(), is_preview BOOL DEFAULT false)"
+TOKENDB = 'CREATE TABLE IF NOT EXISTS tokens (id serial NOT NULL, token varchar NOT NULL, created_at timestamp with time zone NOT NULL DEFAULT now())'
+URI = os.getenv('DATABASE_URL')
+KEYSTRING = os.getenv('KEY_STRING')
 
+# 'postgres://postgres:root@localhost/postgres'
+# 
+# result = urlparse('postgres://postgres:root@localhost/postgres')
+result = urlparse(URI)
 
-result = urlparse(URI) 
 username = result.username
 password = result.password
 database = result.path[1:]
@@ -45,15 +53,16 @@ templates = Jinja2Templates(directory="templates")
 #Change link_prod during dev
 class Link(BaseModel):
     link: str
-    customLnk: Optional[str] = None
+    customLink: Optional[str] = None
     is_preview: Optional[bool] = False
+    token: Optional[str] = None
 @app.get('/favicon.ico')
 async def favicon():
     pass
 
 @app.get('/', response_class=HTMLResponse)
 def root(request: Request):
-
+    
     return templates.TemplateResponse("index.html", {"request": request})
     #return {"Hello": "World"}
 
@@ -65,7 +74,19 @@ def about(request: Request):
 def user(request: Request):
     return templates.TemplateResponse("user.html", {"request": request, "version": get_version()})
 
-@app.get('/{id}')
+
+@app.get('/ads.txt', response_class=FileResponse)
+def ads_txt():
+    return "./utils/ads.txt"
+
+@app.get("/sitemap.xml", response_class=FileResponse)
+def sitemap_xml():
+    return "./utils/sitemap.xml"
+
+@app.get("/robots.txt", response_class=FileResponse)
+def robots_txt():
+    return "./utils/robots.txt"
+@app.get('/{id}', response_class=RedirectResponse)
 def get_link(id: str, request: Request):
     conn = psycopg2.connect(
         database = database,
@@ -81,40 +102,67 @@ def get_link(id: str, request: Request):
     cursor.execute("""SELECT link, is_preview FROM link_prod1 WHERE short_link = (%s);""",[id])
     post = cursor.fetchone()
     conn.close()
-    update_count(id) # type: ignore
     if post == None:
     
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Post with id {id} does not exist")
+        return templates.TemplateResponse("temp.html", {"request": request}, status_code=status.HTTP_404_NOT_FOUND)
     link = post['link'] # type: ignore
+    update_count(id) # type: ignore
     if(link[0:5] != 'https'):
         link = "https://" + link + "/"
     if post['is_preview']: # type: ignore
         preview = link[0:40] + "\n..."
 
         return templates.TemplateResponse("preview.html", {"request": request, "link": link, "preview": preview})
-    return {"shortLink": link}
+
+    return link
+    # return {"shortLink": link}
     #return {"hello": "world"}
+class Token(BaseModel):
+    token: str
 
-
-@app.get("/count/{id}")
-def count(id: str):
-    # conn = psycopg2.connect(
-    #     database = database,
-    #     user = username,
-    #     password = password,
-    #     host = hostname,
-    #     port = port,
-    #     cursor_factory=RealDictCursor
-    # )
-    # cursor =  conn.cursor()
+@app.get("/api/count/{token}/{id}")
+def count(id: str, token:str):
+    conn = psycopg2.connect(
+        database = database,
+        user = username,
+        password = password,
+        host = hostname,
+        port = port,
+        cursor_factory=RealDictCursor
+    )
+    cursor =  conn.cursor()
     # print("[INFO] 🗄️  🚀🚀 Postgres DB connected")
     # cursor.execute("""SELECT count FROM link_prod WHERE short_link = (%s) ;""",[id])
     # post = cursor.fetchall()
     # conn.close()
-    
-    return get_count(id)
+    cursor.execute("select token from tokens where token = (%s)", [token])
+    auth_token = cursor.fetchone()
+    if auth_token:
+        if token == auth_token['token']: # type: ignore
+            return { "count": get_count(id)}
+    else:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=f"Token not supplied")
+@app.get("/api/token")
+def generate():
+    conn = psycopg2.connect(
+        database = database,
+        user = username,
+        password = password,
+        host = hostname,
+        port = port,
+        cursor_factory=RealDictCursor
+    )
+    #conn = psycopg2.connect(URI, cursor_factory=RealDictCursor)
+    cursor =  conn.cursor()
+    cursor.execute(TOKENDB)
+    cursor.execute("INSERT INTO tokens (token) VALUES (%s) RETURNING token, created_at", [generate_token()])
+    post = cursor.fetchone()
+    conn.commit()
+    cursor.close()
+    post['message'] = "Keep it somewhere safe!!" # type: ignore
+    return post
 
-@app.post('/link')
+@app.post('/api/link', status_code=status.HTTP_201_CREATED)
 def add_link(req: Link):
     conn = psycopg2.connect(
         database = database,
@@ -126,12 +174,42 @@ def add_link(req: Link):
     )
     #conn = psycopg2.connect(URI, cursor_factory=RealDictCursor)
     cursor =  conn.cursor()
-    cursor.execute(TABLESTR) # type: ignore
+    print(req)
+    cursor.execute(TABLESTR)
+    cursor.execute(TOKENDB) # type: ignore
     print("[INFO] 🗄️  🚀🚀 Postgres DB connected")
-    short_link = genrate_random_string()
-    push_new_count(short_link)
-    cursor.execute("INSERT INTO link_prod1 (link, short_link, is_preview) VALUES (%s, %s, %s) RETURNING link, short_link,created_at, is_preview", (req.link, short_link, req.is_preview))
-    post = cursor.fetchall()
+    if req.token:
+        cursor.execute("SELECT id from tokens where token = (%s)",[req.token])
+        token_check = cursor.fetchone()
+        if token_check:
+            if req.customLink != None:
+                cursor.execute('select id from link_prod1 where short_link = (%s);', [req.customLink])
+                check = cursor.fetchone()
+                if check == None and req.customLink != "":
+                    cursor.execute("INSERT INTO link_prod1 (link, short_link, is_preview, hex_code) VALUES (%s, %s, %s, %s) RETURNING link, short_link,created_at, is_preview", (req.link, req.customLink, req.is_preview, req.token))
+                    push_new_count(req.customLink)
+                else:
+                    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Custom code exists")   
+            else:
+                short_link = genrate_random_string()
+                cursor.execute("INSERT INTO link_prod1 (link, short_link, is_preview, hex_code) VALUES (%s, %s, %s, %s) RETURNING link, short_link,created_at, is_preview", (req.link, short_link, req.is_preview, req.token))
+                push_new_count(short_link)
+        else:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Tokens does not exists")
+    else:
+        if req.customLink != None:
+            cursor.execute('select id from link_prod1 where short_link = (%s);', [req.customLink])
+            check = cursor.fetchone()
+            if check == None and req.customLink != "":
+                cursor.execute("INSERT INTO link_prod1 (link, short_link, is_preview, hex_code) VALUES (%s, %s, %s, %s) RETURNING link, short_link,created_at, is_preview", (req.link, req.customLink, req.is_preview, req.token))
+                push_new_count(req.customLink)
+            else:
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Custom code exists")   
+        else:
+            short_link = genrate_random_string()
+            cursor.execute("INSERT INTO link_prod1 (link, short_link, is_preview, hex_code) VALUES (%s, %s, %s, %s) RETURNING link, short_link,created_at, is_preview, hex_code", (req.link, short_link, req.is_preview, req.token))
+            push_new_count(short_link)
+    post = cursor.fetchone()
     # for i in post:
     #     for j in i:
     #       print(j,i[j])
@@ -139,7 +217,84 @@ def add_link(req: Link):
     conn.close()
     return {"message": post}
 
-    
+
+class Del(BaseModel):
+    body: str
+
+class Link_delete(BaseModel):
+    shortLink: str
+    token: str
+
+
+@app.delete('/api/delete/', status_code=status.HTTP_204_NO_CONTENT)
+def delete_data(req: Link_delete):
+    conn = psycopg2.connect(
+        database = database,
+        user = username,
+        password = password,
+        host = hostname,
+        port = port,
+        cursor_factory=RealDictCursor
+    )
+
+    #conn = psycopg2.connect(URI, cursor_factory=RealDictCursor)
+    cursor =  conn.cursor()
+    cursor.execute("SELECT * FROM tokens WHERE token = (%s)", [req.token])
+    token_check_in_db = cursor.fetchone()
+    if token_check_in_db:
+        cursor.execute("SELECT hex_code FROM link_prod1 where short_link = (%s)", [req. shortLink])
+        check_token_relation = cursor.fetchone()
+        if check_token_relation:
+            cursor.execute("DELETE FROM link_prod1 where short_link = (%s) returning short_link", [req.shortLink])
+            conn.commit()
+            cursor.close()
+            
+        else:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token is not related with short link")
+    else:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token does not exists")
+
+# @app.put('/api/update/', status_code=status.HTTP_204_NO_CONTENT)
+# def update_links(req: Link)
+# @app.post('/api/admin/get')
+def remove(req: Del):
+    if req.body == "7fc9e98537c470d55f995d45fa6e3bcaefb0020e831db5c43d3fda0b6888e90e77fa2b74867c8020a9e93797362ce794538c":
+        
+        conn = psycopg2.connect(
+            database = database,
+            user = username,
+            password = password,
+            host = hostname,
+            port = port,
+            cursor_factory=RealDictCursor
+        )
+        cursor =  conn.cursor()
+        cursor.execute("SELECT short_link from link_prod1;")
+        post = cursor.fetchall()
+        cursor.execute("SELECT count(id) from link_prod1;")
+        coun = cursor.fetchone()
+        count_data = delete_routine()
+        new_dict = {}
+        for i in range(len(post)):
+            if count_data.get(post[i]['short_link']) != null: # type: ignore
+                new_dict[post[i]['short_link']] = count_data.get(post[i]['short_link']) # type: ignore
+        get_count_reference()
+        push_updated_data(new_dict)
+        return {"message": "Redundant Links were removed",
+                "link_count": coun,
+                "Count": difference(len(post), len(count_data))}
+    else:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Auth wrong")  
+
+def difference(a, b):
+    if(a > b):
+        return a - b
+    elif a < b:
+        return b - a
+    elif a == b:
+        return 0
+    else:
+        return "error"
 # @app.post('/link')
 # def add_link(req: Link):
 #     conn = psycopg2.connect(

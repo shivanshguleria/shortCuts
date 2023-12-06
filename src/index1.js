@@ -13,18 +13,8 @@ const generateEl = document.getElementById("result")
 
 const newInputEl = document.createElement("input")
 const newAnchorEl = document.createElement("a")
-import  {storage, token}  from "./modules/storage.js"
+import  {storage}  from "./modules/storage.js"
 
-
-
-if(!localStorage.getItem("cacheFresh")){
-  localStorage.setItem("cacheFresh", "true")
-}
-if(JSON.parse(localStorage.getItem("cacheFresh"))){
-  window.location.reload()
-  
-  localStorage.setItem("cacheFresh", "false")
-}
 closePopup.onclick = function() {
   overlay.style.display = 'none';
   popup.style.display = 'none';
@@ -57,26 +47,26 @@ newAnchorEl.addEventListener("click", () => {
 
 
 passSubmit.addEventListener("click",async function() {
-
+  console.log("posted")
   let inputValue = passLink.value
   if(inputValue === "") {
     alert("Enter Link")
   } else if(isValidUrl(inputValue) === false) {
     alert("Enter Valid Url")
   } else {
-
     let payload = {
       link: inputValue, 
-      is_preview: true,
-      token: await token()
+      is_preview: true
     }
   if(newInputEl.value != undefined & newInputEl.value != ""){
     payload['customLink'] = newInputEl.value
   }
+    console.log(newInputEl.value)
+    console.log(payload)
     overlay.style.display = 'block';
     popup.style.display = 'block';
     try {
-      await fetch("/api/link", {
+      await fetch("/link", {
         method: "POST",
         body: JSON.stringify(payload),
         headers: {
@@ -86,7 +76,9 @@ passSubmit.addEventListener("click",async function() {
         .then((response) => response.json())
         
         .then((json) => {
+          console.log(json.message)
           let data = "https://shrk.xyz/" + json.message.short_link
+          console.log(generateEl.textContent, data)
           document.getElementById("result").textContent = data
           storage(inputValue, json.message.short_link)
           copyFunction()
@@ -104,7 +96,7 @@ passSubmit.addEventListener("click",async function() {
 
 function copyFunction() {
   copyBtn.addEventListener('click', function(){
-  
+
   const storage = document.createElement('textarea');
   storage.value = generateEl.innerHTML;searchFlexLink.appendChild(storage);
   storage.select();
