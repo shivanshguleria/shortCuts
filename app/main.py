@@ -41,8 +41,8 @@ KEYSTRING = os.getenv('KEY_STRING')
 
 # 'postgres://postgres:root@localhost/postgres'
 # 
-result = urlparse('postgres://postgres:root@localhost/postgres')
-# result = urlparse(URI)
+# result = urlparse('postgres://postgres:root@localhost/postgres')
+result = urlparse(URI)
 
 username = result.username
 password = result.password
