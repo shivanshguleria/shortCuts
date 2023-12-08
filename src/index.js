@@ -88,7 +88,7 @@ passSubmit.addEventListener("click",async function() {
         .then((json) => {
           let data = "https://shrk.xyz/" + json.message.short_link
           document.getElementById("result").textContent = data
-          storage(inputValue, json.message.short_link)
+          storage(inputValue, json.message.short_link, json.message.unique_id)
           copyFunction()
          
         }) 
