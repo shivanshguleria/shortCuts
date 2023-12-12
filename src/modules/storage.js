@@ -47,7 +47,7 @@ function renderUser() {
   
   <div id="icon">
       <span class="material-symbols-outlined refresh icon-class">refresh</span>
-      // <span class="material-symbols-outlined edit icon-class">edit</span>
+      <!--<span class="material-symbols-outlined edit icon-class">edit</span>-->
       <span class="material-symbols-outlined delete icon-class">delete</span>
       </div>
 </div>

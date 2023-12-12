@@ -244,7 +244,7 @@ def delete_data(req: Link_delete):
     cursor.execute("SELECT * FROM tokens WHERE token = (%s)", [req.token])
     token_check_in_db = cursor.fetchone()
     if token_check_in_db:
-        cursor.execute("SELECT hex_code FROM link_prod1 where short_link = (%s)", [req. shortLink])
+        cursor.execute("SELECT hex_code FROM link_prod1 where short_link = (%s)", [req.shortLink])
         check_token_relation = cursor.fetchone()
         if check_token_relation:
             cursor.execute("DELETE FROM link_prod1 where short_link = (%s) returning short_link", [req.shortLink])
@@ -262,6 +262,7 @@ class Update(BaseModel):
     unique_id: str
     link: Optional[str] = None
     short_link: Optional[str] = None
+    is_preview: Optional[bool] = None
 
 @app.put('/api/update/', status_code=status.HTTP_204_NO_CONTENT)
 def update_links(req: Update):
@@ -280,9 +281,9 @@ def update_links(req: Update):
     post = cursor.fetchone()
     print(bool(post))
     if post:
-        if req.link and not req.short_link:
+        if req.link and not req.short_link and not req.is_preview:
             cursor.execute("UPDATE link_prod1 set link = (%s) where unique_id = (%s)", [req.link, req.unique_id])
-        elif req.short_link and not req.link:
+        elif req.short_link and not req.link and not req.is_preview:
             cursor.execute("SELECT * FROM link_prod1 WHERE short_link = (%s)", [req.short_link])
             check = cursor.fetchone()
             print(check)
@@ -291,12 +292,22 @@ def update_links(req: Update):
                 
             else:
                 raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Post with short link exists")
+        elif req.is_preview or not req.short_link and not req.link:
+            print(bool(req), req)
+            cursor.execute("SELECT is_preview FROM link_prod1 WHERE unique_id = (%s)", [req.unique_id])
+            check = cursor.fetchone()
+
+            if check['is_preview'] == req.is_preview: # type: ignore
+                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Link is already set to {req.is_preview}")
+            else:
+                cursor.execute("UPDATE link_prod1 set is_preview = (%s) where unique_id = (%s)", [req.is_preview, req.unique_id])
         else:
+            print(bool(req.link), req)
             cursor.execute("SELECT * FROM link_prod1 WHERE short_link = (%s)", [req.short_link])
             check = cursor.fetchone()
             print(check)
             if not check:
-                cursor.execute("UPDATE link_prod1 set link = (%s), short_link = (%s) where unique_id = (%s)", [req.link, req.short_link, req.unique_id])
+                cursor.execute("UPDATE link_prod1 set link = (%s), short_link = (%s), is_preview = (%s) where unique_id = (%s)", [req.link, req.short_link, req.is_preview, req.unique_id])
                 
             else:
                 raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Post with short link exists")
