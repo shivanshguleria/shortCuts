@@ -37,7 +37,7 @@ element.addEventListener('click', async (e) => {
   if(e.target.classList.contains('delete')) {
     try {
       console.log(e.target)
-      let short_link = e.target.parentNode.parentElement.childNodes[2].firstElementChild.innerText
+      let short_link = e.target.parentNode.parentElement.childNodes[1].firstElementChild.innerText
       delete_link(short_link)
       // renderUser()
 

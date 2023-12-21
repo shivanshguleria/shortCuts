@@ -20,7 +20,7 @@ from .firebase import delete_routine, get_count_reference , get_count_reference,
 import os
 from urllib.parse import urlparse
 
-app = FastAPI(redoc_url="/Documentation", docs_url=None)
+app = FastAPI(redoc_url=None, docs_url=None)
 
 app.mount("/public/src", StaticFiles(directory="src"), name="src")
 
@@ -65,29 +65,32 @@ async def favicon():
 @app.get('/', response_class=HTMLResponse)
 def root(request: Request):
     
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse("user_copy.html", {"request": request})
     #return {"Hello": "World"}
 
 @app.get('/About', response_class=HTMLResponse)
 def about(request: Request):
-    return templates.TemplateResponse("about.html", {"request": request, "version": get_version()})
+    return templates.TemplateResponse("about.html", {"request": request, "version": "1.0.0"})
 
 @app.get('/User', response_class=HTMLResponse)
 def user(request: Request):
-    return templates.TemplateResponse("user.html", {"request": request, "version": get_version()})
+    return templates.TemplateResponse("user.html", {"request": request})
 
+@app.get('/Documentation', response_class=HTMLResponse)
+def docs(request: Request):
+    return templates.TemplateResponse("doc.html", {"request": request})
 
-@app.get('/ads.txt', response_class=FileResponse)
-def ads_txt():
-    return "./utils/ads.txt"
+# @app.get('/ads.txt', response_class=FileResponse)
+# def ads_txt():
+#     return "./utils/ads.txt"
 
-@app.get("/sitemap.xml", response_class=FileResponse)
-def sitemap_xml():
-    return "./utils/sitemap.xml"
+# @app.get("/sitemap.xml", response_class=FileResponse)
+# def sitemap_xml():
+#     return "./utils/sitemap.xml"
 
-@app.get("/robots.txt", response_class=FileResponse)
-def robots_txt():
-    return "./utils/robots.txt"
+# @app.get("/robots.txt", response_class=FileResponse)
+# def robots_txt():
+#     return "./utils/robots.txt"
 @app.get('/{id}', response_class=RedirectResponse)
 def get_link(id: str, request: Request):
     conn = psycopg2.connect(
@@ -316,7 +319,7 @@ def update_links(req: Update):
     conn.commit()
     conn.close()
 
-# @app.post('/api/admin/get')
+@app.post('/api/admin/get')
 def remove(req: Del):
     if req.body == "7fc9e98537c470d55f995d45fa6e3bcaefb0020e831db5c43d3fda0b6888e90e77fa2b74867c8020a9e93797362ce794538c":
         

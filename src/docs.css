@@ -1,0 +1,92 @@
+* {
+    margin: 0;
+    padding: 0;
+    --background-color: #040D12;
+    --color: white;
+    --color-hover: rgb(188, 188, 188);
+    --color-yellow: yellow;
+    --color-yellow-hover: rgb(188, 188, 0);
+  }
+  
+  
+  
+  body {
+  
+    background-color: var(--background-color);
+    color: var(--color);
+  
+    font-size: 20px;
+    font-family: 'Source Code Pro', monospace;
+    font-weight: 400;
+  }
+  
+  #card {
+    background-color: #5C8374;
+    margin: 40px;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: flex-start;
+    border-radius: 20px;
+    padding: 40px;
+  }
+  
+  #endpoint {
+    background-color: #183D3D;
+    padding: 10px;
+    margin: 5px auto;
+    width: 80%;
+    border-radius: 20px;
+  }
+  
+  .route-div {
+    display: flex;
+    min-width: 300px;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    background-color: #131c20;
+    border-radius: 20px;
+    margin: 40px;
+    padding: 15px;
+  }
+  
+  #summary {
+    padding: 10px;
+  }
+  
+  #response {
+    padding: 20px;
+  }
+  
+  li {
+    margin: 10px;
+  }
+  
+  .suc {
+    list-style-type: none;
+  }
+  
+  #successfull-response {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #040D12;
+    width: 70%;
+    border-radius: 20px;
+  }
+  
+  #parameters {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #040D12;
+    width: 70%;
+    border-radius: 20px;
+  }
+  
+  #content-type {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    align-items: center;
+    
+  }

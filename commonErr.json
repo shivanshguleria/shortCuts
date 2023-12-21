@@ -1,0 +1,26 @@
+{
+  "status-code": {
+    "200": {
+      "description": "Successful Response"
+    },
+    "201": {
+      "description": "Successful Response"
+    },
+    "204": {
+      "description": "No content"
+    },
+    "307": {
+      "description": "Successful Response"
+    },
+    "405": {
+        "description": "Method Not Allowed"
+    },
+    "422": {
+      "description": "Validation Error - Check Response body for info"
+    },
+    "500": {
+      "description": "Internal Server Error"
+    }
+  },
+  "content-type": "application/json"
+}

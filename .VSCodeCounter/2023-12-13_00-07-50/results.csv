@@ -1,0 +1,32 @@
+"filename", "language", "Properties", "Ignore", "Docker", "XML", "HTML", "Python", "pip requirements", "CSS", "JavaScript", "JSON", "YAML", "comment", "blank", "total"
+"f:\shortCuts\.dockerignore", "Ignore", 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 10
+"f:\shortCuts\.env", "Properties", 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 7, 39
+"f:\shortCuts\.github\workflows\fly.yml", "YAML", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 1, 16
+"f:\shortCuts\Dockerfile", "Docker", 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 7, 6, 22
+"f:\shortCuts\app\__init__.py", "Python", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"f:\shortCuts\app\fief\__init__.py", "Python", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"f:\shortCuts\app\firebase.py", "Python", 0, 0, 0, 0, 0, 48, 0, 0, 0, 0, 0, 12, 14, 74
+"f:\shortCuts\app\generater.py", "Python", 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 3, 12
+"f:\shortCuts\app\get_ver.py", "Python", 0, 0, 0, 0, 0, 15, 0, 0, 0, 0, 0, 0, 1, 16
+"f:\shortCuts\app\main.py", "Python", 0, 0, 0, 0, 0, 296, 0, 0, 0, 0, 0, 48, 50, 394
+"f:\shortCuts\key.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 0, 1, 14
+"f:\shortCuts\requirements.txt", "pip requirements", 0, 0, 0, 0, 0, 0, 66, 0, 0, 0, 0, 0, 1, 67
+"f:\shortCuts\src\index.css", "CSS", 0, 0, 0, 0, 0, 0, 0, 144, 0, 0, 0, 12, 17, 173
+"f:\shortCuts\src\index.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 1, 33, 177
+"f:\shortCuts\src\index1.css", "CSS", 0, 0, 0, 0, 0, 0, 0, 498, 0, 0, 0, 141, 94, 733
+"f:\shortCuts\src\index1.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 104, 0, 0, 0, 18, 122
+"f:\shortCuts\src\logo.svg", "XML", 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 1, 10
+"f:\shortCuts\src\modules\module-user.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 36, 0, 0, 10, 10, 56
+"f:\shortCuts\src\modules\storage.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 71, 0, 0, 14, 24, 109
+"f:\shortCuts\src\modules\utils.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 27, 0, 0, 22, 11, 60
+"f:\shortCuts\templates\about.html", "HTML", 0, 0, 0, 0, 80, 0, 0, 0, 0, 0, 0, 0, 8, 88
+"f:\shortCuts\templates\commonHeader.html", "HTML", 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 1, 1, 10
+"f:\shortCuts\templates\commonMeta.html", "HTML", 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 2, 9
+"f:\shortCuts\templates\index.html", "HTML", 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 7, 3, 74
+"f:\shortCuts\templates\preview.html", "HTML", 0, 0, 0, 0, 90, 0, 0, 0, 0, 0, 0, 0, 13, 103
+"f:\shortCuts\templates\redirect.html", "HTML", 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 1, 7
+"f:\shortCuts\templates\temp.html", "HTML", 0, 0, 0, 0, 68, 0, 0, 0, 0, 0, 0, 0, 12, 80
+"f:\shortCuts\templates\user copy.html", "HTML", 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 0, 0, 0, 30
+"f:\shortCuts\templates\user.html", "HTML", 0, 0, 0, 0, 24, 0, 0, 0, 0, 0, 0, 6, 1, 31
+"f:\shortCuts\utils\sitemap.xml", "XML", 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 2, 25
+"Total", "-", 31, 9, 9, 32, 377, 368, 66, 642, 381, 13, 15, 283, 337, 2563

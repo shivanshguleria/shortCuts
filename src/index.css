@@ -13,6 +13,8 @@
         padding: 0;
         background-color: var(--background-color);
         color: var(--color);
+        font-family: 'Source Code Pro', monospace;
+        font-weight: 400;
     }
 
 #link-clicks {
