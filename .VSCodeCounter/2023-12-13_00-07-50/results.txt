@@ -1,0 +1,75 @@
+Date : 2023-12-13 00:07:50
+Directory : f:\shortCuts
+Total : 30 files,  1943 codes, 283 comments, 337 blanks, all 2563 lines
+
+Languages
++------------------+------------+------------+------------+------------+------------+
+| language         | files      | code       | comment    | blank      | total      |
++------------------+------------+------------+------------+------------+------------+
+| CSS              |          2 |        642 |        153 |        111 |        906 |
+| JavaScript       |          5 |        381 |         47 |         96 |        524 |
+| HTML             |          9 |        377 |         14 |         41 |        432 |
+| Python           |          6 |        368 |         60 |         70 |        498 |
+| pip requirements |          1 |         66 |          0 |          1 |         67 |
+| XML              |          2 |         32 |          0 |          3 |         35 |
+| Properties       |          1 |         31 |          1 |          7 |         39 |
+| YAML             |          1 |         15 |          0 |          1 |         16 |
+| JSON             |          1 |         13 |          0 |          1 |         14 |
+| Ignore           |          1 |          9 |          1 |          0 |         10 |
+| Docker           |          1 |          9 |          7 |          6 |         22 |
++------------------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------+------------+------------+------------+------------+------------+
+| path                                     | files      | code       | comment    | blank      | total      |
++------------------------------------------+------------+------------+------------+------------+------------+
+| .                                        |         30 |      1,943 |        283 |        337 |      2,563 |
+| . (Files)                                |          5 |        128 |          9 |         15 |        152 |
+| .github                                  |          1 |         15 |          0 |          1 |         16 |
+| .github\workflows                        |          1 |         15 |          0 |          1 |         16 |
+| app                                      |          6 |        368 |         60 |         70 |        498 |
+| app (Files)                              |          5 |        368 |         60 |         69 |        497 |
+| app\fief                                 |          1 |          0 |          0 |          1 |          1 |
+| src                                      |          8 |      1,032 |        200 |        208 |      1,440 |
+| src (Files)                              |          5 |        898 |        154 |        163 |      1,215 |
+| src\modules                              |          3 |        134 |         46 |         45 |        225 |
+| templates                                |          9 |        377 |         14 |         41 |        432 |
+| utils                                    |          1 |         23 |          0 |          2 |         25 |
++------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------+------------------+------------+------------+------------+------------+
+| filename                                 | language         | code       | comment    | blank      | total      |
++------------------------------------------+------------------+------------+------------+------------+------------+
+| f:\shortCuts\.dockerignore               | Ignore           |          9 |          1 |          0 |         10 |
+| f:\shortCuts\.env                        | Properties       |         31 |          1 |          7 |         39 |
+| f:\shortCuts\.github\workflows\fly.yml   | YAML             |         15 |          0 |          1 |         16 |
+| f:\shortCuts\Dockerfile                  | Docker           |          9 |          7 |          6 |         22 |
+| f:\shortCuts\app\__init__.py             | Python           |          0 |          0 |          1 |          1 |
+| f:\shortCuts\app\fief\__init__.py        | Python           |          0 |          0 |          1 |          1 |
+| f:\shortCuts\app\firebase.py             | Python           |         48 |         12 |         14 |         74 |
+| f:\shortCuts\app\generater.py            | Python           |          9 |          0 |          3 |         12 |
+| f:\shortCuts\app\get_ver.py              | Python           |         15 |          0 |          1 |         16 |
+| f:\shortCuts\app\main.py                 | Python           |        296 |         48 |         50 |        394 |
+| f:\shortCuts\key.json                    | JSON             |         13 |          0 |          1 |         14 |
+| f:\shortCuts\requirements.txt            | pip requirements |         66 |          0 |          1 |         67 |
+| f:\shortCuts\src\index.css               | CSS              |        144 |         12 |         17 |        173 |
+| f:\shortCuts\src\index.js                | JavaScript       |        143 |          1 |         33 |        177 |
+| f:\shortCuts\src\index1.css              | CSS              |        498 |        141 |         94 |        733 |
+| f:\shortCuts\src\index1.js               | JavaScript       |        104 |          0 |         18 |        122 |
+| f:\shortCuts\src\logo.svg                | XML              |          9 |          0 |          1 |         10 |
+| f:\shortCuts\src\modules\module-user.js  | JavaScript       |         36 |         10 |         10 |         56 |
+| f:\shortCuts\src\modules\storage.js      | JavaScript       |         71 |         14 |         24 |        109 |
+| f:\shortCuts\src\modules\utils.js        | JavaScript       |         27 |         22 |         11 |         60 |
+| f:\shortCuts\templates\about.html        | HTML             |         80 |          0 |          8 |         88 |
+| f:\shortCuts\templates\commonHeader.html | HTML             |          8 |          1 |          1 |         10 |
+| f:\shortCuts\templates\commonMeta.html   | HTML             |          7 |          0 |          2 |          9 |
+| f:\shortCuts\templates\index.html        | HTML             |         64 |          7 |          3 |         74 |
+| f:\shortCuts\templates\preview.html      | HTML             |         90 |          0 |         13 |        103 |
+| f:\shortCuts\templates\redirect.html     | HTML             |          6 |          0 |          1 |          7 |
+| f:\shortCuts\templates\temp.html         | HTML             |         68 |          0 |         12 |         80 |
+| f:\shortCuts\templates\user copy.html    | HTML             |         30 |          0 |          0 |         30 |
+| f:\shortCuts\templates\user.html         | HTML             |         24 |          6 |          1 |         31 |
+| f:\shortCuts\utils\sitemap.xml           | XML              |         23 |          0 |          2 |         25 |
+| Total                                    |                  |      1,943 |        283 |        337 |      2,563 |
++------------------------------------------+------------------+------------+------------+------------+------------+

@@ -3,7 +3,8 @@ FROM python:3.11.5-bookworm
 
 # 
 WORKDIR /code
-
+RUN ["apt-get", "update"]
+RUN ["apt-get", "install", "-y", "vim"]
 # 
 COPY ./requirements.txt /code/requirements.txt
 
@@ -17,4 +18,4 @@ COPY ./  /code/
 CMD ["cd code"]
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
 
-#flyctl launch --dockerfile ./Dockerfile
+#flyctl launch --dockerfile ./Dockerfi

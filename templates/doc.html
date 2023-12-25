@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% include 'redirect.html' %}
+<head>
+    {% include 'commonHeader.html' %}
+  <link rel="stylesheet" href="./public/src/docs.css">
+  <title>Documentation | shortCuts</title>
+</head>
+
+<body>
+  <div style="margin-left: 55px;padding: 20px;">
+    <h1 style="font-size: 4em">shortCuts</h1>
+    <span style="font-size: 0.9em">v1.0.0</span>
+  </div>
+  <div id="endpoint">
+    <div id="content-type">
+      <div class="route-div">
+        <span id="method" style="color: #fee37d;">GET</span>
+        <h2>/api/token</h2>
+      </div>
+      <p>content-type: application/json</p>
+    </div>
+    <div id="card">
+      <h3>Summary</h3>
+      <p id="summary">Generate a token to enable analytics and other functionalities</p>
+      <h3>Responses</h3>
+      <ul id="response">
+        <li>200 - Successful Response</li>
+        <li>500 - Internal Server Error</li>
+      </ul>
+      <h3>Successfull Response</h3>
+      <div id="successfull-response">
+        <ul class="suc" id="response">
+          {
+          <li>
+            <p style="color: #015692; display: inline;">token</p>
+            <p style="color:#ccc;display: inline;"> : </p>
+            <p style="color: #b75501;display: inline;">str</p>
+            <p style="color:#999;display:inline;font-size: 14px;"> //Unique token which is supplied with link (optional)
+            </p>,
+          </li>
+          <li>
+            <p style="color: #015692; display: inline;">created_at</p>
+            <p style="color:#ccc;display: inline;"> : </p>
+            <p style="color: #b75501;display: inline;">time</p>
+            <p style="color:#999;display:inline;font-size: 14px;"> //Time when stored in database</p>,
+          </li>
+          <li>
+            <p style="color: #015692; display: inline;">message</p>
+            <p style="color:#ccc;display: inline;"> : </p>
+            <p style="color: #b75501;display: inline;">Keep it somewhere safe!!</p>
+          </li>
+          }
+        </ul>
+      </div>
+      </p>
+
+    </div>
+  </div>
+<br>
+  <div id="endpoint">
+    <div id="content-type">
+      <div class="route-div">
+        <span id="method" style="color: #6bdd9a;">POST</span>
+        <h2>/api/link</h2>
+      </div>
+      <p>content-type: application/json</p>
+    </div>
+    <div id="card">
+      <h3>Summary</h3>
+      <p id="summary">Shorten a link</p>
+      <h3>Parameters</h3>
+      <div id="parameters">
+        <ul  id="response">
+          <li>
+            <h3>link</h3>
+            <ul>
+              <li>type : string</li>
+              <li>isOptional: false</li>
+            </ul>
+          </li>
+          <li>
+            <h3>customLink</h3>
+            <ul>
+              <li>type : string</li>
+              <li>isOptional: true</li>
+            </ul>
+          </li>
+          <li>
+            <h3>is_preview</h3>
+            <ul>
+              <li>type : boolean</li>
+              <li>isOptional: true</li>
+            </ul>
+          </li>
+          <li>
+            <h3>token</h3>
+            <ul>
+              <li>type : boolean</li>
+              <li>isOptional: true</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <h3>Responses</h3>
+      <ul id="response">
+        <li>201 - Successful Response</li>
+        <li>422 - Validation Error [Check Response body for info]</li>
+        <li>500 - Internal Server Error</li>
+      </ul>
+      <h3>Successfull Response</h3>
+      <div id="successfull-response">
+        <ul class="suc" id="response">
+          {
+          <li>
+            <p style="color: #015692; display: inline;">link</p>
+            <p style="color:#ccc;display: inline;"> : </p>
+            <p style="color: #b75501;display: inline;">str</p>
+          </li>
+          <li>
+            <p style="color: #015692; display: inline;">short_link</p>
+            <p style="color:#ccc;display: inline;"> : </p>
+            <p style="color: #b75501;display: inline;">str</p>
+            <p style="color:#999;display:inline;font-size: 14px;"> //Five charachter code</p>,
+          </li>
+          <li>
+            <p style="color: #015692; display: inline;">created_at</p>
+            <p style="color:#ccc;display: inline;"> : </p>
+            <p style="color: #b75501;display: inline;">date</p>
+            <p style="color:#999;display:inline;font-size: 14px;"> //Time when stored in database</p>,
+          </li>
+          <li>
+            <p style="color: #015692; display: inline;">is_preview</p>
+            <p style="color:#ccc;display: inline;"> : </p>
+            <p style="color: #b75501;display: inline;">bool</p>,
+          </li>
+          <li>
+            <p style="color: #015692; display: inline;">unique_id</p>
+            <p style="color:#ccc;display: inline;"> : </p>
+            <p style="color: #b75501;display: inline;">str</p>
+            <p style="color:#999;display:inline;font-size: 14px;"> //10 digit unique hex code</p>,
+          </li>
+          }
+        </ul>
+      </div>
+      </p>
+
+    </div>
+  </div>
+
+  <br>
+  <div id="endpoint">
+    <div id="content-type">
+      <div class="route-div">
+        <span id="method" style="color: #fee37d;">GET</span>
+        <h2>/{id}</h2>
+      </div>
+      <p>content-type: application/json</p>
+    </div>
+    <div id="card">
+      <h3>Summary</h3>
+      <p id="summary">Redirect to original route OR respond with JSON</p>
+      <h3>Parameters</h3>
+      <div id="parameters">
+        <ul  id="response">
+          <li>
+            <h3>id</h3>
+            <ul>
+              <li>type : string</li>
+              <li>isOptional: false</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <h3>Responses</h3>
+      <ul id="response">
+        <li>200 - Successful Response</li>
+        <li>307 - Successful Response</li>
+        <li>422 - Validation Error [Check Response body for info]</li>
+        <li>500 - Internal Server Error</li>
+      </ul>
+      <h3>Successfull Response</h3>
+      <div id="successfull-response">
+        <ul class="suc" id="response">
+          {
+          <li>
+            <p style="color: #015692; display: inline;">link</p>
+            <p style="color:#ccc;display: inline;"> : </p>
+            <p style="color: #b75501;display: inline;">str</p>
+          </li>
+          <li>
+            <p style="color: #015692; display: inline;">short_link</p>
+            <p style="color:#ccc;display: inline;"> : </p>
+            <p style="color: #b75501;display: inline;">str</p>
+            <p style="color:#999;display:inline;font-size: 14px;"> //Five charachter code</p>,
+          </li>
+          <li>
+            <p style="color: #015692; display: inline;">created_at</p>
+            <p style="color:#ccc;display: inline;"> : </p>
+            <p style="color: #b75501;display: inline;">date</p>
+            <p style="color:#999;display:inline;font-size: 14px;"> //Time when stored in database</p>,
+          </li>
+          <li>
+            <p style="color: #015692; display: inline;">is_preview</p>
+            <p style="color:#ccc;display: inline;"> : </p>
+            <p style="color: #b75501;display: inline;">bool</p>,
+          </li>
+          <li>
+            <p style="color: #015692; display: inline;">unique_id</p>
+            <p style="color:#ccc;display: inline;"> : </p>
+            <p style="color: #b75501;display: inline;">str</p>
+            <p style="color:#999;display:inline;font-size: 14px;"> //10 digit unique hex code</p>,
+          </li>
+          }
+        </ul>
+      </div>
+      </p>
+
+    </div>
+  </div>
+
+  <br>
+  <div id="endpoint">
+    <div id="content-type">
+      <div class="route-div">
+        <span id="method" style="color: #fee37d;">GET</span>
+        <h2>/api/count/{token}/{id}</h2>
+      </div>
+      <p>content-type: application/json</p>
+    </div>
+    <div id="card">
+      <h3>Summary</h3>
+      <p id="summary">Get clicked analytics</p>
+      <h3>Parameters</h3>
+      <div id="parameters">
+        <ul  id="response">
+          <li>
+            <h3>id</h3>
+            <ul>
+              <li>type : string</li>
+              <li>isOptional: false</li>
+            </ul>
+          </li>
+          <li>
+            <h3>token</h3>
+            <ul>
+              <li>type : string</li>
+              <li>isOptional: false</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <h3>Responses</h3>
+      <ul id="response">
+        <li>200 - Successful Response</li>
+        <li>422 - Validation Error [Check Response body for info]</li>
+        <li>500 - Internal Server Error</li>
+      </ul>
+      <h3>Successfull Response</h3>
+      <div id="successfull-response">
+        <ul class="suc" id="response">
+          {
+          <li>
+            <p style="color: #015692; display: inline;">count</p>
+            <p style="color:#ccc;display: inline;"> : </p>
+            <p style="color: #b75501;display: inline;">number</p>
+          </li>
+          }
+        </ul>
+      </div>
+      </p>
+
+    </div>
+  </div>
+
+  <br>
+  <div id="endpoint">
+    <div id="content-type">
+      <div class="route-div">
+        <span id="method" style="color: #72abf2;">PUT</span>
+        <h2>/api/update/</h2>
+      </div>
+      <p>content-type: application/json</p>
+    </div>
+    <div id="card">
+      <h3>Summary</h3>
+      <p id="summary">Update information about some links</p>
+      <h3>Parameters</h3>
+      <div id="parameters">
+        <ul  id="response">
+          <li>
+            <h3>token</h3>
+            <ul>
+              <li>type : string</li>
+              <li>isOptional: false</li>
+            </ul>
+          </li>
+          <li>
+            <h3>unique_id</h3>
+            <ul>
+              <li>type : string</li>
+              <li>isOptional: false</li>
+            </ul>
+          </li>
+          <li>
+            <h3>link</h3>
+            <ul>
+              <li>type : string</li>
+              <li>isOptional: true</li>
+            </ul>
+          </li>
+          <li>
+            <h3>short_link</h3>
+            <ul>
+              <li>type : string</li>
+              <li>isOptional: false</li>
+            </ul>
+          </li>
+          <li>
+            <h3>is_preview</h3>
+            <ul>
+              <li>type : boolean</li>
+              <li>isOptional: false</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <h3>Responses</h3>
+      <ul id="response">
+        <li>204 - Successful Response</li>
+        <li>422 - Validation Error [Check Response body for info]</li>
+        <li>500 - Internal Server Error</li>
+      </ul>
+      <h3>Successfull Response</h3>
+      <div id="successfull-response">
+        <ul class="suc" id="response">
+          {
+          <li>
+            <p style="color: #015692; display: inline;">link</p>
+            <p style="color:#ccc;display: inline;"> : </p>
+            <p style="color: #b75501;display: inline;">str</p>
+          </li>
+          <li>
+            <p style="color: #015692; display: inline;">short_link</p>
+            <p style="color:#ccc;display: inline;"> : </p>
+            <p style="color: #b75501;display: inline;">str</p>
+            <p style="color:#999;display:inline;font-size: 14px;"> //Five charachter code</p>,
+          </li>
+          <li>
+            <p style="color: #015692; display: inline;">created_at</p>
+            <p style="color:#ccc;display: inline;"> : </p>
+            <p style="color: #b75501;display: inline;">date</p>
+            <p style="color:#999;display:inline;font-size: 14px;"> //Time when stored in database</p>,
+          </li>
+          <li>
+            <p style="color: #015692; display: inline;">is_preview</p>
+            <p style="color:#ccc;display: inline;"> : </p>
+            <p style="color: #b75501;display: inline;">bool</p>,
+          </li>
+          <li>
+            <p style="color: #015692; display: inline;">unique_id</p>
+            <p style="color:#ccc;display: inline;"> : </p>
+            <p style="color: #b75501;display: inline;">str</p>
+            <p style="color:#999;display:inline;font-size: 14px;"> //10 digit unique hex code</p>,
+          </li>
+          }
+        </ul>
+      </div>
+      </p>
+
+    </div>
+  </div>
+
+  <br>
+  <div id="endpoint">
+    <div id="content-type">
+      <div class="route-div">
+        <span id="method" style="color: #bda5dd;">DELETE</span>
+        <h2>/api/delete/</h2>
+      </div>
+      <p>content-type: application/json</p>
+    </div>
+    <div id="card">
+      <h3>Summary</h3>
+      <p id="summary">Delete a short link</p>
+      <h3>Parameters</h3>
+      <div id="parameters">
+        <ul  id="response">
+          <li>
+            <h3>token</h3>
+            <ul>
+              <li>type : string</li>
+              <li>isOptional: false</li>
+            </ul>
+          </li>
+          <li>
+            <h3>short_link</h3>
+            <ul>
+              <li>type : string</li>
+              <li>isOptional: false</li>
+            </ul>
+          </li>
+      </div>
+      <h3>Responses</h3>
+      <ul id="response">
+        <li>204 - Successful Response</li>
+        <li>422 - Validation Error [Check Response body for info]</li>
+        <li>500 - Internal Server Error</li>
+      </ul>
+      </p>
+
+    </div>
+  </div>
+   <br>
+        <div id="endpoint">
+      <h2>API playground</h2>
+      <div id="card">
+        <select name="endpoints" id="path">
+          <option value="0">Select Method</option>
+          <option value="1">Generate Token</option>
+          <option value="2">Shorten a link</option>
+          <option value="3">Get link count</option>
+          <option value="4">Update existing link</option>
+          <option value="5">Delete a link</option>
+        </select>
+        <span id="psudo"><div id="route"></div></span>
+        <textarea
+          name=""
+          id="textarea"
+          cols="40"
+          rows="10"
+          placeholder="See Parameters for successfull response 
+
+GET request can be sent as it is"
+        ></textarea>
+        <button id="submit">Send</button>
+      </div>
+      <span id="psudo1"></span>
+    </div>
+    <script src="./public/src/modules/docs.js"></script>
+</body>
+
+</html>

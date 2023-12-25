@@ -14,5 +14,3 @@ def get_version():
             return res[0]
     else:
         return ":("
-
-print(get_version())
