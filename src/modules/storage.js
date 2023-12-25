@@ -7,12 +7,12 @@ async function count(shortUrl) {
   return count1.count
 }
 
-function storage(link, shortLink) {
+function storage(link, shortLink, unique_id) {
   if(localStorage.getItem(1) == null) {
-    localStorage.setItem(1, JSON.stringify([{link: link, shortLink: shortLink, clicks: 0, isRefreshed: false }])) 
+    localStorage.setItem(1, JSON.stringify([{link: link, shortLink: shortLink, clicks: 0, isRefreshed: false, unique_id: unique_id }])) 
   } else  {
     let a = JSON.parse(localStorage.getItem(1))
-    a.push({link: link, shortLink: shortLink, clicks: 0, isRefreshed: false })
+    a.push({link: link, shortLink: shortLink, clicks: 0, isRefreshed: false, unique_id: unique_id })
     localStorage.setItem(1, JSON.stringify(a))
   }
 }
@@ -47,6 +47,7 @@ function renderUser() {
   
   <div id="icon">
       <span class="material-symbols-outlined refresh icon-class">refresh</span>
+      <!--<span class="material-symbols-outlined edit icon-class">edit</span>-->
       <span class="material-symbols-outlined delete icon-class">delete</span>
       </div>
 </div>

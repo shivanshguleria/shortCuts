@@ -1,5 +1,5 @@
 import { count_routine, renderUser, count } from "./storage.js";
-import { delete_link } from "./utils.js";
+import { delete_link} from "./utils.js";
 renderUser()
 
 const cache = document.getElementById('clear-cache')
@@ -36,6 +36,7 @@ element.addEventListener('click', async (e) => {
   // }
   if(e.target.classList.contains('delete')) {
     try {
+      console.log(e.target)
       let short_link = e.target.parentNode.parentElement.childNodes[1].firstElementChild.innerText
       delete_link(short_link)
       // renderUser()
@@ -44,4 +45,11 @@ element.addEventListener('click', async (e) => {
       console.log(error)
     }
   }
+
+  // if(e.target.classList.contains('edit')) {
+  //   try {
+  //     let short_link = e.target.parentNode.parentElement.childNodes[1].firstElementChild.innerText
+  //     edit_link(short_link) 
+  //   }
+  // }
 });

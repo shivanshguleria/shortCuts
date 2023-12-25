@@ -13,6 +13,10 @@ const generateEl = document.getElementById("result")
 
 const newInputEl = document.createElement("input")
 const newAnchorEl = document.createElement("a")
+const newSelectEl = document.createElement("select")
+
+const newDivEl = document.createElement("div")
+
 import  {storage, token}  from "./modules/storage.js"
 
 
@@ -32,25 +36,64 @@ closePopup.onclick = function() {
   passLink.value = ""
   newInputEl.value = ""
   inputElDiv.innerHTML = ""
+  while(newSelectEl.firstChild) {
+    newSelectEl.removeChild(newSelectEl.lastChild)
+  }
+ newDivEl.remove()
   popupContent1.innerHTML = popupcontent_old
   customEl.style.display = 'inline'
 };
+
+const optionObject = {
+  "": "Is Preview?",
+  "true": "Yes [Default]", 
+  "false": "No"
+}
+
+
 
 customEl.addEventListener("click", () => {
   customEl.style.display = 'none'
   
     inputElDiv.appendChild(newInputEl)
+    inputElDiv.appendChild(newDivEl)
+    newDivEl.appendChild(newSelectEl)
     inputElDiv.appendChild(newAnchorEl)
     newAnchorEl.setAttribute('type', "submit")
     newAnchorEl.innerText = "randomize?"
     newAnchorEl.classList.add("randomise")
     newInputEl.classList.add("newInputEl")
+    newSelectEl.classList.add("newSelectEl")
     newInputEl.placeholder = "Type Custom code"
+
+    console.log(Object.keys(optionObject).length)
+
+    
+    for(let i = 0; i < Object.keys(optionObject).length; i++) {
+      const newOptionEl = document.createElement("option")
+      if(i == 0) {
+        newOptionEl.value = Object.keys(optionObject)[i]
+        newOptionEl.text =  Object.values(optionObject)[i]
+        newSelectEl.add(newOptionEl)
+      } else {
+      newOptionEl.value = Object.keys(optionObject)[i]
+      newOptionEl.text =  Object.values(optionObject)[i]
+      newOptionEl.classList.add("option")
+      newSelectEl.add(newOptionEl)
+      }
+    }
+
 })
 
 newAnchorEl.addEventListener("click", () => {
   inputElDiv.removeChild(newInputEl)
   inputElDiv.removeChild(newAnchorEl)
+  
+  while(newSelectEl.firstChild) {
+    newSelectEl.removeChild(newSelectEl.lastChild)
+  }
+ newDivEl.removeChild(newSelectEl)
+  // inputElDiv.removeChild(newSelectEl)
   customEl.style.display = 'inline'
 })
 
@@ -70,7 +113,11 @@ passSubmit.addEventListener("click",async function() {
       is_preview: true,
       token: await token()
     }
-  if(newInputEl.value != undefined & newInputEl.value != ""){
+  if(newSelectEl.value != "") {
+    payload['is_preview'] = newSelectEl.value
+    console.log(payload)
+  }
+  if(newInputEl.value != undefined & newInputEl.value != "" ){
     payload['customLink'] = newInputEl.value
   }
     overlay.style.display = 'block';
@@ -88,7 +135,7 @@ passSubmit.addEventListener("click",async function() {
         .then((json) => {
           let data = "https://shrk.xyz/" + json.message.short_link
           document.getElementById("result").textContent = data
-          storage(inputValue, json.message.short_link)
+          storage(inputValue, json.message.short_link, json.message.unique_id)
           copyFunction()
          
         }) 

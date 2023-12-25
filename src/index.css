@@ -13,7 +13,15 @@
         padding: 0;
         background-color: var(--background-color);
         color: var(--color);
+        font-family: 'Source Code Pro', monospace;
+        font-weight: 400;
     }
+
+#link-clicks {
+    display: flex;
+    /* justify-content: center; */
+    gap: 5px;
+}
 #links-short {
     max-width: 140px;
     min-width: 139.99px;

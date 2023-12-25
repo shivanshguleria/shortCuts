@@ -1,16 +1,18 @@
 from sys import modules
+import token
 from fastapi import FastAPI, status, HTTPException, Request
 from fastapi.responses import RedirectResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
+from httplib2 import RETRIES
 from pydantic import BaseModel
 from typing import Optional
 
-from sqlalchemy import null
+from sqlalchemy import Null, false, null
 from .get_ver import get_version
-from .generater import genrate_random_string, generate_token
+from .generater import genrate_random_string, generate_token, generate_unique_id
 import psycopg2,time,re
 from psycopg2.extras import RealDictCursor
 from .firebase import delete_routine, get_count_reference , get_count_reference, push_updated_data, push_new_count, update_count, get_count
@@ -18,7 +20,7 @@ from .firebase import delete_routine, get_count_reference , get_count_reference,
 import os
 from urllib.parse import urlparse
 
-app = FastAPI(redoc_url="/Documentation", docs_url=None)
+app = FastAPI(redoc_url=None, docs_url=None)
 
 app.mount("/public/src", StaticFiles(directory="src"), name="src")
 
@@ -32,7 +34,7 @@ app.add_middleware(
     allow_headers=["*"]
 )
 #Change link_prod during dev
-TABLESTR="CREATE TABLE IF NOT EXISTS link_prod1 (id serial NOT NULL, link varchar NOT NULL, short_link varchar NOT NULL PRIMARY KEY,hex_code varchar DEFAULT NULL, created_at timestamp with time zone NOT NULL DEFAULT now(), is_preview BOOL DEFAULT false)"
+TABLESTR="CREATE TABLE IF NOT EXISTS link_prod1 (id serial NOT NULL,unique_id varchar NOT NULL, link varchar NOT NULL, short_link varchar NOT NULL PRIMARY KEY,hex_code varchar DEFAULT NULL, created_at timestamp with time zone NOT NULL DEFAULT now(), is_preview BOOL DEFAULT false)"
 TOKENDB = 'CREATE TABLE IF NOT EXISTS tokens (id serial NOT NULL, token varchar NOT NULL, created_at timestamp with time zone NOT NULL DEFAULT now())'
 URI = os.getenv('DATABASE_URL')
 KEYSTRING = os.getenv('KEY_STRING')
@@ -63,29 +65,32 @@ async def favicon():
 @app.get('/', response_class=HTMLResponse)
 def root(request: Request):
     
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse("user_copy.html", {"request": request})
     #return {"Hello": "World"}
 
 @app.get('/About', response_class=HTMLResponse)
 def about(request: Request):
-    return templates.TemplateResponse("about.html", {"request": request, "version": get_version()})
+    return templates.TemplateResponse("about.html", {"request": request, "version": "1.0.0"})
 
 @app.get('/User', response_class=HTMLResponse)
 def user(request: Request):
-    return templates.TemplateResponse("user.html", {"request": request, "version": get_version()})
+    return templates.TemplateResponse("user.html", {"request": request})
 
+@app.get('/Documentation', response_class=HTMLResponse)
+def docs(request: Request):
+    return templates.TemplateResponse("doc.html", {"request": request})
 
-@app.get('/ads.txt', response_class=FileResponse)
-def ads_txt():
-    return "./utils/ads.txt"
+# @app.get('/ads.txt', response_class=FileResponse)
+# def ads_txt():
+#     return "./utils/ads.txt"
 
-@app.get("/sitemap.xml", response_class=FileResponse)
-def sitemap_xml():
-    return "./utils/sitemap.xml"
+# @app.get("/sitemap.xml", response_class=FileResponse)
+# def sitemap_xml():
+#     return "./utils/sitemap.xml"
 
-@app.get("/robots.txt", response_class=FileResponse)
-def robots_txt():
-    return "./utils/robots.txt"
+# @app.get("/robots.txt", response_class=FileResponse)
+# def robots_txt():
+#     return "./utils/robots.txt"
 @app.get('/{id}', response_class=RedirectResponse)
 def get_link(id: str, request: Request):
     conn = psycopg2.connect(
@@ -186,13 +191,13 @@ def add_link(req: Link):
                 cursor.execute('select id from link_prod1 where short_link = (%s);', [req.customLink])
                 check = cursor.fetchone()
                 if check == None and req.customLink != "":
-                    cursor.execute("INSERT INTO link_prod1 (link, short_link, is_preview, hex_code) VALUES (%s, %s, %s, %s) RETURNING link, short_link,created_at, is_preview", (req.link, req.customLink, req.is_preview, req.token))
+                    cursor.execute("INSERT INTO link_prod1 (link, short_link, is_preview, hex_code, unique_id) VALUES (%s, %s, %s, %s, %s) RETURNING link, short_link,created_at, is_preview, unique_id", (req.link, req.customLink, req.is_preview, req.token, generate_unique_id()))
                     push_new_count(req.customLink)
                 else:
                     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Custom code exists")   
             else:
                 short_link = genrate_random_string()
-                cursor.execute("INSERT INTO link_prod1 (link, short_link, is_preview, hex_code) VALUES (%s, %s, %s, %s) RETURNING link, short_link,created_at, is_preview", (req.link, short_link, req.is_preview, req.token))
+                cursor.execute("INSERT INTO link_prod1 (link, short_link, is_preview, hex_code, unique_id) VALUES (%s, %s, %s, %s, %s) RETURNING link, short_link,created_at, is_preview, unique_id", (req.link, short_link, req.is_preview, req.token, generate_unique_id()))
                 push_new_count(short_link)
         else:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Tokens does not exists")
@@ -201,13 +206,13 @@ def add_link(req: Link):
             cursor.execute('select id from link_prod1 where short_link = (%s);', [req.customLink])
             check = cursor.fetchone()
             if check == None and req.customLink != "":
-                cursor.execute("INSERT INTO link_prod1 (link, short_link, is_preview, hex_code) VALUES (%s, %s, %s, %s) RETURNING link, short_link,created_at, is_preview", (req.link, req.customLink, req.is_preview, req.token))
+                cursor.execute("INSERT INTO link_prod1 (link, short_link, is_preview, hex_code, unique_id) VALUES (%s, %s, %s, %s, %s) RETURNING link, short_link,created_at, is_preview, unique_id", (req.link, req.customLink, req.is_preview, req.token, generate_unique_id()))
                 push_new_count(req.customLink)
             else:
                 raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Custom code exists")   
         else:
             short_link = genrate_random_string()
-            cursor.execute("INSERT INTO link_prod1 (link, short_link, is_preview, hex_code) VALUES (%s, %s, %s, %s) RETURNING link, short_link,created_at, is_preview, hex_code", (req.link, short_link, req.is_preview, req.token))
+            cursor.execute("INSERT INTO link_prod1 (link, short_link, is_preview, hex_code, unique_id) VALUES (%s, %s, %s, %s, %s) RETURNING link, short_link,created_at, is_preview, hex_code, unique_id", (req.link, short_link, req.is_preview, req.token, generate_unique_id()))
             push_new_count(short_link)
     post = cursor.fetchone()
     # for i in post:
@@ -242,7 +247,7 @@ def delete_data(req: Link_delete):
     cursor.execute("SELECT * FROM tokens WHERE token = (%s)", [req.token])
     token_check_in_db = cursor.fetchone()
     if token_check_in_db:
-        cursor.execute("SELECT hex_code FROM link_prod1 where short_link = (%s)", [req. shortLink])
+        cursor.execute("SELECT hex_code FROM link_prod1 where short_link = (%s)", [req.shortLink])
         check_token_relation = cursor.fetchone()
         if check_token_relation:
             cursor.execute("DELETE FROM link_prod1 where short_link = (%s) returning short_link", [req.shortLink])
@@ -254,9 +259,67 @@ def delete_data(req: Link_delete):
     else:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token does not exists")
 
-# @app.put('/api/update/', status_code=status.HTTP_204_NO_CONTENT)
-# def update_links(req: Link)
-# @app.post('/api/admin/get')
+
+class Update(BaseModel):
+    token: str
+    unique_id: str
+    link: Optional[str] = None
+    short_link: Optional[str] = None
+    is_preview: Optional[bool] = None
+
+@app.put('/api/update/', status_code=status.HTTP_204_NO_CONTENT)
+def update_links(req: Update):
+    conn = psycopg2.connect(
+        database = database,
+        user = username,
+        password = password,
+        host = hostname,
+        port = port,
+        cursor_factory=RealDictCursor
+    )
+
+    #conn = psycopg2.connect(URI, cursor_factory=RealDictCursor)
+    cursor =  conn.cursor()
+    cursor.execute("SELECT * FROM link_prod1 WHERE hex_code = (%s) AND unique_id = (%s)", [req.token, req.unique_id])
+    post = cursor.fetchone()
+    print(bool(post))
+    if post:
+        if req.link and not req.short_link and not req.is_preview:
+            cursor.execute("UPDATE link_prod1 set link = (%s) where unique_id = (%s)", [req.link, req.unique_id])
+        elif req.short_link and not req.link and not req.is_preview:
+            cursor.execute("SELECT * FROM link_prod1 WHERE short_link = (%s)", [req.short_link])
+            check = cursor.fetchone()
+            print(check)
+            if not check:
+                cursor.execute("UPDATE link_prod1 set short_link = (%s) where unique_id = (%s)", [req.short_link, req.unique_id])
+                
+            else:
+                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Post with short link exists")
+        elif req.is_preview or not req.short_link and not req.link:
+            print(bool(req), req)
+            cursor.execute("SELECT is_preview FROM link_prod1 WHERE unique_id = (%s)", [req.unique_id])
+            check = cursor.fetchone()
+
+            if check['is_preview'] == req.is_preview: # type: ignore
+                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Link is already set to {req.is_preview}")
+            else:
+                cursor.execute("UPDATE link_prod1 set is_preview = (%s) where unique_id = (%s)", [req.is_preview, req.unique_id])
+        else:
+            print(bool(req.link), req)
+            cursor.execute("SELECT * FROM link_prod1 WHERE short_link = (%s)", [req.short_link])
+            check = cursor.fetchone()
+            print(check)
+            if not check:
+                cursor.execute("UPDATE link_prod1 set link = (%s), short_link = (%s), is_preview = (%s) where unique_id = (%s)", [req.link, req.short_link, req.is_preview, req.unique_id])
+                
+            else:
+                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Post with short link exists")
+    else:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token is not related with short link \n or unique ID does not exist")
+    conn.commit()
+    conn.close()
+
+@app.post('/api/admin/get')
 def remove(req: Del):
     if req.body == "7fc9e98537c470d55f995d45fa6e3bcaefb0020e831db5c43d3fda0b6888e90e77fa2b74867c8020a9e93797362ce794538c":
         

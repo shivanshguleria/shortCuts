@@ -1,4 +1,5 @@
 venv/
+null_code/
 app/__pycache__
 readme.txt
 .vscode

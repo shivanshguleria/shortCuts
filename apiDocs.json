@@ -1,0 +1,165 @@
+{
+    "info": {
+      "title": "shortCuts",
+      "version": "1.0.0"
+    },
+    "paths": [
+      {
+        "hit": "/api/token",
+        "method": "get",
+        "summary": "Generate a token to enable analytics and other functionalities",
+        "responses": [
+          "200"
+        ],
+        "successfull_response": {
+          "token": "str [Unique token which is supplied with link (optional)",
+          "created_at": "time [Time when stored in database]",
+          "message": "Keep it somewhere safe!!"
+        }
+      },
+      {
+        "hit": "/api/link",
+        "method": "post",
+        "summary": "Shorten a link",
+        "requestBody": {
+          "parameters": {
+            "link": {
+              "type": "string",
+              "isOptional": false
+            },
+            "customLink": {
+              "type": "string",
+              "isOptional": true
+            },
+            "is_preview": {
+              "type": "bool",
+              "isOptional": true
+            },
+            "token": {
+              "type": "bool",
+              "isOptional": true
+            }
+          },
+          "content-type": "application/json"
+        },
+        "responses": [
+          "201",
+          "422",
+          "500"
+        ],
+        "successfull_response": {
+          "message": {
+            "link": "str",
+            "short_link": "str [Five charachter code]",
+            "created_at": "time [Time when stored in database]",
+            "is_preview": "bool",
+            "unique_id": "str [10 digit unique hex code]"
+          }
+        }
+      },
+      {
+        "hit": "/{id}",
+        "method": "get",
+        "summary": "Redirect to original route OR respond with JSON",
+        "parameters": {
+          "id": {
+            "type": "string",
+            "isOptional": false
+          }
+        },
+        "responses": [
+          "200",
+          "307",
+          "422",
+          "500"
+        ],
+        "successfull_response": {
+          "message": {
+            "link": "str",
+            "short_link": "str [Five charachter code]",
+            "created_at": "time [Time when stored in database]",
+            "is_preview": "bool",
+            "unique_id": "str [10 digit unique hex code]"
+          }
+        }
+      },
+      {
+        "hit": "/api/count/{token}/{id}",
+        "method": "get",
+        "summary": "Get clicked analytics",
+        "parameters": {
+          "id": {
+            "type": "string",
+            "isOptional": false
+          },
+          "token": {
+            "type": "string",
+            "isOptional": false
+          }
+        },
+        "responses": [
+          "200",
+          "422"
+        ],
+        "successfull_response": {
+          "count": "integer"
+        }
+      },
+      {
+        "hit": "/api/update/",
+        "method": "put",
+        "summary": "Update information about some links",
+        "requestBody": {
+          "parameters": {
+            "token": {
+              "type": "str",
+              "isOptional": false
+            },
+            "unique_id": {
+              "type": "str",
+              "isOptional": false
+            },
+            "link": {
+              "type": "str",
+              "isOptional": true
+            },
+            "short_link": {
+              "type": "str",
+              "isOptional": false
+            },
+            "is_preview": {
+              "type": "bool",
+              "isOptional": false
+            }
+          }
+        },
+        "responses": [
+          "204",
+          "422",
+          "500"
+        ]
+      },
+      {
+        "hit": "/api/delete/",
+        "method": "delete",
+        "summary": "Delete a short link",
+        "requestBody": {
+          "parameters": {
+            "shortLink": {
+              "type": "str",
+              "isOptional": false
+            },
+            "token": {
+              "type": "str",
+              "isOptional": false
+            }
+          }
+        },
+        "responses": [
+          "204",
+          "422",
+          "500"
+        ]
+      }
+    ]
+  }

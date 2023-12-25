@@ -6,3 +6,6 @@ def genrate_random_string():
 
 def generate_token():
     return secrets.token_urlsafe(10)
+
+def generate_unique_id():
+    return secrets.token_hex(5)
