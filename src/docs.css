@@ -19,7 +19,20 @@
     font-family: 'Source Code Pro', monospace;
     font-weight: 400;
   }
-  
+  .root {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    align-items: center;
+  }
+  .redirect {
+    color: white;
+    font-size: 1.65em;
+    text-decoration: none;
+  }
+  .redirect:hover {
+    color: rgb(183, 172, 172);
+  }
   #card {
     background-color: #5C8374;
     margin: 40px;
@@ -31,6 +44,14 @@
   }
   
   #endpoint {
+    background-color: #183D3D;
+    padding: 10px;
+    margin: 5px auto;
+    width: 80%;
+    border-radius: 20px;
+  }
+
+  .endpoint {
     background-color: #183D3D;
     padding: 10px;
     margin: 5px auto;
@@ -101,6 +122,7 @@
   textarea {
     margin: 10px;
     background-color: #131c20;
+    width: 80%;
     color: whitesmoke;
     border-radius: 15px;
     padding: 20px;
@@ -122,8 +144,10 @@
   }
 
   #route1 {
+    margin: 10px auto;
     display: flex;
-    min-width: 20%;
+    min-width: 40%;
+    max-width: 60%;
     flex-flow: row wrap;
     justify-content: center;
     align-items: center;
@@ -131,7 +155,7 @@
     background-color: #131c20;
     border-radius: 20px;
     margin-top: 10px;
-    padding: 12px;
+    padding: 20px;
     font-size: 1rem;
   }
 
