@@ -90,3 +90,83 @@
     align-items: center;
     
   }
+
+
+
+
+
+/*For api playground*/
+
+
+  textarea {
+    margin: 10px;
+    background-color: #131c20;
+    color: whitesmoke;
+    border-radius: 15px;
+    padding: 20px;
+    border: transparent;
+  }
+  
+  #route {
+    display: flex;
+    min-width: 20%;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    background-color: #131c20;
+    border-radius: 20px;
+    margin-top: 10px;
+    padding: 12px;
+    font-size: 0.55em;
+  }
+
+  #route1 {
+    display: flex;
+    min-width: 20%;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    background-color: #131c20;
+    border-radius: 20px;
+    margin-top: 10px;
+    padding: 12px;
+    font-size: 1rem;
+  }
+
+  select {
+    min-width: 150px;
+    background-color: #131c20;
+    text-align: center;
+    border-radius: 15px;
+    border: transparent;
+    margin-left: 5px;
+    padding: 15px;
+    color: white;
+    font-size: 1em;
+    font-weight: 800;
+  }
+
+  #submit {
+    min-width: 150px;
+    background-color: #131c20;
+    text-align: center;
+    border-radius: 15px;
+    border: transparent;
+    margin-left: 5px;
+    padding: 15px;
+    color: rgb(255, 255, 255);
+    font-size: 1em;
+    font-weight: 800;
+  }
+  
+  #submit:hover {
+    background-color: #223138;
+    cursor: pointer;
+  }
+  
+  select {
+    -webkit-appearance: none;
+  }
+  
