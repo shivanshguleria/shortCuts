@@ -411,7 +411,33 @@
 
     </div>
   </div>
+   <br>
+        <div id="endpoint">
+      <h2>API playground</h2>
+      <div id="card">
+        <select name="endpoints" id="path">
+          <option value="0">Select Method</option>
+          <option value="1">Generate Token</option>
+          <option value="2">Shorten a link</option>
+          <option value="3">Get link count</option>
+          <option value="4">Update existing link</option>
+          <option value="5">Delete a link</option>
+        </select>
+        <span id="psudo"><div id="route"></div></span>
+        <textarea
+          name=""
+          id="textarea"
+          cols="40"
+          rows="10"
+          placeholder="See Parameters for successfull response 
 
+GET request can be sent as it is"
+        ></textarea>
+        <button id="submit">Send</button>
+      </div>
+      <span id="psudo1"></span>
+    </div>
+    <script src="./public/src/modules/docs.js"></script>
 </body>
 
 </html>
