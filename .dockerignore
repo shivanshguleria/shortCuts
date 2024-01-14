@@ -1,6 +1,8 @@
 venv/
 null_code/
 app/__pycache__
+app/fief/__pycache__/
+app/routes/__pycache__/
 readme.txt
 .vscode
 .space
