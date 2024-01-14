@@ -3,9 +3,13 @@ const renderLink = document.getElementById("route");
 const textarea = document.getElementById("textarea");
 const psudo = document.getElementById("psudo");
 const psudo1 = document.getElementById("psudo1");
+const psudo2 = document.getElementById("psudo2");
 const submit = document.getElementById("submit");
-// import obj from "./index.json";
+const inputToken = document.getElementById("input-token")
+const inputId = document.getElementById("input-id")
 
+// import obj from "./index.json";
+const path = "https://shrk.xyz"
 const obj = {
     "1": {
       "method": "GET",
@@ -31,15 +35,31 @@ const obj = {
   
 psudo.style.display = "none";
 psudo1.style.display = "none";
+psudo2.style.display = "none";
 let pointer = 0;
 sendPath.addEventListener("click", () => {
-    if(sendPath.value == 0) {
-        alert("Select Method")
-    } else {
-  psudo.style.display = "block";
-  renderLink.innerHTML = `<span id="method" style="color: #fee37d;">${
+  let  sendPathInnerHtml = `<span id="method" style="color: #fee37d;">${
     obj[sendPath.value].method
-  }</span><h2>${obj[sendPath.value].path}</h2>`;
+  }</span><h2>${obj[sendPath.value].path}</h2>`
+  if(localStorage.getItem(0)){
+    sendPathInnerHtml += `<p style="font-size: 1.50em;" >Saved Token: ${localStorage.getItem(0)}</p>`
+  }
+  if(sendPath.value == 0) {
+    psudo.style.display = "none";
+} else if(sendPath.value == 3) {
+      textarea.style.display = "none"
+      psudo.style.display = "block";
+      psudo2.style.display = "block"
+  renderLink.innerHTML = sendPathInnerHtml
+
+} else if(sendPath.value == 1 & localStorage.getItem(0)) {
+  alert("Token exists. Clear local storage for new token")
+}
+    else {
+      textarea.style.display = "block"
+      psudo2.style.display = "none"
+  psudo.style.display = "block";
+  renderLink.innerHTML = sendPathInnerHtml
 }
   pointer = sendPath.value;
 });
@@ -50,22 +70,44 @@ textarea.addEventListener("click", () => {
 
 submit.addEventListener("click", async () => {
   console.log(textarea.value, typeof textarea.value);
-  if( obj[pointer].method == 'GET'){
+  if(sendPath.value == 0) {
+    alert("Select Method")
+} else if(obj[pointer].method == 'GET' && sendPath.value == 3){
+    
+    console.log(inputId, inputToken)
+    console.log("https://shrk.xyz" + "/api/count/" + inputToken.value + inputId.value)
+        await fetch(path + "/api/count/" + inputToken.value + "/" + inputId.value, {
+          method: obj[pointer].method
+        })
+          .then((response) => response.json())
+      
+          .then((json) => {
+            psudo1.style.display = "block";
+            psudo1.innerHTML = `<pre id="route1"><code>${JSON.stringify(json, undefined, 2)}</code></pre>`;
+          });
 
-  await fetch("https://shrk.xyz" + obj[pointer].path, {
-    method: obj[pointer].method
-  })
-    .then((response) => response.json())
 
-    .then((json) => {
-      psudo1.style.display = "block";
-      psudo1.innerHTML = `<pre id="route1"><code>${JSON.stringify(json, undefined, 2)}</code></pre>`;
-    });
+  } else if(obj[pointer].method == 'GET') {
 
-  console.log(typeof( textarea.value));
+
+    await fetch(path + obj[pointer].path, {
+      method: obj[pointer].method
+    })
+      .then((response) => response.json())
+  
+      .then((json) => {
+        psudo1.style.display = "block";
+        if(pointer == 1){
+          localStorage.setItem(0, JSON.stringify(json.token))
+          console.log(json)
+        }
+        psudo1.innerHTML = `<pre id="route1"><code>${JSON.stringify(json, undefined, 2)}</code></pre>`;
+      });
+  
+    console.log(typeof( textarea.value));
   }
   else {
-    await fetch("https://shrk.xyz" + obj[pointer].path, {
+    await fetch(path + obj[pointer].path, {
     method: obj[pointer].method,
     body: textarea.value,
     headers: {

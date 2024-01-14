@@ -13,7 +13,7 @@
     <div style="margin-left: 55px;padding: 20px;">
       <h1 style="font-size: 4em">shortCuts</h1>
       <h6>For better view, use on desktop</h6>
-      <span style="font-size: 0.9em">v1.0.1</span>
+      <span style="font-size: 0.9em">v1.0.2</span>
     </div>
     <a class="redirect" href="#api-playground">API Playground</a>
   </div>
@@ -420,6 +420,7 @@
    <br>
         <div id="api-playground" class="endpoint">
       <h2>API playground</h2>
+
       <div id="card">
         <select name="endpoints" id="path">
           <option value="0">Select Method</option>
@@ -430,6 +431,7 @@
           <option value="5">Delete a link</option>
         </select>
         <span id="psudo"><div id="route"></div></span>
+        <span id="psudo2"><div><br><input id="input-token" placeholder="Paste Token" /><br><br><input id="input-id" placeholder="Paste Id"/></div></span>
         <textarea
           name=""
           id="textarea"
@@ -439,6 +441,7 @@
 
 GET request can be sent as it is"
         ></textarea>
+        <br>
         <button id="submit">Send</button>
       </div>
       <span id="psudo1"></span>
