@@ -58,7 +58,7 @@ def root(request: Request):
 
 @app.get('/About', response_class=HTMLResponse)
 def about(request: Request):
-    return templates.TemplateResponse("about.html", {"request": request, "version": "1.0.2"})
+    return templates.TemplateResponse("about.html", {"request": request, "version": "1.0.3"})
 
 @app.get('/User', response_class=HTMLResponse)
 def user(request: Request):

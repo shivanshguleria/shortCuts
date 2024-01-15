@@ -3,6 +3,7 @@ null_code/
 app/__pycache__
 app/fief/__pycache__/
 app/routes/__pycache__/
+app/danych/__pycache__
 readme.txt
 .vscode
 .space

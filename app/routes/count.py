@@ -1,49 +1,24 @@
-import psycopg2 
-from fastapi.templating import Jinja2Templates
-from fastapi import status, APIRouter
-from urllib.parse import urlparse
-from psycopg2.extras import RealDictCursor
+from fastapi import status, APIRouter, Depends
 from app.fief.firebase import  get_count
 
 
 from fastapi import HTTPException
 
-
-import os
-
-URI = os.getenv('DATABASE_URL')
-result = urlparse(URI)
-
-templates = Jinja2Templates(directory="templates")
-username = result.username
-password = result.password
-database = result.path[1:]
-hostname = result.hostname
-port = result.port
+import app.danych.models as models
+from app.danych.database import get_db
+from sqlalchemy.orm import Session
 
 router = APIRouter()
 
 @router.get("/api/count/{token}/{id}")
-def count(id: str, token:str):
-    conn = psycopg2.connect(
-        database = database,
-        user = username,
-        password = password,
-        host = hostname,
-        port = port,
-        cursor_factory=RealDictCursor
-    )
-    cursor =  conn.cursor()
-    # print("[INFO] 🗄️  🚀🚀 Postgres DB connected")
-    # cursor.execute("""SELECT count FROM link_prod WHERE short_link = (%s) ;""",[id])
-    # post = cursor.fetchall()
-    # conn.close()
-    cursor.execute("select token from tokens where token = (%s)", [token])
-    auth_token = cursor.fetchone()
-    if auth_token:
-        if token == auth_token['token']: # type: ignore
-            cursor.execute("select short_link from link_prod1 where unique_id = (%s)", [id])
-            ref = cursor.fetchone()
-            return { "count": get_count(ref['short_link'])}
+def count(id: str, token:str, db: Session = Depends(get_db)):
+    check_token_in_db = db.query(models.Tokens).filter(models.Tokens.token == token).first()
+    if check_token_in_db and check_token_in_db.token == token:
+        check_unique_id = db.query(models.LinkProd.unique_id).filter(models.LinkProd.unique_id == id)
+        if check_unique_id == id:
+            post = db.query(models.LinkProd.short_link).filter(models.LinkProd.unique_id==id).first()
+            return {"count": get_count(post[0])}
+        else:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=f"Link id supplied is not true")    
     else:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=f"Token not supplied")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=f"Token is not true")

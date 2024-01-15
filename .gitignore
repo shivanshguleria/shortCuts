@@ -2,6 +2,7 @@ venv/
 app/__pycache__/
 app/fief/__pycache__/
 app/routes/__pycache__/
+app/danych/__pycache__
 app/.env
 app/key.json
 readme.txt
