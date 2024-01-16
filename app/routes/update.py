@@ -1,81 +1,43 @@
-import psycopg2 
-from fastapi.templating import Jinja2Templates
-from fastapi import status, APIRouter, HTTPException
-from urllib.parse import urlparse
-from psycopg2.extras import RealDictCursor
+from fastapi import status, APIRouter, HTTPException, Depends
 
-from pydantic import BaseModel
-from typing import Optional
+import app.danych.models as models
+from app.danych.database import get_db
+from sqlalchemy.orm import Session
 
-import os
-
-URI = os.getenv('DATABASE_URL')
-result = urlparse(URI)
-
-templates = Jinja2Templates(directory="templates")
-username = result.username
-password = result.password
-database = result.path[1:]
-hostname = result.hostname
-port = result.port
+import app.danych.schemas as schemas
 
 router = APIRouter()
 
-class Update(BaseModel):
-    token: str
-    unique_id: str
-    link: Optional[str] = None
-    short_link: Optional[str] = None
-    is_preview: Optional[bool] = None
-
 @router.put('/api/update/', status_code=status.HTTP_204_NO_CONTENT)
-def update_links(req: Update):
-    conn = psycopg2.connect(
-        database = database,
-        user = username,
-        password = password,
-        host = hostname,
-        port = port,
-        cursor_factory=RealDictCursor
-    )
-
-    #conn = psycopg2.connect(URI, cursor_factory=RealDictCursor)
-    cursor =  conn.cursor()
-    cursor.execute("SELECT * FROM link_prod1 WHERE hex_code = (%s) AND unique_id = (%s)", [req.token, req.unique_id])
-    post = cursor.fetchone()
-    print(bool(post))
-    if post:
+def update_link(req: schemas.Handle_Update, db: Session= Depends(get_db)):
+    check_unique_id_and_token = db.query(models.LinkProd).filter(models.LinkProd.hex_code == req.token and models.LinkProd.unique_id == req.unique_id).first()
+    print(check_unique_id_and_token)
+    if check_unique_id_and_token.unique_id and check_unique_id_and_token.hex_code:
         if req.link and not req.short_link and not req.is_preview:
-            cursor.execute("UPDATE link_prod1 set link = (%s) where unique_id = (%s)", [req.link, req.unique_id])
+            db.query(models.LinkProd).filter(models.LinkProd.unique_id == req.unique_id).update({"link": req.link}, synchronize_session="fetch")
         elif req.short_link and not req.link and not req.is_preview:
-            cursor.execute("SELECT * FROM link_prod1 WHERE short_link = (%s)", [req.short_link])
-            check = cursor.fetchone()
-            print(check)
-            if not check:
-                cursor.execute("UPDATE link_prod1 set short_link = (%s) where unique_id = (%s)", [req.short_link, req.unique_id])
-                
+            check_short_link_in_db = db.query(models.LinkProd).filter(models.LinkProd.short_link == req.short_link).first()
+            if not check_short_link_in_db:
+                db.query(models.LinkProd).filter(models.LinkProd.unique_id == req.unique_id).update({"short_link": req.short_link}, synchronize_session="fetch")
+
             else:
                 raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Post with short link exists")
-        elif req.is_preview or not req.short_link and not req.link:
+        elif req.is_preview and not req.short_link and not req.link:
             print(bool(req), req)
-            cursor.execute("SELECT is_preview FROM link_prod1 WHERE unique_id = (%s)", [req.unique_id])
-            check = cursor.fetchone()
-
-            if check['is_preview'] == req.is_preview: # type: ignore
+            check_is_preview = db.query(models.LinkProd.is_preview).filter(models.LinkProd.unique_id == req.unique_id).first()
+            print(check_is_preview)
+            if check_is_preview[0] == req.is_preview:
                 raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Link is already set to {req.is_preview}")
             else:
-                cursor.execute("UPDATE link_prod1 set is_preview = (%s) where unique_id = (%s)", [req.is_preview, req.unique_id])
+                db.query(models.LinkProd).filter(models.LinkProd.unique_id == req.unique_id).update({"is_preview": req.is_preview}, synchronize_session="fetch")
         else:
-            print(bool(req.link), req)
-            cursor.execute("SELECT * FROM link_prod1 WHERE short_link = (%s)", [req.short_link])
-            check = cursor.fetchone()
+            print(bool(req.link), req,"hi")
+            check = db.query(models.LinkProd).filter(models.LinkProd.unique_id == req.unique_id).first()
             print(check)
-            if not check:
-                cursor.execute("UPDATE link_prod1 set link = (%s), short_link = (%s), is_preview = (%s) where unique_id = (%s)", [req.link, req.short_link, req.is_preview, req.unique_id])
-                
+            if check.short_link != req.short_link :
+                db.query(models.LinkProd).filter(models.LinkProd.unique_id == req.unique_id).update({"is_preview": req.is_preview, "link": req.link, "short_link": req.short_link}, synchronize_session="fetch")
             else:
                 raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Post with short link exists")
+        db.commit()
     else:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token is not related with short link \n or unique ID does not exist")
-    conn.commit()
-    conn.close()

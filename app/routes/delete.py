@@ -20,7 +20,6 @@ def delete_data(req: Link_delete, db: Session = Depends(get_db)):
             print(str(check_token_in_db), check_hex_code_relation, delete_object)
             db.delete(delete_object)
             db.commit()
-            db.refresh()
         else:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token is not related with short link")
     else:

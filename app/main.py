@@ -8,6 +8,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from httplib2 import RETRIES
 from pydantic import BaseModel
 from typing import Optional
+import app.danych.models as models
+from app.danych.database import engine
+
+models.Base.metadata.create_all(bind=engine)
 
 # from sqlalchemy import Null, false, null
 # from .get_ver import get_version

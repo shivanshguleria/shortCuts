@@ -16,3 +16,10 @@ class Handle_link_return(BaseModel):
     created_at: datetime
     is_preview: bool
     unique_id: str
+
+class Handle_Update(BaseModel):
+    token: str
+    unique_id: str
+    link: Optional[str] = None
+    short_link: Optional[str] = None
+    is_preview: Optional[bool] = None
