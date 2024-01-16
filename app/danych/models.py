@@ -1,6 +1,5 @@
 from sqlalchemy import Boolean, Column, Sequence,func, ForeignKey, Integer, String, DateTime
 
-
 from .database import Base
 
 
@@ -24,7 +23,7 @@ class LinkProd(Base):
     link = Column(String)
     short_link = Column(String, primary_key=True)
     hex_code = Column(String, default=None)
-    created_at = Column(DateTime, server_default=func.now())
+    created_at = Column(DateTime, server_default=func.current_timestamp())
     is_preview = Column(Boolean, default=False)
 
 
@@ -34,4 +33,4 @@ class Tokens(Base):
 
     id = Column(Integer, Sequence("id_seq_token", start=1, optional=True))
     token = Column(String, primary_key=True)
-    created_at = Column(DateTime, server_default=func.now())
+    created_at = Column(DateTime, server_default= func.current_timestamp())

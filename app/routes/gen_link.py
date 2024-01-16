@@ -1,89 +1,70 @@
-import psycopg2 
-from fastapi.templating import Jinja2Templates
-from fastapi import status, APIRouter, HTTPException
-from urllib.parse import urlparse
-from psycopg2.extras import RealDictCursor
+
+from fastapi import status, APIRouter, HTTPException, Depends
 from app.fief.firebase import  push_new_count
 
-from pydantic import BaseModel
-from typing import Optional
+
 from app.fief.generater import generate_unique_id, genrate_random_string
 
-import os
+import app.danych.models as models
+from app.danych.database import get_db
+from sqlalchemy.orm import Session
 
-URI = os.getenv('DATABASE_URL')
-result = urlparse(URI)
 
-templates = Jinja2Templates(directory="templates")
-username = result.username
-password = result.password
-database = result.path[1:]
-hostname = result.hostname
-port = result.port
+# from app.crud.crud import get_token_in_db
+
+import app.danych.schemas as schemas
 
 router = APIRouter()
 
-TOKENDB = 'CREATE TABLE IF NOT EXISTS tokens (id serial NOT NULL, token varchar NOT NULL, created_at timestamp with time zone NOT NULL DEFAULT now())'
-TABLESTR="CREATE TABLE IF NOT EXISTS link_prod1 (id serial NOT NULL,unique_id varchar NOT NULL, link varchar NOT NULL, short_link varchar NOT NULL PRIMARY KEY,hex_code varchar DEFAULT NULL, created_at timestamp with time zone NOT NULL DEFAULT now(), is_preview BOOL DEFAULT false)"
 
 
-class Link(BaseModel):
-    link: str
-    customLink: Optional[str] = None
-    is_preview: Optional[bool] = False
-    token: Optional[str] = None
+def return_type(post):
+    return {
+        "link": post.link,
+        "short_link": post.short_link,
+        "created_at": post.created_at,
+        "is_preview": post.is_preview,
+        "unique_id": post.unique_id
+    }
+
 
 @router.post('/api/link', status_code=status.HTTP_201_CREATED)
-def add_link(req: Link):
-    conn = psycopg2.connect(
-        database = database,
-        user = username,
-        password = password,
-        host = hostname,
-        port = port,
-        cursor_factory=RealDictCursor
-    )
-    #conn = psycopg2.connect(URI, cursor_factory=RealDictCursor)
-    cursor =  conn.cursor()
-    print(req)
-    cursor.execute(TABLESTR)
-    cursor.execute(TOKENDB) # type: ignore
-    print("[INFO] 🗄️  🚀🚀 Postgres DB connected")
+def add_link(req:schemas.Link, db: Session = Depends(get_db)):
     if req.token:
-        cursor.execute("SELECT id from tokens where token = (%s)",[req.token])
-        token_check = cursor.fetchone()
-        if token_check:
+        check_token_in_db = db.query(models.Tokens).filter(models.Tokens.token == req.token).first()
+        if check_token_in_db:
             if req.customLink != None:
-                cursor.execute('select id from link_prod1 where short_link = (%s);', [req.customLink])
-                check = cursor.fetchone()
-                if check == None and req.customLink != "":
-                    cursor.execute("INSERT INTO link_prod1 (link, short_link, is_preview, hex_code, unique_id) VALUES (%s, %s, %s, %s, %s) RETURNING link, short_link,created_at, is_preview, unique_id", (req.link, req.customLink, req.is_preview, req.token, generate_unique_id()))
-                    push_new_count(req.customLink)
+                check_link_in_db = db.query(models.LinkProd.id).filter(models.LinkProd.short_link == req.customLink).first()
+                if not check_link_in_db and req.customLink != "":
+                    post = models.LinkProd(link= req.link, short_link= req.customLink, is_preview=req.is_preview, unique_id= generate_unique_id(), hex_code=req.token)
+                    ref = req.customLink
                 else:
-                    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Custom code exists")   
+                    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Custom code exists")
             else:
-                short_link = genrate_random_string()
-                cursor.execute("INSERT INTO link_prod1 (link, short_link, is_preview, hex_code, unique_id) VALUES (%s, %s, %s, %s, %s) RETURNING link, short_link,created_at, is_preview, unique_id", (req.link, short_link, req.is_preview, req.token, generate_unique_id()))
-                push_new_count(short_link)
+                ref = genrate_random_string()
+                post = models.LinkProd(link= req.link, short_link= ref, is_preview=req.is_preview, unique_id= generate_unique_id(), hex_code=req.token) 
         else:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Tokens does not exists")
     else:
+        ref = genrate_random_string()
+        post = models.LinkProd(link= req.link, short_link= ref, is_preview=req.is_preview, unique_id= generate_unique_id(), hex_code=req.token)
+    db.add(post)
+    db.commit()
+    push_new_count(ref)
+    return return_type(post)
+
+
+""" line 66
+
         if req.customLink != None:
-            cursor.execute('select id from link_prod1 where short_link = (%s);', [req.customLink])
-            check = cursor.fetchone()
-            if check == None and req.customLink != "":
-                cursor.execute("INSERT INTO link_prod1 (link, short_link, is_preview, hex_code, unique_id) VALUES (%s, %s, %s, %s, %s) RETURNING link, short_link,created_at, is_preview, unique_id", (req.link, req.customLink, req.is_preview, req.token, generate_unique_id()))
-                push_new_count(req.customLink)
+            check_link_in_db = db.query(models.LinkProd.id).filter(models.LinkProd.short_link == req.customLink).first()
+            if check_link_in_db == None and req.customLink != "":
+                post = models.LinkProd(link= req.link, short_link= req.customLink, is_preview=req.is_preview, unique_id= generate_unique_id(), hex_code=req.token)
+                ref = req.customLink
             else:
-                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Custom code exists")   
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Custom code exists")
         else:
-            short_link = genrate_random_string()
-            cursor.execute("INSERT INTO link_prod1 (link, short_link, is_preview, hex_code, unique_id) VALUES (%s, %s, %s, %s, %s) RETURNING link, short_link,created_at, is_preview, hex_code, unique_id", (req.link, short_link, req.is_preview, req.token, generate_unique_id()))
-            push_new_count(short_link)
-    post = cursor.fetchone()
-    # for i in post:
-    #     for j in i:
-    #       print(j,i[j])
-    conn.commit()
-    conn.close()
-    return {"message": post}
+            ref = genrate_random_string()
+            post = models.LinkProd(link= req.link, short_link= ref, is_preview=req.is_preview, unique_id= generate_unique_id(), hex_code=req.token)
+
+"""
