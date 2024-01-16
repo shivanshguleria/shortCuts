@@ -43,6 +43,7 @@ def add_link(req:schemas.Link, db: Session = Depends(get_db)):
             else:
                 ref = genrate_random_string()
                 post = models.LinkProd(link= req.link, short_link= ref, is_preview=req.is_preview, unique_id= generate_unique_id(), hex_code=req.token) 
+            push_new_count(ref)
         else:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Tokens does not exists")
     else:
@@ -50,7 +51,6 @@ def add_link(req:schemas.Link, db: Session = Depends(get_db)):
         post = models.LinkProd(link= req.link, short_link= ref, is_preview=req.is_preview, unique_id= generate_unique_id(), hex_code=req.token)
     db.add(post)
     db.commit()
-    push_new_count(ref)
     return return_type(post)
 
 
