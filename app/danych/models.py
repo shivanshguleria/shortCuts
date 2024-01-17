@@ -18,7 +18,7 @@ TABLESTR='''CREATE TABLE IF NOT EXISTS link_prod1 (
 
 class LinkProd(Base):
     __tablename__ = "link_prod1"
-    id = Column(Integer, Sequence("id_seq", start=1, optional=True))
+    id = Column(Integer, Sequence("id_seq", start=1))
     unique_id = Column(String, unique=True)
     link = Column(String)
     short_link = Column(String, primary_key=True)
@@ -31,6 +31,6 @@ class LinkProd(Base):
 class Tokens(Base):
     __tablename__ = "tokens"
 
-    id = Column(Integer, Sequence("id_seq_token", start=1, optional=True))
+    id = Column(Integer, Sequence("id_seq_token", start=1))
     token = Column(String, primary_key=True)
     created_at = Column(DateTime, server_default= func.current_timestamp())

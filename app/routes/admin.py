@@ -1,65 +1,29 @@
-import psycopg2 
-from fastapi.templating import Jinja2Templates
-from fastapi import status, APIRouter, HTTPException
-from urllib.parse import urlparse
-from psycopg2.extras import RealDictCursor
+from fastapi import status, APIRouter, HTTPException, Depends
 from app.fief.firebase import delete_routine, get_count_reference, push_updated_data
 
-from pydantic import BaseModel
-
-import os
-
-URI = os.getenv('DATABASE_URL')
-result = urlparse(URI)
-
-templates = Jinja2Templates(directory="templates")
-username = result.username
-password = result.password
-database = result.path[1:]
-hostname = result.hostname
-port = result.port
+import app.danych.models as models
+from app.danych.database import get_db
+from sqlalchemy.orm import Session
+import app.danych.schemas as schemas
 
 router = APIRouter()
 
-class Del(BaseModel):
-    body: str
-
 @router.post('/api/admin/get')
-def remove(req: Del):
+def remove(req: schemas.Admin, db: Session = Depends(get_db)):
     if req.body == "7fc9e98537c470d55f995d45fa6e3bcaefb0020e831db5c43d3fda0b6888e90e77fa2b74867c8020a9e93797362ce794538c":
         
-        conn = psycopg2.connect(
-            database = database,
-            user = username,
-            password = password,
-            host = hostname,
-            port = port,
-            cursor_factory=RealDictCursor
-        )
-        cursor =  conn.cursor()
-        cursor.execute("SELECT short_link from link_prod1;")
-        post = cursor.fetchall()
-        cursor.execute("SELECT count(id) from link_prod1;")
-        coun = cursor.fetchone()
-        count_data = delete_routine()
+        get_short_link_in_db = db.query(models.LinkProd.short_link).all()
+        get_firebase_count = delete_routine()
         new_dict = {}
-        for i in range(len(post)):
-            if count_data.get(post[i]['short_link']) != null: # type: ignore
-                new_dict[post[i]['short_link']] = count_data.get(post[i]['short_link']) # type: ignore
-        get_count_reference()
-        push_updated_data(new_dict)
-        return {"message": "Redundant Links were removed",
-                "link_count": coun,
-                "Count": difference(len(post), len(count_data))}
+        for i in range(len(get_short_link_in_db)):
+            if get_firebase_count.get(get_short_link_in_db[i][0]) != None:
+                new_dict[get_short_link_in_db[i][0]] =  get_firebase_count.get(get_short_link_in_db[i][0])
+            get_count_reference()
+            push_updated_data(new_dict)
+        return {"message": "redundant links removed",
+                "len_before": len(get_firebase_count),
+                "len_after": len(new_dict),
+                "diff":  len(get_firebase_count) - len(new_dict)
+        }
     else:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Auth wrong")  
-
-def difference(a, b):
-    if(a > b):
-        return a - b
-    elif a < b:
-        return b - a
-    elif a == b:
-        return 0
-    else:
-        return "error"
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Auth wrong")

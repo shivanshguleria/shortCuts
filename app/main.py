@@ -16,7 +16,7 @@ models.Base.metadata.create_all(bind=engine)
 # from sqlalchemy import Null, false, null
 # from .get_ver import get_version
 
-from .routes import get_link, count, token, gen_link, delete, update
+from .routes import get_link, count, token, gen_link, delete, update, admin
 
 app = FastAPI(redoc_url=None, docs_url=None)
 
@@ -78,6 +78,7 @@ app.include_router(token.router)
 app.include_router(gen_link.router)
 app.include_router(delete.router)
 app.include_router(update.router)
+app.include_router(admin.router)
 
 # @app.get('/ads.txt', response_class=FileResponse)
 # def ads_txt():

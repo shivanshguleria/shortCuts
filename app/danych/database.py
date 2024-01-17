@@ -1,14 +1,15 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-import sqlalchemy.schema as create
+
+from app.fief.helper import handle_print
 
 
 import os
 
 URI = os.getenv('DATABASE_URL')
-print(URI)
-# SQLALCHEMY_DATABASE_URL = "postgresql://user:password@postgresserver/db"
+
+handle_print(URI)
 
 engine = create_engine(
     URI

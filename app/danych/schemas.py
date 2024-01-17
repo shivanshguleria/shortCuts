@@ -9,6 +9,12 @@ class Link(BaseModel):
     is_preview: Optional[bool] = False
     token: Optional[str] = None
 
+class Admin(BaseModel):
+    body: str
+
+class Link_delete(BaseModel):
+    shortLink: str
+    token: str
 
 class Handle_link_return(BaseModel):
     link: str
@@ -23,3 +29,11 @@ class Handle_Update(BaseModel):
     link: Optional[str] = None
     short_link: Optional[str] = None
     is_preview: Optional[bool] = None
+
+class Handle_token_return(BaseModel):
+    token: str
+    created_at: datetime
+
+class Handle_count_return(BaseModel):
+    count: int
+

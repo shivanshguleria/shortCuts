@@ -58,14 +58,17 @@ def update_count(ref):
 def get_count(ref):
     get_count_ref = db.reference(f'shortCuts/{ref}/count')
     print("[INFO] GOT COUNT FROM SERVER")
-    return get_count_ref.get()
+    return {"count": get_count_ref.get()}
 
 
 def delete_routine():
  return db.reference('/shortCuts').get()
 
 def get_count_reference():
-   db.reference('/shortcuts').delete()
+   db.reference('/shortCuts').delete()
+
+def delete_link(ref):
+   db.reference(f'/shortCuts/{ref}').delete()
 
 def push_updated_data(data):
    count_ref.set(data)

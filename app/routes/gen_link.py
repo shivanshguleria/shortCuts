@@ -16,19 +16,7 @@ import app.danych.schemas as schemas
 
 router = APIRouter()
 
-
-
-def return_type(post):
-    return {
-        "link": post.link,
-        "short_link": post.short_link,
-        "created_at": post.created_at,
-        "is_preview": post.is_preview,
-        "unique_id": post.unique_id
-    }
-
-
-@router.post('/api/link', status_code=status.HTTP_201_CREATED)
+@router.post('/api/link', status_code=status.HTTP_201_CREATED, response_model=schemas.Handle_link_return)
 def add_link(req:schemas.Link, db: Session = Depends(get_db)):
     if req.token:
         check_token_in_db = db.query(models.Tokens).filter(models.Tokens.token == req.token).first()
@@ -51,7 +39,7 @@ def add_link(req:schemas.Link, db: Session = Depends(get_db)):
         post = models.LinkProd(link= req.link, short_link= ref, is_preview=req.is_preview, unique_id= generate_unique_id(), hex_code=req.token)
     db.add(post)
     db.commit()
-    return return_type(post)
+    return post
 
 
 """ line 66
