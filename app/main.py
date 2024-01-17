@@ -11,12 +11,14 @@ from typing import Optional
 import app.danych.models as models
 from app.danych.database import engine
 
+from .routes import get_link, count, token, gen_link, delete, update, admin
+
+
 models.Base.metadata.create_all(bind=engine)
 
 # from sqlalchemy import Null, false, null
 # from .get_ver import get_version
 
-from .routes import get_link, count, token, gen_link, delete, update, admin
 
 app = FastAPI(redoc_url=None, docs_url=None)
 
@@ -72,6 +74,10 @@ def user(request: Request):
 def docs(request: Request):
     return templates.TemplateResponse("doc.html", {"request": request})
 
+@app.get("/api")
+def hello_world():
+    return {"Hello": "World"}
+            
 app.include_router(get_link.router)
 app.include_router(count.router)
 app.include_router(token.router)

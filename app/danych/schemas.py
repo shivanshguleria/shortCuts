@@ -13,7 +13,7 @@ class Admin(BaseModel):
     body: str
 
 class Link_delete(BaseModel):
-    shortLink: str
+    unique_id: str
     token: str
 
 class Handle_link_return(BaseModel):

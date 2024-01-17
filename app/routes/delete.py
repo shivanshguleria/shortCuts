@@ -7,23 +7,19 @@ from sqlalchemy.orm import Session
 from app.fief.firebase import delete_link
 import app.danych.schemas as schemas
 
-from app.fief.helper import handle_print
 router = APIRouter()
 
-class Link_delete(BaseModel):
-    shortLink: str
-    token: str
 
 @router.delete('/api/delete/', status_code=status.HTTP_204_NO_CONTENT)
 def delete_data(req: schemas.Link_delete, db: Session = Depends(get_db)):
     check_token_in_db = db.query(models.Tokens).filter(models.Tokens.token == req.token).first()
     if check_token_in_db:
-        check_hex_code_relation = db.query(models.LinkProd.short_link).filter(models.LinkProd.short_link == req.shortLink).first()
+        check_hex_code_relation = db.query(models.LinkProd).filter(models.LinkProd.unique_id == req.unique_id).first()
         if check_hex_code_relation:
-            delete_object = db.query(models.LinkProd).filter(models.LinkProd.short_link == req.shortLink).first()
+            delete_object = db.query(models.LinkProd).filter(models.LinkProd.unique_id == req.unique_id).first()
             db.delete(delete_object)
             db.commit()
-            handle_print(delete_link(req.shortLink))
+            delete_link(delete_object.unique_id)
         else:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token is not related with short link")
     else:

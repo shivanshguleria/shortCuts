@@ -27,9 +27,9 @@ ref = db.reference('/')
 
 count_ref = ref.child("shortCuts")
 # count_ref1 = ref.child("pussy")
-def push_new_count(shrt_link):
+def push_new_count(ref):
   # new_short_link_ref = count_ref.push()
-  count_ref.child(shrt_link).set({
+  count_ref.child(ref).set({
       'count': 0
  })
 #   count_ref.set({

@@ -18,25 +18,23 @@ router = APIRouter()
 
 @router.post('/api/link', status_code=status.HTTP_201_CREATED, response_model=schemas.Handle_link_return)
 def add_link(req:schemas.Link, db: Session = Depends(get_db)):
+    ref = generate_unique_id()
     if req.token:
         check_token_in_db = db.query(models.Tokens).filter(models.Tokens.token == req.token).first()
         if check_token_in_db:
             if req.customLink != None:
                 check_link_in_db = db.query(models.LinkProd.id).filter(models.LinkProd.short_link == req.customLink).first()
                 if not check_link_in_db and req.customLink != "":
-                    post = models.LinkProd(link= req.link, short_link= req.customLink, is_preview=req.is_preview, unique_id= generate_unique_id(), hex_code=req.token)
-                    ref = req.customLink
+                    post = models.LinkProd(link= req.link, short_link= req.customLink, is_preview=req.is_preview, unique_id= ref, hex_code=req.token)
                 else:
                     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Custom code exists")
             else:
-                ref = genrate_random_string()
-                post = models.LinkProd(link= req.link, short_link= ref, is_preview=req.is_preview, unique_id= generate_unique_id(), hex_code=req.token) 
+                post = models.LinkProd(link= req.link, short_link= genrate_random_string(), is_preview=req.is_preview, unique_id= ref, hex_code=req.token) 
             push_new_count(ref)
         else:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Tokens does not exists")
     else:
-        ref = genrate_random_string()
-        post = models.LinkProd(link= req.link, short_link= ref, is_preview=req.is_preview, unique_id= generate_unique_id(), hex_code=req.token)
+        post = models.LinkProd(link= req.link, short_link= genrate_random_string(), is_preview=req.is_preview, unique_id= ref, hex_code=req.token)
     db.add(post)
     db.commit()
     return post
