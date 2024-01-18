@@ -6,11 +6,13 @@ from app.danych.database import get_db
 from sqlalchemy.orm import Session
 import app.danych.schemas as schemas
 
+from app.danych.database import engine
 router = APIRouter()
 
+string = "7fc9e98537c470d55f995d45fa6e3bcaefb0020e831db5c43d3fda0b6888e90e77fa2b74867c8020a9e93797362ce794538c"
 @router.post('/api/admin/get')
 def remove(req: schemas.Admin, db: Session = Depends(get_db)):
-    if req.body == "7fc9e98537c470d55f995d45fa6e3bcaefb0020e831db5c43d3fda0b6888e90e77fa2b74867c8020a9e93797362ce794538c":
+    if req.body == string:
         
         get_short_link_in_db = db.query(models.LinkProd.short_link).all()
         get_firebase_count = delete_routine()
@@ -27,3 +29,10 @@ def remove(req: schemas.Admin, db: Session = Depends(get_db)):
         }
     else:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Auth wrong")
+
+@router.post('/api/admin/destroy')
+def destroy(req: schemas.Admin, db: Session=Depends(get_db)):
+    if req.body == string:
+        models.LinkProd.__table__.drop(engine)
+        models.Tokens.__table__.drop(engine)
+        return {"message": "Dropped Prod"}

@@ -22,7 +22,7 @@ class LinkProd(Base):
     unique_id = Column(String, unique=True)
     link = Column(String)
     short_link = Column(String, primary_key=True)
-    hex_code = Column(String, default=None)
+    token = Column(String, default=None)
     created_at = Column(DateTime, server_default=func.current_timestamp())
     is_preview = Column(Boolean, default=False)
 

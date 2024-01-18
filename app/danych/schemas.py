@@ -5,7 +5,7 @@ from datetime import datetime
 
 class Link(BaseModel):
     link: str
-    customLink: Optional[str] = None
+    custom_link: Optional[str] = None
     is_preview: Optional[bool] = False
     token: Optional[str] = None
 

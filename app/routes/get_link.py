@@ -24,7 +24,7 @@ def get_link(id: str, request: Request, db: Session= Depends(get_db)):
         else:
             link = link_store.link
         check_token_relation = db.query(models.LinkProd).filter(models.LinkProd.short_link == id).first()
-        if check_token_relation.hex_code:
+        if check_token_relation.token:
             update_count(check_token_relation.unique_id)
         if link_store.is_preview:
             return templates.TemplateResponse("preview.html", {"request": request, "link": link, "preview": link[0:40] + "\n..."})
