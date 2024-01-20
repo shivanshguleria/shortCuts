@@ -5,7 +5,7 @@ from datetime import datetime
 
 class Link(BaseModel):
     link: str
-    custom_link: Optional[str] = None
+    short_link: Optional[str] = None
     is_preview: Optional[bool] = False
     token: Optional[str] = None
 
@@ -19,7 +19,7 @@ class Link_delete(BaseModel):
 class Handle_link_return(BaseModel):
     link: str
     short_link: str
-    created_at: datetime
+    created_at: int
     is_preview: bool
     unique_id: str
 
@@ -32,7 +32,7 @@ class Handle_Update(BaseModel):
 
 class Handle_token_return(BaseModel):
     token: str
-    created_at: datetime
+    created_at: int
 
 class Handle_count_return(BaseModel):
     count: int
