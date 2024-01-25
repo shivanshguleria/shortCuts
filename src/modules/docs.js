@@ -9,7 +9,7 @@ const inputToken = document.getElementById("input-token")
 const inputId = document.getElementById("input-id")
 
 // import obj from "./index.json";
-const path = "https://shrk.xyz"
+const path = window.location.origin
 const obj = {
     "1": {
       "method": "GET",
@@ -52,8 +52,6 @@ sendPath.addEventListener("click", () => {
       psudo2.style.display = "block"
   renderLink.innerHTML = sendPathInnerHtml
 
-} else if(sendPath.value == 1 & localStorage.getItem(0)) {
-  alert("Token exists. Clear local storage for new token")
 }
     else {
       textarea.style.display = "block"
@@ -72,18 +70,22 @@ submit.addEventListener("click", async () => {
   console.log(textarea.value, typeof textarea.value);
   if(sendPath.value == 0) {
     alert("Select Method")
-} else if(obj[pointer].method == 'GET' && sendPath.value == 3){
+} 
+else if(sendPath.value == 1 && localStorage.getItem(0)) {
+  alert("Token exists. Clear local storage for new token")
+}
+
+ else if(obj[pointer].method == 'GET' && sendPath.value == 3){
     
     console.log(inputId, inputToken)
     console.log("https://shrk.xyz" + "/api/count/" + inputToken.value + inputId.value)
         await fetch(path + "/api/count/" + inputToken.value + "/" + inputId.value, {
           method: obj[pointer].method
         })
-          .then((response) => response.json())
-      
-          .then((json) => {
+          .then(async(response) =>  {
+            let cat = await response.json()
             psudo1.style.display = "block";
-            psudo1.innerHTML = `<pre id="route1"><code>${JSON.stringify(json, undefined, 2)}</code></pre>`;
+            psudo1.innerHTML = `<pre id="route1"><code>${JSON.stringify(cat, undefined, 2)}</code><p class="fief">Status Code - ${JSON.stringify(response.status)}</p></pre>`;
           });
 
 
@@ -93,15 +95,14 @@ submit.addEventListener("click", async () => {
     await fetch(path + obj[pointer].path, {
       method: obj[pointer].method
     })
-      .then((response) => response.json())
-  
-      .then((json) => {
+      .then(async(response) => {
+        let cat = await response.json()
         psudo1.style.display = "block";
         if(pointer == 1){
-          localStorage.setItem(0, JSON.stringify(json.token))
-          console.log(json)
+          localStorage.setItem(0, JSON.stringify(cat.token))
+          console.log(cat)
         }
-        psudo1.innerHTML = `<pre id="route1"><code>${JSON.stringify(json, undefined, 2)}</code></pre>`;
+        psudo1.innerHTML = `<pre id="route1"><code>${JSON.stringify(cat, undefined, 2)}</code><p class="fief">Status Code - ${JSON.stringify(response.status)}</p></pre>`;
       });
   
     console.log(typeof( textarea.value));
@@ -114,11 +115,10 @@ submit.addEventListener("click", async () => {
       "Content-type": "application/json; charset=UTF-8",
     }
   })
-    .then((response) => response.json())
-
-    .then((json) => {
+    .then(async (response) =>  {
+      let cat = await response.json()
       psudo1.style.display = "block";
-      psudo1.innerHTML = `<pre id="route1"><code>${JSON.stringify(json, undefined, 2)}</code></pre>`;
+      psudo1.innerHTML = `<pre id="route1"><code>${JSON.stringify(cat, undefined, 2)}</code><p class="fief">Status Code - ${JSON.stringify(response.status)}</p></pre>`;
     });
 
   console.log(typeof( textarea.value));

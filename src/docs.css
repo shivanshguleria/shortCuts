@@ -158,14 +158,13 @@
     display: flex;
     min-width: 40%;
     max-width: 60%;
-    flex-flow: row wrap;
+    flex-flow: row nowrap;
     justify-content: center;
     align-items: center;
-    gap: 20px;
     background-color: #131c20;
     border-radius: 20px;
     margin-top: 10px;
-    padding: 20px;
+    padding: 40px;
     font-size: 1rem;
   }
 
@@ -176,7 +175,7 @@
     border-radius: 15px;
     border: transparent;
     margin-left: 5px;
-    padding: 15px;
+    padding: 20px;
     color: white;
     font-size: 1em;
     font-weight: 800;
@@ -204,3 +203,12 @@
     -webkit-appearance: none;
   }
   
+.fief {
+  background-color: #5C8374;
+  align-self: flex-start;
+  padding: 10px;
+  border-radius: 10px;
+  border: transparent;
+  margin-left: 3rem;
+  margin-bottom: 5rem;
+}

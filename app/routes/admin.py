@@ -1,5 +1,5 @@
 from fastapi import status, APIRouter, HTTPException, Depends
-from app.fief.firebase import delete_routine, get_count_reference, push_updated_data
+from app.fief.firebase import delete_routine,get_count_reference, push_updated_data
 
 import app.danych.models as models
 from app.danych.database import get_db
@@ -14,7 +14,7 @@ string = "7fc9e98537c470d55f995d45fa6e3bcaefb0020e831db5c43d3fda0b6888e90e77fa2b
 def remove(req: schemas.Admin, db: Session = Depends(get_db)):
     if req.body == string:
         
-        get_short_link_in_db = db.query(models.LinkProd.short_link).all()
+        get_short_link_in_db = db.query(models.LinkProd.unique_id).all()
         get_firebase_count = delete_routine()
         new_dict = {}
         for i in range(len(get_short_link_in_db)):
