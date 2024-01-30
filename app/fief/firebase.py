@@ -5,8 +5,8 @@ from firebase_admin import db
 # from app.main import count
 # cred = ${{ secrets.FIREBASE_AUTH_TOKEN }}
 
-CRED_OBJ = os.getenv('cred_obj')
-CRED_OBJ_KEYS = os.getenv('cred_obj_keys')
+CRED_OBJ = list(os.getenv('cred_obj'))
+CRED_OBJ_KEYS =list( os.getenv('cred_obj_keys'))
 print(CRED_OBJ,CRED_OBJ_KEYS, type(CRED_OBJ),type(CRED_OBJ_KEYS))
 cred = create_cred_dict(list(CRED_OBJ), list(CRED_OBJ_KEYS))
 
