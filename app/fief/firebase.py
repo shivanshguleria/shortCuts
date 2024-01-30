@@ -8,7 +8,7 @@ from firebase_admin import db
 CRED_OBJ = os.getenv('cred_obj')
 CRED_OBJ_KEYS = os.getenv('cred_obj_keys')
 
-cred = create_cred_dict(CRED_OBJ, CRED_OBJ_KEYS)
+cred = create_cred_dict(list(CRED_OBJ), list(CRED_OBJ_KEYS))
 
 cred_obj = firebase_admin.credentials.Certificate(cred)
 # FIREBASE_URI = os.getenv('FIREBASEURL')
