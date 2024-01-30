@@ -133,9 +133,9 @@ passSubmit.addEventListener("click",async function() {
         .then((response) => response.json())
         
         .then((json) => {
-          let data = "https://shrk.xyz/" + json.message.short_link
+          let data = "https://shrk.xyz/" + json.short_link
           document.getElementById("result").textContent = data
-          storage(inputValue, json.message.short_link, json.message.unique_id)
+          storage(inputValue, json.short_link, json.unique_id)
           copyFunction()
          
         }) 
