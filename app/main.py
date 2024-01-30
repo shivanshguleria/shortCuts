@@ -59,7 +59,7 @@ async def favicon():
 @app.get('/', response_class=HTMLResponse)
 def root(request: Request):
     
-    return templates.TemplateResponse("user_copy.html", {"request": request})
+    return templates.TemplateResponse("index.html", {"request": request})
     #return {"Hello": "World"}
 
 @app.get('/About', response_class=HTMLResponse)
