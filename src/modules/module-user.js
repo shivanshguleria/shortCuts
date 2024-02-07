@@ -17,14 +17,26 @@ if(cache != null) {
 
 let element = document.getElementById('link');
 
+function getUniqueId(short_link){
+	let a = JSON.parse(localStorage.getItem(1))
+	for(let i = 0 ; i < localStorage.length; i++) {
+	if(a[i].shortLink == short_link) {
+		return a[i].unique_id
+		}
+	}
+	return false
+}
 element.addEventListener('click', async (e) => {
   if(e.target.classList.contains('refresh')) {
-    let short_link = e.target.parentNode.parentElement.childNodes[1].firstElementChild.innerText
-    const new_count = await count(short_link)
+    console.log(e.target.parentNode.parentElement.childNodes[1].firstElementChild.innerText)
+    const unique_id = getUniqueId(e.target.parentNode.parentElement.childNodes[1].firstElementChild.innerText)
+    console.log(unique_id)
+    const new_count = await count(unique_id)
+
     e.target.parentNode.parentElement.childNodes[3].textContent = new_count
     let a = JSON.parse(localStorage.getItem(1))
     for(let i = 0; i < a.length; i++) {
-      if(a[i].shortLink === short_link) {
+      if(a[i].shortLink === unique_id) {
         a[i].isRefreshed = true
         a[i].clicks = new_count
         localStorage.setItem(1,JSON.stringify(a))
@@ -38,7 +50,7 @@ element.addEventListener('click', async (e) => {
     try {
       console.log(e.target)
       let short_link = e.target.parentNode.parentElement.childNodes[1].firstElementChild.innerText
-      delete_link(short_link)
+      delete_link(getUniqueId(short_link))
       // renderUser()
 
     } catch (error) {

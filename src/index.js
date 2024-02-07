@@ -118,7 +118,7 @@ passSubmit.addEventListener("click",async function() {
     console.log(payload)
   }
   if(newInputEl.value != undefined & newInputEl.value != "" ){
-    payload['customLink'] = newInputEl.value
+    payload['short_link'] = newInputEl.value
   }
     overlay.style.display = 'block';
     popup.style.display = 'block';

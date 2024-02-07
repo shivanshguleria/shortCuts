@@ -1,8 +1,8 @@
 const root = document.getElementById('link-container-root')
 const ul = document.getElementById("link")
 
-async function count(shortUrl) {
-  const response = await fetch(`/api/count/${await token()}/${shortUrl}`);
+async function count(id) {
+  const response = await fetch(`/api/count/${await token()}/${id}`);
   const count1 = await response.json();
   return count1.count
 }
@@ -77,7 +77,7 @@ update_cache(links)
     if(links[j].isRefreshed){
     links[j].isRefreshed = false
     }else {
-      let updatedClicks =  await count(links[j]['shortLink'])
+      let updatedClicks =  await count(links[j]['unique_id'])
       links[j]['clicks'] = updatedClicks
     }
   }

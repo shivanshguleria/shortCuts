@@ -20,7 +20,7 @@ body {
     color: var(--color);
 
     font-size: 20px;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Source Code Pro', monospace;
     font-weight: 400;
 }
 
