@@ -6,8 +6,7 @@ from sqlalchemy.orm import sessionmaker
 
 import os
 
-#URI = os.getenv('DATABASE_URL')
-URI = "postgresql://root:root@localhost/postgres"
+URI = os.getenv('DATABASE_URL')
 
 engine = create_engine(
     URI

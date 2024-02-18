@@ -1,7 +1,5 @@
-from pydantic import BaseModel
-from typing import Optional
-
-from datetime import datetime
+from pydantic import BaseModel, ConfigDict
+from typing import Optional, List
 
 class Link(BaseModel):
     link: str
@@ -24,12 +22,13 @@ class Handle_link_return(BaseModel):
     unique_id: str
 
 class Handle_Update(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     token: str
     unique_id: str
     link: Optional[str] = None
     short_link: Optional[str] = None
     is_preview: Optional[bool] = None
-
 class Handle_token_return(BaseModel):
     token: str
     timestamp: int
@@ -37,3 +36,5 @@ class Handle_token_return(BaseModel):
 class Handle_count_return(BaseModel):
     count: int
 
+class Handle_all(BaseModel):
+    links: List[Handle_link_return]

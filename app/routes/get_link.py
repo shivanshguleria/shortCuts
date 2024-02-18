@@ -1,7 +1,6 @@
 
 from fastapi.templating import Jinja2Templates
 from fastapi import status, Request, APIRouter, Depends
-
 from fastapi.responses import  RedirectResponse
 
 from app.fief.firebase import update_count
@@ -32,3 +31,20 @@ def get_link(id: str, request: Request, db: Session= Depends(get_db)):
             return RedirectResponse(link)
     else:
         return templates.TemplateResponse("temp.html", {"request": request}, status_code=status.HTTP_404_NOT_FOUND)
+    
+# 
+@router.get('/api/get', status_code=status.HTTP_202_ACCEPTED)
+def get_all_links(token: str, db: Session= Depends(get_db)):
+    
+    get_all = db.query( models.LinkProd.link, models.LinkProd.short_link,  models.LinkProd.timestamp, models.LinkProd.is_preview,models.LinkProd.unique_id,).filter(models.LinkProd.token == token).all()
+    print(get_all)
+    return handle_link_return(get_all)
+
+
+def handle_link_return(list_obj: list):
+    return_list = list()
+    for i in range(len(list_obj)):
+        return_list.append(dict(zip(['link', 'short_link', 'timestamp', 'is_preview', 'unique_id'], list_obj[i])))
+    return return_list
+
+
