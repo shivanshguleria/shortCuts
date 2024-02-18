@@ -1,0 +1,46 @@
+CHANGE IPTABLE RULES
+
+sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 7000
+
+Flush all rules 
+
+sudo iptables -F
+
+
+Modify systemctl service
+
+Procedure
+The following commands control the foo service:
+
+Activate a service immediately:
+
+# systemctl start foo
+Deactivate a service immediately:
+
+# systemctl stop foo
+Restart a service:
+
+# systemctl restart foo
+Show the status of a service including, whether it is running or not:
+
+# systemctl status foo
+Enable a service to be started on boot:
+
+# systemctl enable foo
+Disable a service to not start during boot:
+
+# systemctl disable foo
+Prevent a service from starting dynamically or even manually unless unmasked:
+
+# systemctl mask foo
+Check if a service is enabled or not:
+
+# systemctl is-enabled foo
+
+Check logs
+
+# journa;ctl -u shortcuts --since today
+
+setup postgress
+
+https://wiki.postgresql.org/wiki/First_steps

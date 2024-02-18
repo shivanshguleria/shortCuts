@@ -52,7 +52,8 @@ function renderUser() {
       </div>
 </div>
   `
-}
+} 
+count_routine()
 // liString += '<button id="clear-cache">Clear Cache</button>'
 // const cache = document.getElementById('clear-cache')
 // cache.addEventListener('click', ()=> {

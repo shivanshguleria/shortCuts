@@ -19,7 +19,7 @@ class Link_delete(BaseModel):
 class Handle_link_return(BaseModel):
     link: str
     short_link: str
-    created_at: int
+    timestamp: int
     is_preview: bool
     unique_id: str
 
@@ -32,7 +32,7 @@ class Handle_Update(BaseModel):
 
 class Handle_token_return(BaseModel):
     token: str
-    created_at: int
+    timestamp: int
 
 class Handle_count_return(BaseModel):
     count: int

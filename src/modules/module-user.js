@@ -19,7 +19,7 @@ let element = document.getElementById('link');
 
 function getUniqueId(short_link){
 	let a = JSON.parse(localStorage.getItem(1))
-	for(let i = 0 ; i < localStorage.length; i++) {
+	for(let i = 0 ; i < a.length; i++) {
 	if(a[i].shortLink == short_link) {
 		return a[i].unique_id
 		}
@@ -36,7 +36,7 @@ element.addEventListener('click', async (e) => {
     e.target.parentNode.parentElement.childNodes[3].textContent = new_count
     let a = JSON.parse(localStorage.getItem(1))
     for(let i = 0; i < a.length; i++) {
-      if(a[i].shortLink === unique_id) {
+      if(a[i].unique_id === unique_id) {
         a[i].isRefreshed = true
         a[i].clicks = new_count
         localStorage.setItem(1,JSON.stringify(a))

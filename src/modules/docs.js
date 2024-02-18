@@ -41,8 +41,8 @@ sendPath.addEventListener("click", () => {
   let  sendPathInnerHtml = `<span id="method" style="color: #fee37d;">${
     obj[sendPath.value].method
   }</span><h2>${obj[sendPath.value].path}</h2>`
-  if(localStorage.getItem(0)){
-    sendPathInnerHtml += `<p style="font-size: 1.50em;" >Saved Token: ${localStorage.getItem(0)}</p>`
+  if(localStorage.getItem(3)){
+    sendPathInnerHtml += `<p style="font-size: 1.50em;" >Saved Token: ${localStorage.getItem(3)}</p>`
   }
   if(sendPath.value == 0) {
     psudo.style.display = "none";
@@ -71,7 +71,7 @@ submit.addEventListener("click", async () => {
   if(sendPath.value == 0) {
     alert("Select Method")
 } 
-else if(sendPath.value == 1 && localStorage.getItem(0)) {
+else if(sendPath.value == 1 && localStorage.getItem(3)) {
   alert("Token exists. Clear local storage for new token")
 }
 
@@ -99,7 +99,7 @@ else if(sendPath.value == 1 && localStorage.getItem(0)) {
         let cat = await response.json()
         psudo1.style.display = "block";
         if(pointer == 1){
-          localStorage.setItem(0, JSON.stringify(cat.token))
+          localStorage.setItem(3, JSON.stringify(cat.token))
           console.log(cat)
         }
         psudo1.innerHTML = `<pre id="route1"><code>${JSON.stringify(cat, undefined, 2)}</code><p class="fief">Status Code - ${JSON.stringify(response.status)}</p></pre>`;
