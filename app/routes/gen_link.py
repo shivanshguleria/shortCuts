@@ -1,7 +1,7 @@
 
 from fastapi import status, APIRouter, HTTPException, Depends
 from app.fief.firebase import  push_new_count
-
+from app.fief.validate_link import validate
 
 from app.fief.generater import generate_unique_id, genrate_random_string
 
@@ -19,22 +19,25 @@ router = APIRouter()
 @router.post('/api/link', status_code=status.HTTP_201_CREATED, response_model=schemas.Handle_link_return)
 def add_link(req:schemas.Link, db: Session = Depends(get_db)):
     ref = generate_unique_id()
-    if req.token:
-        check_token_in_db = db.query(models.Tokens).filter(models.Tokens.token == req.token).first()
-        if check_token_in_db:
-            if req.short_link != None:
-                check_link_in_db = db.query(models.LinkProd.id).filter(models.LinkProd.short_link == req.short_link).first()
-                if not check_link_in_db and req.short_link != "":
-                    post = models.LinkProd(link= req.link, short_link= req.short_link, is_preview=req.is_preview, unique_id= ref, token=req.token)
+    if validate(req.link):
+        if req.token:
+            check_token_in_db = db.query(models.Tokens).filter(models.Tokens.token == req.token).first()
+            if check_token_in_db:
+                if req.short_link != None:
+                    check_link_in_db = db.query(models.LinkProd.id).filter(models.LinkProd.short_link == req.short_link).first()
+                    if not check_link_in_db and req.short_link != "":
+                        post = models.LinkProd(link= req.link, short_link= req.short_link, is_preview=req.is_preview, unique_id= ref, token=req.token)
+                    else:
+                        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Custom code exists")
                 else:
-                    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Custom code exists")
+                    post = models.LinkProd(link= req.link, short_link= genrate_random_string(), is_preview=req.is_preview, unique_id= ref, token=req.token) 
+                push_new_count(ref)
             else:
-                post = models.LinkProd(link= req.link, short_link= genrate_random_string(), is_preview=req.is_preview, unique_id= ref, token=req.token) 
-            push_new_count(ref)
+                raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Tokens does not exists")
         else:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Tokens does not exists")
+            post = models.LinkProd(link= req.link, short_link= genrate_random_string(), is_preview=req.is_preview, unique_id= ref, token=req.token)
     else:
-        post = models.LinkProd(link= req.link, short_link= genrate_random_string(), is_preview=req.is_preview, unique_id= ref, token=req.token)
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Enter valid Link")
     db.add(post)
     db.commit()
     return post
