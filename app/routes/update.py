@@ -5,8 +5,7 @@ from app.danych.database import get_db
 from sqlalchemy.orm import Session
 
 import app.danych.schemas as schemas
-from app.fief.validate_link import validate
-
+from app.fief.validate import validate_link
 router = APIRouter()
 
 @router.put('/api/update/', status_code=status.HTTP_204_NO_CONTENT)
@@ -15,7 +14,7 @@ def update_link(req: schemas.Handle_Update, db: Session= Depends(get_db)):
 
     if check_unique_id_and_token.unique_id and check_unique_id_and_token.token:
         if req.link and not req.short_link and not req.is_preview:
-            if validate(req.link):
+            if validate_link(req.link):
                 db.query(models.LinkProd).filter(models.LinkProd.unique_id == req.unique_id).update({"link": req.link}, synchronize_session="fetch")
             else:
                 raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Enter Valid Link")
@@ -45,7 +44,7 @@ def update_link(req: schemas.Handle_Update, db: Session= Depends(get_db)):
         else:
 
             check = db.query(models.LinkProd).filter(models.LinkProd.unique_id == req.unique_id).first()
-            if validate(req.link):
+            if validate_link(req.link):
                 if check.short_link != req.short_link:
                     db.query(models.LinkProd).filter(models.LinkProd.unique_id == req.unique_id).update({"is_preview": req.is_preview, "link": req.link, "short_link": req.short_link}, synchronize_session="fetch")
                 else:

@@ -1,14 +1,13 @@
-import validators
+import re
+
 
 
 # text = "https://www.ibm.com/docs/en/rational-clearquest/9.0.1?topic=tags-meta-characters-in-regular-expressions"
 
 
-def validate_link(link: str):
-    if link[:4] == "/esc":
-        return True
-    if validators.url(link):
+def validate(link: str):
+    print(re.match(r"(https://|http://)\w+\.\w+\.\w", link))
+    if re.match(r"(https://|http://)\w+\.\w+\.\w", link):
         return True 
     else:
         return False
-

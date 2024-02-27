@@ -104,8 +104,6 @@ passSubmit.addEventListener("click",async function() {
   let inputValue = passLink.value
   if(inputValue === "") {
     alert("Enter Link")
-  } else if(isValidUrl(inputValue) === false) {
-    alert("Enter Valid Url")
   } else {
 
     let payload = {
@@ -133,11 +131,14 @@ passSubmit.addEventListener("click",async function() {
         .then((response) => response.json())
         
         .then((json) => {
+          if(json.short_link){
           let data = "https://shrk.xyz/" + json.short_link
           document.getElementById("result").textContent = data
           storage(inputValue, json.short_link, json.unique_id)
           copyFunction()
-         
+        } else {
+          popupContent1.innerHTML = "<p style='margin: 10px;''>Invalid Link!!</p>"
+        }
         }) 
     } catch (error) {
       console.log(error)
@@ -163,15 +164,3 @@ function copyFunction() {
 }
 
 
-function isValidUrl(uri) {
-  try {
-    if(uri === "test"){
-      return true
-    }
-    const newUrl = new URL(uri);
-    return true;
-    
-  } catch (err) {
-    return false;
-  }
-}

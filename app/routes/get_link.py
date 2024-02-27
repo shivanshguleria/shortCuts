@@ -18,10 +18,7 @@ router = APIRouter()
 def get_link(id: str, request: Request, db: Session= Depends(get_db)):
     link_store = db.query(models.LinkProd.link, models.LinkProd.is_preview).filter(models.LinkProd.short_link == id).first()
     if link_store:
-        if(link_store.link[0:5] != 'https'):
-            link = "https://" + link_store.link + "/"
-        else:
-            link = link_store.link
+        link = link_store.link
         check_token_relation = db.query(models.LinkProd).filter(models.LinkProd.short_link == id).first()
         if check_token_relation.token:
             update_count(check_token_relation.unique_id)

@@ -1,7 +1,7 @@
 
 from fastapi import status, APIRouter, HTTPException, Depends
 from app.fief.firebase import  push_new_count
-from app.fief.validate_link import validate
+from app.fief.validate import validate_link
 
 from app.fief.generater import generate_unique_id, genrate_random_string
 
@@ -19,7 +19,7 @@ router = APIRouter()
 @router.post('/api/link', status_code=status.HTTP_201_CREATED, response_model=schemas.Handle_link_return)
 def add_link(req:schemas.Link, db: Session = Depends(get_db)):
     ref = generate_unique_id()
-    if validate(req.link):
+    if validate_link(req.link):
         if req.token:
             check_token_in_db = db.query(models.Tokens).filter(models.Tokens.token == req.token).first()
             if check_token_in_db:
