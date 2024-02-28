@@ -14,7 +14,7 @@ const generateEl = document.getElementById("result")
 const newInputEl = document.createElement("input")
 const newAnchorEl = document.createElement("a")
 const newSelectEl = document.createElement("select")
-
+const newSelectEl2 = document.createElement("select")
 const newDivEl = document.createElement("div")
 
 import  {storage, token}  from "./modules/storage.js"
@@ -39,6 +39,10 @@ closePopup.onclick = function() {
   while(newSelectEl.firstChild) {
     newSelectEl.removeChild(newSelectEl.lastChild)
   }
+  while(newSelectEl2.firstChild) {
+    newSelectEl2.removeChild(newSelectEl2.lastChild)
+  }
+  
  newDivEl.remove()
   popupContent1.innerHTML = popupcontent_old
   customEl.style.display = 'inline'
@@ -50,24 +54,46 @@ const optionObject = {
   "false": "No"
 }
 
-
+const deleteObj = {
+  "0": "Schedule Link Delete",
+  "1": "1 Hour",
+  "2": "1 Day",
+  "3": "1 Month",
+  "4": "1 year"
+}
 
 customEl.addEventListener("click", () => {
   customEl.style.display = 'none'
   
     inputElDiv.appendChild(newInputEl)
-    inputElDiv.appendChild(newDivEl)
+    newDivEl.appendChild(newSelectEl2)
     newDivEl.appendChild(newSelectEl)
+    inputElDiv.appendChild(newDivEl)
     inputElDiv.appendChild(newAnchorEl)
     newAnchorEl.setAttribute('type', "submit")
     newAnchorEl.innerText = "randomize?"
     newAnchorEl.classList.add("randomise")
     newInputEl.classList.add("newInputEl")
     newSelectEl.classList.add("newSelectEl")
+    newSelectEl2.classList.add("newSelectEl")
     newInputEl.placeholder = "Type Custom code"
 
     console.log(Object.keys(optionObject).length)
 
+    
+    for(let i = 0; i < Object.keys(deleteObj).length; i++) {
+      const newOptionEl1 = document.createElement("option")
+      if(i == 0) {
+        newOptionEl1.value = Object.keys(deleteObj)[i]
+        newOptionEl1.text =  Object.values(deleteObj)[i]
+        newSelectEl2.add(newOptionEl1)
+      } else {
+      newOptionEl1.value = Object.keys(deleteObj)[i]
+      newOptionEl1.text =  Object.values(deleteObj)[i]
+      newOptionEl1.classList.add("option")
+      newSelectEl2.add(newOptionEl1)
+      }
+    }
     
     for(let i = 0; i < Object.keys(optionObject).length; i++) {
       const newOptionEl = document.createElement("option")
@@ -85,14 +111,23 @@ customEl.addEventListener("click", () => {
 
 })
 
+
+
 newAnchorEl.addEventListener("click", () => {
   inputElDiv.removeChild(newInputEl)
   inputElDiv.removeChild(newAnchorEl)
   
   while(newSelectEl.firstChild) {
+    console.log(newSelectEl.lastChild)
     newSelectEl.removeChild(newSelectEl.lastChild)
   }
+
+  while(newSelectEl2.firstChild) {
+    console.log(newSelectEl2.lastChild)
+    newSelectEl2.removeChild(newSelectEl2.lastChild)
+  }
  newDivEl.removeChild(newSelectEl)
+ newDivEl.removeChild(newSelectEl2)
   // inputElDiv.removeChild(newSelectEl)
   customEl.style.display = 'inline'
 })
@@ -115,6 +150,13 @@ passSubmit.addEventListener("click",async function() {
     payload['is_preview'] = newSelectEl.value
     console.log(payload)
   }
+let a = new Date()
+  console.log(get_date(newSelectEl2.value), a.toISOString(), newSelectEl2.value)
+  if(newSelectEl2.value != 1) {
+    payload['schedule_delete'] = get_date(newSelectEl2.value)
+  } 
+
+  console.log(newSelectEl2.value)
   if(newInputEl.value != undefined & newInputEl.value != "" ){
     payload['short_link'] = newInputEl.value
   }
@@ -163,4 +205,21 @@ function copyFunction() {
   })
 }
 
+function get_date(option) {
+  const dateObj = new Date() 
+  switch(option) {
+    case "1":
+      dateObj.setHours(dateObj.getHours() + 1)
+      break;
+    case "2":
+      dateObj.setDate(dateObj.getDate() + 1)
+      break;
+    case "3":
+      dateObj.setMonth(dateObj.getMonth() + 1)
+      break;
+      case "4":
+      dateObj.setFullYear(dateObj.getFullYear() + 1)
+  }
 
+  return dateObj.toISOString()
+}

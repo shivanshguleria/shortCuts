@@ -86,6 +86,7 @@ body {
     flex-flow: row nowrap;
     gap: 10px;
     margin: 5px 0;
+    justify-content: flex-end;
 }
 
 
@@ -101,7 +102,7 @@ body {
     width: fit-content;
     padding: 15px;
     border-radius: 17px;
-
+    float: right;
 }
 
 .newInputEl:focus {
@@ -142,8 +143,9 @@ body {
 
 #inputElDiv {
     display: flex;
-    flex-flow: column wrap;
-    align-content: end;
+    flex-flow: row-reverse wrap;
+    align-content: flex-start;
+
 
 }
 .randomise {
