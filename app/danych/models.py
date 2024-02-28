@@ -25,7 +25,7 @@ class LinkProd(Base):
     token = Column(String, default=None)
     timestamp  = Column(Integer, default=func.extract('epoch' , func.now()))
     is_preview = Column(Boolean, default=False)
-
+    is_alive=Column(Boolean, default=True)
 
 
 class Tokens(Base):

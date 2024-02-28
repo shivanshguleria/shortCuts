@@ -26,4 +26,5 @@ def get_db():
         yield db
     finally:
         print("[INFO] Connection Closed")
+        print("[INFO] I got deleted ")
         db.close()

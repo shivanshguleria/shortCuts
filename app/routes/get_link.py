@@ -16,8 +16,9 @@ router = APIRouter()
 
 @router.get('/{id}', response_class=RedirectResponse)
 def get_link(id: str, request: Request, db: Session= Depends(get_db)):
-    link_store = db.query(models.LinkProd.link, models.LinkProd.is_preview).filter(models.LinkProd.short_link == id).first()
-    if link_store:
+    link_store = db.query(models.LinkProd.link, models.LinkProd.is_preview, models.LinkProd.is_alive).filter(models.LinkProd.short_link == id).first()
+    print(link_store)
+    if link_store  and link_store.is_alive:
         link = link_store.link
         check_token_relation = db.query(models.LinkProd).filter(models.LinkProd.short_link == id).first()
         if check_token_relation.token:

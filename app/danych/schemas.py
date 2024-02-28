@@ -1,11 +1,13 @@
 from pydantic import BaseModel, ConfigDict
 from typing import Optional, List
+from datetime import datetime
 
 class Link(BaseModel):
     link: str
     short_link: Optional[str] = None
     is_preview: Optional[bool] = False
     token: Optional[str] = None
+    schedule_delete: Optional[datetime] = None
 
 class Admin(BaseModel):
     body: str

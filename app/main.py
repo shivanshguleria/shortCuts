@@ -13,9 +13,10 @@ from app.danych.database import engine
 
 from .routes import get_link, count, token, gen_link, delete, update, admin
 
+from app.fief.schedule_delete import scheduler
 
 models.Base.metadata.create_all(bind=engine)
-
+scheduler.start()
 # from sqlalchemy import Null, false, null
 # from .get_ver import get_version
 
@@ -85,6 +86,7 @@ app.include_router(get_link.router)
 app.include_router(count.router)
 app.include_router(token.router)
 app.include_router(gen_link.router)
+
 app.include_router(delete.router)
 app.include_router(update.router)
 app.include_router(admin.router)
