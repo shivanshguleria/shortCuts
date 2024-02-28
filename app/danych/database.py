@@ -10,7 +10,7 @@ URI = os.getenv('DATABASE_URL')
 # "postgresql://root:root@localhost/postgres"
 
 engine = create_engine(
-    URI
+    "postgresql://root:root@localhost/postgres"
 )
 
 
