@@ -9,7 +9,7 @@ import os
 URI = os.getenv('DATABASE_URL')
 
 engine = create_engine(
-    "postgresql://root:root@localhost/postgres"
+    URI
 )
 
 
@@ -26,5 +26,4 @@ def get_db():
         yield db
     finally:
         print("[INFO] Connection Closed")
-        print("[INFO] I got deleted ")
         db.close()

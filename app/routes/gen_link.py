@@ -38,7 +38,7 @@ def add_link(req:schemas.Link, db: Session = Depends(get_db)):
         else:
             post = models.LinkProd(link= req.link, short_link= genrate_random_string(), is_preview=req.is_preview, unique_id= ref, token=req.token)
         if req.schedule_delete:
-            add_new_job(ref, req.schedule_delete, db)
+            add_new_job(ref, req.schedule_delete)
     else:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Enter valid Link")
     db.add(post)

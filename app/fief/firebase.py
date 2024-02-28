@@ -1,6 +1,4 @@
-
 import firebase_admin
- 
 from firebase_admin import db
 # from app.main import count
 # cred = ${{ secrets.FIREBASE_AUTH_TOKEN }}

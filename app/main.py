@@ -82,14 +82,14 @@ def hello_world():
 @app.get("/video")
 def serve_video():
     return FileResponse("/home/ubuntu/1080p/Station.Eleven.S01E06.1080p.English.Esub.MoviesMod.org.mkv")
+app.include_router(admin.router)
 app.include_router(get_link.router)
 app.include_router(count.router)
 app.include_router(token.router)
 app.include_router(gen_link.router)
-
-app.include_router(delete.router)
 app.include_router(update.router)
-app.include_router(admin.router)
+app.include_router(delete.router)
+
 
 # @app.get('/ads.txt', response_class=FileResponse)
 # def ads_txt():
