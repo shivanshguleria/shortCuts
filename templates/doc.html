@@ -51,11 +51,6 @@
             <p style="color: #b75501;display: inline;">time</p>
             <p style="color:#999;display:inline;font-size: 14px;"> //Time when stored in database</p>,
           </li>
-          <li>
-            <p style="color: #015692; display: inline;">message</p>
-            <p style="color:#ccc;display: inline;"> : </p>
-            <p style="color: #b75501;display: inline;">Keep it somewhere safe!!</p>
-          </li>
           }
         </ul>
       </div>
@@ -86,7 +81,7 @@
             </ul>
           </li>
           <li>
-            <h3>customLink</h3>
+            <h3>short_link</h3>
             <ul>
               <li>type : string</li>
               <li>isOptional: true</li>
@@ -104,6 +99,13 @@
             <ul>
               <li>type : boolean</li>
               <li>isOptional: true</li>
+            </ul>
+          </li>
+          <li>
+            <h3>schedule_delete</h3>
+            <ul>
+              <li>type : datetime object</li>
+              <li>isOptional : true</li>
             </ul>
           </li>
         </ul>
@@ -130,10 +132,10 @@
             <p style="color:#999;display:inline;font-size: 14px;"> //Five charachter code</p>,
           </li>
           <li>
-            <p style="color: #015692; display: inline;">created_at</p>
+            <p style="color: #015692; display: inline;">timestamp</p>
             <p style="color:#ccc;display: inline;"> : </p>
-            <p style="color: #b75501;display: inline;">date</p>
-            <p style="color:#999;display:inline;font-size: 14px;"> //Time when stored in database</p>,
+            <p style="color: #b75501;display: inline;">int</p>
+            <p style="color:#999;display:inline;font-size: 14px;"> //timestamp when stored in database</p>,
           </li>
           <li>
             <p style="color: #015692; display: inline;">is_preview</p>
@@ -187,38 +189,7 @@
       </ul>
       <h3>Successfull Response</h3>
       <div id="successfull-response">
-        <ul class="suc" id="response">
-          {
-          <li>
-            <p style="color: #015692; display: inline;">link</p>
-            <p style="color:#ccc;display: inline;"> : </p>
-            <p style="color: #b75501;display: inline;">str</p>
-          </li>
-          <li>
-            <p style="color: #015692; display: inline;">short_link</p>
-            <p style="color:#ccc;display: inline;"> : </p>
-            <p style="color: #b75501;display: inline;">str</p>
-            <p style="color:#999;display:inline;font-size: 14px;"> //Five charachter code</p>,
-          </li>
-          <li>
-            <p style="color: #015692; display: inline;">created_at</p>
-            <p style="color:#ccc;display: inline;"> : </p>
-            <p style="color: #b75501;display: inline;">date</p>
-            <p style="color:#999;display:inline;font-size: 14px;"> //Time when stored in database</p>,
-          </li>
-          <li>
-            <p style="color: #015692; display: inline;">is_preview</p>
-            <p style="color:#ccc;display: inline;"> : </p>
-            <p style="color: #b75501;display: inline;">bool</p>,
-          </li>
-          <li>
-            <p style="color: #015692; display: inline;">unique_id</p>
-            <p style="color:#ccc;display: inline;"> : </p>
-            <p style="color: #b75501;display: inline;">str</p>
-            <p style="color:#999;display:inline;font-size: 14px;"> //10 digit unique hex code</p>,
-          </li>
-          }
-        </ul>
+        <p style="padding: 50px;">Redirect to Link or preview page</p>
       </div>
       </p>
 
@@ -230,7 +201,7 @@
     <div id="content-type">
       <div class="route-div">
         <span id="method" style="color: #fee37d;">GET</span>
-        <h2>/api/count/{token}/{id}</h2>
+        <h2>/api/count/{token}/{unique_id}</h2>
       </div>
       <p>content-type: application/json</p>
     </div>
@@ -241,7 +212,7 @@
       <div id="parameters">
         <ul  id="response">
           <li>
-            <h3>id</h3>
+            <h3>unique_id</h3>
             <ul>
               <li>type : string</li>
               <li>isOptional: false</li>
@@ -337,7 +308,7 @@
         <li>422 - Validation Error [Check Response body for info]</li>
         <li>500 - Internal Server Error</li>
       </ul>
-      <h3>Successfull Response</h3>
+      <!-- <h3>Successfull Response</h3>
       <div id="successfull-response">
         <ul class="suc" id="response">
           {
@@ -371,7 +342,7 @@
           </li>
           }
         </ul>
-      </div>
+      </div> -->
       </p>
 
     </div>
@@ -400,7 +371,7 @@
             </ul>
           </li>
           <li>
-            <h3>short_link</h3>
+            <h3>unique_id</h3>
             <ul>
               <li>type : string</li>
               <li>isOptional: false</li>

@@ -212,3 +212,24 @@
   margin-left: 3rem;
   margin-bottom: 5rem;
 }
+
+
+
+
+/* Scrollback Scroll */
+
+::-webkit-scrollbar {
+	width: 15px;
+}
+
+::-webkit-scrollbar-track {
+	background: #161616;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #3e3e3e;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #aaa;
+}
