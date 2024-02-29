@@ -56,10 +56,11 @@ const optionObject = {
 
 const deleteObj = {
   "0": "Schedule Link Delete",
-  "1": "1 Hour",
-  "2": "1 Day",
-  "3": "1 Month",
-  "4": "1 year"
+  "1": "10 Minutes",
+  "2": "1 Hour",
+  "3": "1 Day",
+  "4": "1 Month",
+  "5": "1 year"
 }
 
 customEl.addEventListener("click", () => {
@@ -150,9 +151,7 @@ passSubmit.addEventListener("click",async function() {
     payload['is_preview'] = newSelectEl.value
     console.log(payload)
   }
-let a = new Date()
-  console.log(get_date(newSelectEl2.value), a.toISOString(), newSelectEl2.value)
-  if(newSelectEl2.value != 1) {
+  if(newSelectEl2.value != "0") {
     payload['schedule_delete'] = get_date(newSelectEl2.value)
   } 
 
@@ -209,15 +208,17 @@ function get_date(option) {
   const dateObj = new Date() 
   switch(option) {
     case "1":
+      dateObj.setMinutes(dateObj.getMinutes + 10)
+    case "2":
       dateObj.setHours(dateObj.getHours() + 1)
       break;
-    case "2":
+    case "3":
       dateObj.setDate(dateObj.getDate() + 1)
       break;
-    case "3":
+    case "4":
       dateObj.setMonth(dateObj.getMonth() + 1)
       break;
-      case "4":
+      case "5":
       dateObj.setFullYear(dateObj.getFullYear() + 1)
   }
 
