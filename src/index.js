@@ -208,7 +208,8 @@ function get_date(option) {
   const dateObj = new Date() 
   switch(option) {
     case "1":
-      dateObj.setMinutes(dateObj.getMinutes + 10)
+      dateObj.setMinutes(dateObj.getMinutes() + 10)
+      break;
     case "2":
       dateObj.setHours(dateObj.getHours() + 1)
       break;
