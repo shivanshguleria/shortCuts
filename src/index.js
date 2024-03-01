@@ -1,7 +1,10 @@
+import { storage } from "./utils/storage.js"
+import { token } from "./utils/send_req.js"
+import {copyFunction, get_date} from "./utils/helper.js"
+
 const passLink = document.getElementById('pass-link')
 const passSubmit = document.getElementById('pass-submit')
-const copyBtn = document.getElementById("copy-button")
-const searchFlexLink = document.getElementById("search-flex-link")
+
 const closePopup = document.getElementById("popupclose");
 const overlay = document.getElementById("overlay");
 const popup = document.getElementById("wrapper");
@@ -17,18 +20,7 @@ const newSelectEl = document.createElement("select")
 const newSelectEl2 = document.createElement("select")
 const newDivEl = document.createElement("div")
 
-import  {storage, token}  from "./modules/storage.js"
 
-
-
-if(!localStorage.getItem("cacheFresh")){
-  localStorage.setItem("cacheFresh", "true")
-}
-if(JSON.parse(localStorage.getItem("cacheFresh"))){
-  window.location.reload()
-  
-  localStorage.setItem("cacheFresh", "false")
-}
 closePopup.onclick = function() {
   overlay.style.display = 'none';
   popup.style.display = 'none';
@@ -48,21 +40,21 @@ closePopup.onclick = function() {
   customEl.style.display = 'inline'
 };
 
-const optionObject = {
-  "": "Is Preview?",
-  "true": "Yes [Default]", 
-  "false": "No"
+const optionObj = {
+  1: {
+    "": "Is Preview?",
+    "true": "Yes [Default]", 
+    "false": "No"
+  },
+  2: {
+    "0": "Schedule Link Delete",
+    "1": "10 Minutes",
+    "2": "1 Hour",
+    "3": "1 Day",
+    "4": "1 Month",
+    "5": "1 year"
+  }
 }
-
-const deleteObj = {
-  "0": "Schedule Link Delete",
-  "1": "10 Minutes",
-  "2": "1 Hour",
-  "3": "1 Day",
-  "4": "1 Month",
-  "5": "1 year"
-}
-
 customEl.addEventListener("click", () => {
   customEl.style.display = 'none'
   
@@ -81,30 +73,30 @@ customEl.addEventListener("click", () => {
 
     console.log(Object.keys(optionObject).length)
 
-    
-    for(let i = 0; i < Object.keys(deleteObj).length; i++) {
+    console.log(optionObj, optionObj[1], optionObj[2])
+    for(let i = 0; i < Object.keys(optionObj[2]).length; i++) {
       const newOptionEl1 = document.createElement("option")
       if(i == 0) {
-        newOptionEl1.value = Object.keys(deleteObj)[i]
-        newOptionEl1.text =  Object.values(deleteObj)[i]
+        newOptionEl1.value = Object.keys(optionObj[2])[i]
+        newOptionEl1.text =  Object.values(optionObj[2])[i]
         newSelectEl2.add(newOptionEl1)
       } else {
-      newOptionEl1.value = Object.keys(deleteObj)[i]
-      newOptionEl1.text =  Object.values(deleteObj)[i]
+      newOptionEl1.value = Object.keys(optionObj[2])[i]
+      newOptionEl1.text =  Object.values(optionObj[2])[i]
       newOptionEl1.classList.add("option")
       newSelectEl2.add(newOptionEl1)
       }
     }
     
-    for(let i = 0; i < Object.keys(optionObject).length; i++) {
+    for(let i = 0; i < Object.keys(optionObj[1]).length; i++) {
       const newOptionEl = document.createElement("option")
       if(i == 0) {
-        newOptionEl.value = Object.keys(optionObject)[i]
-        newOptionEl.text =  Object.values(optionObject)[i]
+        newOptionEl.value = Object.keys(optionObj[1])[i]
+        newOptionEl.text =  Object.values(optionObj[1])[i]
         newSelectEl.add(newOptionEl)
       } else {
-      newOptionEl.value = Object.keys(optionObject)[i]
-      newOptionEl.text =  Object.values(optionObject)[i]
+      newOptionEl.value = Object.keys(optionObj[1])[i]
+      newOptionEl.text =  Object.values(optionObj[1])[i]
       newOptionEl.classList.add("option")
       newSelectEl.add(newOptionEl)
       }
@@ -137,7 +129,7 @@ newAnchorEl.addEventListener("click", () => {
 
 passSubmit.addEventListener("click",async function() {
 
-  let inputValue = passLink.value
+  const inputValue = passLink.value;
   if(inputValue === "") {
     alert("Enter Link")
   } else {
@@ -151,7 +143,8 @@ passSubmit.addEventListener("click",async function() {
     payload['is_preview'] = newSelectEl.value
     console.log(payload)
   }
-  if(newSelectEl2.value != "0") {
+  console.log(newSelectEl2.value)
+  if(newSelectEl2.value != "0" && newSelectEl2.value != "") {
     payload['schedule_delete'] = get_date(newSelectEl2.value)
   } 
 
@@ -188,40 +181,3 @@ passSubmit.addEventListener("click",async function() {
     }
   }
 } )
-
-
-
-function copyFunction() {
-  copyBtn.addEventListener('click', function(){
-  
-  const storage = document.createElement('textarea');
-  storage.value = generateEl.innerHTML;searchFlexLink.appendChild(storage);
-  storage.select();
-  storage.setSelectionRange(0, 35);
-  document.execCommand('copy');
-  searchFlexLink.removeChild(storage);
-  console.log("Copied ")
-  })
-}
-
-function get_date(option) {
-  const dateObj = new Date() 
-  switch(option) {
-    case "1":
-      dateObj.setMinutes(dateObj.getMinutes() + 10)
-      break;
-    case "2":
-      dateObj.setHours(dateObj.getHours() + 1)
-      break;
-    case "3":
-      dateObj.setDate(dateObj.getDate() + 1)
-      break;
-    case "4":
-      dateObj.setMonth(dateObj.getMonth() + 1)
-      break;
-      case "5":
-      dateObj.setFullYear(dateObj.getFullYear() + 1)
-  }
-
-  return dateObj.toISOString()
-}

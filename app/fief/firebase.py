@@ -72,3 +72,15 @@ def delete_link(ref):
 
 def push_updated_data(data):
    count_ref.set(data)
+
+
+
+
+
+
+
+
+
+
+
+   

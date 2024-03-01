@@ -1,5 +1,7 @@
-import { count_routine, renderUser, count } from "./storage.js";
-import { delete_link} from "./utils.js";
+import { renderUser } from "../utils/helper.js"
+import { count, delete_link } from "../utils/send_req.js"
+import { getUniqueId } from "../utils/storage.js"
+
 renderUser()
 
 const cache = document.getElementById('clear-cache')
@@ -17,15 +19,6 @@ if(cache != null) {
 
 let element = document.getElementById('link');
 
-function getUniqueId(short_link){
-	let a = JSON.parse(localStorage.getItem(1))
-	for(let i = 0 ; i < a.length; i++) {
-	if(a[i].shortLink == short_link) {
-		return a[i].unique_id
-		}
-	}
-	return false
-}
 element.addEventListener('click', async (e) => {
   if(e.target.classList.contains('refresh')) {
     console.log(e.target.parentNode.parentElement.childNodes[1].firstElementChild.innerText)
