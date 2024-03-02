@@ -71,7 +71,7 @@ customEl.addEventListener("click", () => {
     newSelectEl2.classList.add("newSelectEl")
     newInputEl.placeholder = "Type Custom code"
 
-    console.log(Object.keys(optionObject).length)
+
 
     console.log(optionObj, optionObj[1], optionObj[2])
     for(let i = 0; i < Object.keys(optionObj[2]).length; i++) {

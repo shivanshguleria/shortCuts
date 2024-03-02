@@ -66,11 +66,11 @@ copyBtn.addEventListener("click", function () {
     
         <p>${links[i]['clicks']}</p>
     
-    <div id="icon">
-        <span class="material-symbols-outlined refresh icon-class">refresh</span>
+        <span id="icon">
+        <img class="refresh" src="./public/src/icons/refresh.svg" >
         <!--<span class="material-symbols-outlined edit icon-class">edit</span>-->
-        <span class="material-symbols-outlined delete icon-class">delete</span>
-        </div>
+        <img class="delete" src="./public/src/icons/delete.svg" >
+      </span>
   </div>
     `
   } 

@@ -158,31 +158,20 @@ body {
     color: var(--color-yellow);
 }
 .circle {
-    padding: 7px 7px !important;
+    padding: 10px 10px !important;
+   
     color: black; 
     cursor: pointer;
     user-select: none !important;
-}
-
-.material-symbols-outlined {
-    font-size: 35px !important;
-}
-
-.material-symbols-outlined {
-    user-select: none !important;
-}
-
-#pass-submit {
     background-color: var(--color-yellow);
-    border-radius: 30px;
-    
-    padding: 5px;
-
+    border-radius: 100px;
+    width: 38px;
 }
 
-#pass-submit:hover{
+.circle:hover {
     background-color: var(--color-yellow-hover);
 }
+
 footer {
     margin-left: 5%;
 }
@@ -298,12 +287,12 @@ border-radius: 12px;
 	color: var(--color);
 	background-color: #1c1e20;
 	border: none;
-	padding: 12px;
+	padding: 15px;
 	border-radius: 12px;
 	font-weight: 700;
 	text-align: center;
 	font-family: 'Source Code Pro', monospace;
-	margin: 10px 0;
+	/* margin: 10px 0;
 	padding-top: 15px;
 	max-width: 210px;
 	/* line-break: 100px; */
@@ -312,21 +301,20 @@ border-radius: 12px;
 	min-height: 20px;
 	word-break: break-all;
 }
-#copy-button {
+.copy-buttons {
     color: var(--color);
     background-color: #1c1e20;
     border: 0.5px solid var(--color-hover);
-        padding: 12px;
-        border-radius: 100px;
-        font-size: 25px !important;
-        text-align: center;
-        margin: 10px 0;
-        cursor: pointer;
-        user-select: none;
+    padding: 12px 12px !important;
+    border-radius: 100px;
+    text-align: center;
+    /* margin: 10px 0; */
+    cursor: pointer;
+    user-select: none;
 }
 
-#copy-button:hover {
-    color: var(--color);
+.copy-buttons:checked {
+    
     background-color: #070608;
 }
 #result {
@@ -348,6 +336,7 @@ border-radius: 12px;
     align-content: center;
     align-items: center;
     gap: 14px;
+    padding-top: 20px;
 }
 
 
@@ -458,6 +447,7 @@ border-radius: 12px;
         align-content: center;
         align-items: center;
         gap: 5px;
+        padding: 0;
     }
     #card {
         /*border: 1px white solid;*/
@@ -469,11 +459,11 @@ border-radius: 12px;
         margin-top: -10px;
         /* margin-right: 2px; */
     }
-    .material-symbols-outlined  {
+    /* .material-symbols-outlined  {
         padding: 1px !important;
         font-size: 30px !important;
         user-select: none !important;
-    }
+    } */
     #search {
         /* width: 270px;
         height: 50px;
@@ -543,7 +533,7 @@ border-radius: 12px;
     word-spacing: -1.5px;
     letter-spacing: -1px;
 }
-    #pass-submit {
+    /* #pass-submit {
         width: 300px;
         height: 50px;
         background-color: var(--color-yellow);
@@ -552,7 +542,7 @@ border-radius: 12px;
         height: 50px;
         width: 50px;
         padding: 10px;
-    }
+    } */
 /* #pass-submit {
     display: none;
 } */
@@ -572,10 +562,10 @@ border-radius: 12px;
         margin-top: 2%;
         font-size: 1.5rem;
     }
-    #pass-submit:hover{
+    /* #pass-submit:hover{
         background-color: var(--color-yellow-hover);
         color: black;
-    }
+    } */
     #popup {
         position: fixed;
         top: 50%;
@@ -622,6 +612,9 @@ border-radius: 12px;
 
 }
     
+#result {
+    font-size: 14px;
+}
 #search-flex-link  {
     color: var(--color);
     background-color: #1c1e20;
@@ -636,17 +629,33 @@ border-radius: 12px;
 
 }
 
-#copy-button {
-    color: var(--color);
-    background-color: var(--background-color);
-    border: 0.5px solid rgba(255,255,255, 0.5);
-        padding: 7px !important;
+.copy-buttons {
+    /* color: var(--color); */
+    /* border: 0.5px solid rgba(255,255,255, 0.5); */
+        /* padding: 7px !important; */
         border-radius: 100px;
-        font-size: 25px !important;
+        /* font-size: 25px !important; */
         text-align: center;
-        margin: 10px 0;
+        /* margin: 10px 0; */
+       width: 50px;
         cursor: pointer;
         user-select: none;
+}
+
+
+.circle {
+    padding: 10px 10px !important;
+    color: black; 
+    cursor: pointer;
+    user-select: none !important;
+    background-color: var(--color-yellow);
+    border-radius: 100px;
+    width: 52px;
+}
+
+.circle:hover{
+    background-color: var(--color-yellow-hover);
+    color: black;
 }
     }
 

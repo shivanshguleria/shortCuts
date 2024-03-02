@@ -4,12 +4,12 @@
 <head>
     {% include 'commonHeader.html' %}
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" /> -->
     <link rel="stylesheet" href="./public/src/index1.css">
     <title>Shorten Your Links | shortCuts</title>
 </head>
 <body>
-    <div id="main">
+    <main id="main">
         <div id="main-1">
             <div id="heading">
                 <h1>Shorten your long links with our mighty link <p style="color: yellow;">shortener</p></h1>
@@ -19,9 +19,7 @@
                     <div id="search">
                         <input type="text" name="pass-link" id="pass-link" class="pass-link" placeholder="Paste your Long URL" >
                         <a  type="submit" name="pass-submit" id="pass-submit" class="pass-submit" >
-                            <div class="material-symbols-outlined circle"  >
-                                bolt
-                            </div>
+                                <img  class=" circle" src="./public/src/icons/bolt.svg" alt="bolt" srcset="">
                         </a>
                     </div>
                     <div id="custom-link-div">
@@ -32,8 +30,8 @@
                 </div>
             </div>
         </div>
-        <div id="overlay"></div>
-        <div id="wrapper">
+        <span id="overlay"></span>
+        <span id="wrapper">
             <div id="popup">
                 <div class="popupcontrols">
                     <span id="popupclose">&times;</span>
@@ -45,13 +43,13 @@
                             <p id="result">Generating Link ...</p>
                         </div>
                         
-                                <div class="material-symbols-outlined" id = "copy-button">
-                                content_copy
+                                <div  id = "copy-button">
+                                <img  class="copy-buttons" src="./public/src/icons/copy.svg" >
                             </div>                
                     </div>
                 </div>
             </div>
-        </div>
+        </span>
         <footer>
             <ul id="bottom-nav">
                 <li><a href="/User">User</a></li>
@@ -60,13 +58,7 @@
                 <li><p id="copyright">&copy;shortCuts</p></li>
             </ul>
         </footer>
-        <!-- <div id = "bottom-nav">
-            <a href="/User">User</a>
-            <a href="/About" id="user">About</a>
-            <a href="/Documentation">API</a>
-            <p id="copyright">&copy;shortCuts</p>
-        </div> -->
-    </div>
+    </main>
     <script src="./public/src/index.js" type="module"></script>
 </body>
 </html>
