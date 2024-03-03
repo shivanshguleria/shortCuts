@@ -158,6 +158,10 @@ a:hover {
     color: var(--color-yellow-hover);
 }
 
+
+svg {
+    cursor: pointer;
+}
 ::-webkit-scrollbar {
     width: 17px;
   }
