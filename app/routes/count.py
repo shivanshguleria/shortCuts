@@ -11,7 +11,7 @@ from app.danych.schemas import Handle_count_return
 
 router = APIRouter()
 
-@router.get("/api/count/{token}/{id}", response_model=Handle_count_return)
+@router.get("/api/count/{token}/{id}")
 def count(id: str, token:str, db: Session = Depends(get_db)):
     check_token_in_db = db.query(models.Tokens).filter(models.Tokens.token == token).first()
     if check_token_in_db and check_token_in_db.token == token:

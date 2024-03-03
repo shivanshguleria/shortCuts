@@ -4,9 +4,9 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 
 
-import logging
-logging.basicConfig()
-logging.getLogger('apscheduler').setLevel(logging.DEBUG)
+#import logging
+#logging.basicConfig()
+#logging.getLogger('apscheduler').setLevel(logging.DEBUG)
 
 scheduler = BackgroundScheduler()
 scheduler.add_jobstore('sqlalchemy', url="postgresql://root:root@localhost/postgres"

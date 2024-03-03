@@ -84,6 +84,9 @@ justify-content: space-around;
         align-items: center;
     }
 
+img {
+	cursor: pointer;
+}
 #link-container-root > .psuedo {
     color: #1c1e20;   
  } 
