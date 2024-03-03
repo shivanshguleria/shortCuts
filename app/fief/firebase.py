@@ -59,8 +59,8 @@ def get_count(ref):
     get_count_ref = db.reference(f'shortCuts/{ref}/count')
     print("[INFO] GOT COUNT FROM SERVER")
     ret = get_count_ref.get()
-    if ret:
-       return {"count": get_count_ref.get()}
+    if type(ret):
+       return {"count": ret}
     else:
        return {"message": "Link has been deleted"}
 

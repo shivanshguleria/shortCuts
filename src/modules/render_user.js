@@ -1,6 +1,6 @@
 import { renderUser } from "../utils/helper.js"
 import { count, delete_link } from "../utils/send_req.js"
-import { getUniqueId } from "../utils/storage.js"
+import { getUniqueId , remove_link_from_cache} from "../utils/storage.js"
 
 renderUser()
 
@@ -23,9 +23,9 @@ element.addEventListener('click', async (e) => {
   if(e.target.classList.contains('refresh')) {
     console.log(e.target.parentNode.parentElement.childNodes[1].firstElementChild.innerText)
     const unique_id = getUniqueId(e.target.parentNode.parentElement.childNodes[1].firstElementChild.innerText)
-    console.log(unique_id)
-    const new_count = await count(unique_id)
 
+    const new_count = await count(unique_id)
+    if (new_count == 0 | new_count) {
     e.target.parentNode.parentElement.childNodes[3].textContent = new_count
     let a = JSON.parse(localStorage.getItem(1))
     for(let i = 0; i < a.length; i++) {
@@ -35,7 +35,11 @@ element.addEventListener('click', async (e) => {
         localStorage.setItem(1,JSON.stringify(a))
       }
     }
+  } else {
+    alert("Link has been deleted, refreshing cache")
+remove_link_from_cache(unique_id)
   }
+}
   // if(e.target.classList.contains('edit')) {
   //   console.log(`some event content here on edit`);
   // }

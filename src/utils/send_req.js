@@ -3,7 +3,10 @@ import {remove_link_from_cache} from "./storage.js"
 async function count(id) {
     const response = await fetch(`/api/count/${await token()}/${id}`);
     const count1 = await response.json();
-    return count1.count
+    const res = count1.count
+    if(res == 0 | res) {
+        return res
+    }
   }
 
 

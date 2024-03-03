@@ -9,7 +9,7 @@ function remove_link_from_cache(id) {
             localStorage.setItem(1,JSON.stringify(a))
         } 
     }
-    setTimeout(renderUser(), 2000)
+    setTimeout(renderUser(0), 2000)
     // renderUser()
 
 }
