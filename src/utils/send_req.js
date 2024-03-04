@@ -1,4 +1,4 @@
-import {remove_link_from_cache} from "./storage.js"
+import {remove_link_from_cache, getUniqueIds} from "./storage.js"
 
 async function count(id) {
     const response = await fetch(`/api/count/${await token()}/${id}`);
@@ -9,7 +9,26 @@ async function count(id) {
     }
   }
 
+async function getAllCount() {
+    var data
+    let payload = {
+        "links": getUniqueIds()
+    }
+    await fetch(`/api/count/all/${await token()}`, {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        }
+      })
+        .then((response) => response.json())
+        
+        .then((json) => {
+            data = json
+        })
 
+        return data
+    }
 
 async function token() {
 if(!localStorage.getItem(3)) {
@@ -46,4 +65,4 @@ remove_link_from_cache(id)
 
 // }
 
-export {token, count, delete_link}
+export {token, count, delete_link, getAllCount}

@@ -40,3 +40,7 @@ class Handle_count_return(BaseModel):
 
 class Handle_all(BaseModel):
     links: List[Handle_link_return]
+
+
+class Get_all_count(BaseModel):
+    links: List[str]

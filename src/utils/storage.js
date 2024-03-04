@@ -1,4 +1,4 @@
-import { count } from "./send_req.js"
+import { count,  getAllCount} from "./send_req.js"
 import { renderUser } from "./helper.js"
 
 function remove_link_from_cache(id) {
@@ -15,20 +15,31 @@ function remove_link_from_cache(id) {
 }
 
 async function count_routine(){
-    let links = JSON.parse(localStorage.getItem(1))
-    if(!JSON.parse(localStorage.getItem(2))){
-  update_cache(links)
+  //   let links = JSON.parse(localStorage.getItem(1))
+  //   if(!JSON.parse(localStorage.getItem(2))){
+  // update_cache(links)
   
-    } 
-    for(let j = 0; j < links.length; j++) {
-      if(links[j].isRefreshed){
-      links[j].isRefreshed = false
-      }else {
-        let updatedClicks =  await count(links[j]['unique_id'])
-        links[j]['clicks'] = updatedClicks
-      }
+  //   } 
+  //   for(let j = 0; j < links.length; j++) {
+  //     if(links[j].isRefreshed){
+  //     links[j].isRefreshed = false
+  //     }else {
+  //       let updatedClicks =  await count(links[j]['unique_id'])
+  //       links[j]['clicks'] = updatedClicks
+  //     }
+  //   }
+  //   localStorage.setItem(1, JSON.stringify(links))
+  let lisA = await getAllCount()
+
+  let a = JSON.parse(localStorage.getItem(1))
+
+  for(let i =0; i < a.length; i ++) {
+    if(a[i].unique_id == lisA[i].unique_id) {
+      a[i].clicks = lisA[i].count
     }
-    localStorage.setItem(1, JSON.stringify(links))
+  }
+  localStorage.setItem(1, JSON.stringify(a))
+
   }
 
 
@@ -63,5 +74,12 @@ if(a[i].shortLink == short_link) {
 return false
 }
 
-
-export {storage, count_routine, getUniqueId, remove_link_from_cache}
+function getUniqueIds() {
+  let a = JSON.parse(localStorage.getItem(1))
+  let listA = []
+  for(let i = 0; i < a.length; i++) {
+    listA.push(a[i].unique_id)
+  }
+  return listA
+}
+export {storage, count_routine, getUniqueId, remove_link_from_cache, getUniqueIds}
