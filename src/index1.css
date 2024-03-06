@@ -143,11 +143,20 @@ body {
 
 #inputElDiv {
     display: flex;
-    flex-flow: row-reverse wrap;
-    align-content: flex-start;
-
+    flex-flow: column wrap;
+    align-content: flex-end;
+    aling-items: flex-end;
 
 }
+
+
+style="
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex-wrap: nowrap;
+"
+
 .randomise {
     align-self: flex-end;
     color: var(--color);
