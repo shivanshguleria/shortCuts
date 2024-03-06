@@ -13,7 +13,7 @@ from app.danych.database import engine
 
 from .routes import get_link, count, token, gen_link, delete, update, admin
 
-from app.fief.schedule_delete import scheduler
+from app.orarin.schedule_delete import scheduler
 
 models.Base.metadata.create_all(bind=engine)
 scheduler.start()

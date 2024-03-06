@@ -1,6 +1,6 @@
 from fastapi import status, APIRouter, Depends
-from app.fief.firebase import  get_count
-
+# from app.fief.firebase import  get_count
+from app.danych.mongo import get_count
 
 from fastapi import HTTPException
 

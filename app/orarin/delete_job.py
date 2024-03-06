@@ -1,5 +1,6 @@
 import app.danych.models as models
-from app.fief.firebase import delete_link
+# from app.fief.firebase import delete_link
+from app.danych.mongo import delete_link
 from app.danych.database import SessionLocal
 
 def del_link(uid: str):
