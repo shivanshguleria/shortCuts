@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 
-client = MongoClient("mongodb+srv://shivanshguleria:FyANXL5SaeKZ6i2U@cluster0.6rcwbez.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+client = MongoClient()
 
 
 db = client.count_db
@@ -20,6 +20,7 @@ def push_new_count(unique_id):
 
 def update_count(unique_id):
     post.update_one({"_id": unique_id}, {"$inc": {"count": 1}})
+
     print('[INFO] 🥑 Updated Count')
 
 
@@ -29,6 +30,7 @@ def get_count(unique_id):
 
 def delete_link(unique_id):
     post.delete_one({"_id": unique_id})
+
 
 # print(get_count(id))
 # update_count(id)

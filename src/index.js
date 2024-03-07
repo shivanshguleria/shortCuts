@@ -59,6 +59,8 @@ customEl.addEventListener("click", () => {
   customEl.style.display = 'none'
   
     inputElDiv.appendChild(newInputEl)
+
+    newDivEl.setAttribute("style", "display: flex;flex-direction: column;align-items: flex-end;flex-wrap: nowrap;")
     newDivEl.appendChild(newSelectEl2)
     newDivEl.appendChild(newSelectEl)
     inputElDiv.appendChild(newDivEl)
