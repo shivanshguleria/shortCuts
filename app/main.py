@@ -11,14 +11,14 @@ from typing import Optional
 import app.danych.models as models
 from app.danych.database import engine
 
-from .routes import get_link, count, token, gen_link, delete, update, admin
+from .routes import get_link, count, token, gen_link, delete, update
 
 from app.orarin.schedule_delete import scheduler
 
 models.Base.metadata.create_all(bind=engine)
 scheduler.start()
 # from sqlalchemy import Null, false, null
-# from .get_ver import get_version
+# from .get_ver import get_version ---- redoc_url=None, docs_url=None
 
 
 app = FastAPI(redoc_url=None, docs_url=None)
@@ -79,10 +79,8 @@ def docs(request: Request):
 def hello_world():
     return {"Hello": "World"}
 
-@app.get("/video")
-def serve_video():
-    return FileResponse("/home/ubuntu/1080p/Station.Eleven.S01E06.1080p.English.Esub.MoviesMod.org.mkv")
-app.include_router(admin.router)
+
+# app.include_router(admin.router)
 app.include_router(get_link.router)
 app.include_router(count.router)
 app.include_router(token.router)

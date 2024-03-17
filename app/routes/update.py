@@ -11,8 +11,8 @@ router = APIRouter()
 @router.put('/api/update/', status_code=status.HTTP_204_NO_CONTENT)
 def update_link(req: schemas.Handle_Update, db: Session= Depends(get_db)):
     check_unique_id_and_token = db.query(models.LinkProd).filter(models.LinkProd.token == req.token and models.LinkProd.unique_id == req.unique_id).first()
-
-    if check_unique_id_and_token.unique_id and check_unique_id_and_token.token:
+    print(check_unique_id_and_token)
+    if check_unique_id_and_token != None :
         if req.link and not req.short_link and not req.is_preview:
             if validate_link(req.link):
                 db.query(models.LinkProd).filter(models.LinkProd.unique_id == req.unique_id).update({"link": req.link}, synchronize_session="fetch")
