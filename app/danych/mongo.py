@@ -1,6 +1,6 @@
 from pymongo import MongoClient
-
-client = MongoClient()
+from app.danych.get_cred import Credentials
+client = MongoClient(Credentials.mongo)
 
 
 db = client.count_db

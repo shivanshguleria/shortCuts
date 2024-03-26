@@ -1,11 +1,11 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-
+from app.danych.get_cred import Credentials
 # "postgresql://root:root@localhost/postgres"
 
 engine = create_engine(
-    "postgresql://root:root@localhost/postgres"
+    Credentials.postgres
 )
 
 

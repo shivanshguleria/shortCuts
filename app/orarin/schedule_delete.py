@@ -1,7 +1,7 @@
 from datetime import datetime
 from app.orarin.delete_job import del_link
 from apscheduler.schedulers.background import BackgroundScheduler
-
+from app.danych.get_cred import Credentials
 
 
 # import logging
@@ -10,7 +10,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 
 scheduler = BackgroundScheduler()
-scheduler.add_jobstore('sqlalchemy', url="postgresql://root:root@localhost/postgres"
+scheduler.add_jobstore('sqlalchemy', url=Credentials.postgres
 )
 
 
