@@ -22,7 +22,8 @@ def get_link(id: str, request: Request, db: Session= Depends(get_db)):
     print(link_store)
     if link_store  and link_store.is_alive:
         if link_store.token:
-            update_count(link_store.unique_id)
+            if(request.headers["cf-ipcountry"]):
+                update_count(link_store.unique_id, request.headers["cf-ipcountry"])
         if link_store.is_preview:
             return templates.TemplateResponse("preview.html", {"request": request, "link": link_store.link, "preview": link_store.link[0:40] + "\n..."})
         else:

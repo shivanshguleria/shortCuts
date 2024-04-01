@@ -12,15 +12,16 @@ def push_new_count(unique_id):
     # post = posts.find_one({"_id": "skjdksj"})["tags"]
     post.insert_one({
         "_id": unique_id,
-        "count": 0
+        "count": 0,
+        "analytics": {}
         })
     print("[INFO] 🔥 Pushed Data")
 
 # push_new_count(id)
 
-def update_count(unique_id):
-    post.update_one({"_id": unique_id}, {"$inc": {"count": 1}})
-
+def update_count(unique_id, country):
+    # country_inc = post.find_one({"_id": unique_id})["analytics"]
+    post.update_one({"_id": unique_id}, {"$inc": {"count": 1, "analytics": {country: 1}}})
     print('[INFO] 🥑 Updated Count')
 
 
