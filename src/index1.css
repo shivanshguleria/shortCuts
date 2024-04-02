@@ -47,7 +47,7 @@ body {
 }
 #heading {
     /*border: 1px white solid;*/
-    width: 47%;
+    width: 35%;
     height: fit-content;
     font-size: 2.75rem;
 }
@@ -143,11 +143,15 @@ body {
 
 #inputElDiv {
     display: flex;
-    flex-flow: row-reverse wrap;
-    align-content: flex-start;
-
+    flex-flow: column wrap;
+    align-content: flex-end;
+    align-items: flex-end;
 
 }
+
+
+
+
 .randomise {
     align-self: flex-end;
     color: var(--color);
@@ -395,8 +399,14 @@ border-radius: 12px;
     margin: 2%;
  }
 
- 
 }
+
+@media only screen and (max-width: 950px ) {
+    #heading {
+       width: 65%;
+    }
+   
+   }
 @media only screen and (max-width: 600px) {
 
     
@@ -435,10 +445,14 @@ border-radius: 12px;
         /*border: 1px white solid;*/
         width: 30%;
         height: fit-content;
-        font-size: 1.5rem;
         text-indent: 1px;
         word-spacing: 2px;
         letter-spacing: 2px;
+    }
+
+    h1 {
+        font-size: 3.25rem;
+        font-weight: bold;
     }
     #search-flex {
         display: flex;
