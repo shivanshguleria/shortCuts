@@ -47,9 +47,9 @@ body {
 }
 #heading {
     /*border: 1px white solid;*/
-    width: 47%;
-    height: fit-content;
+    width: 58%;
     font-size: 2.75rem;
+    margin: 60px 1px;
 }
 #card {
     /*border: 1px white solid;*/
@@ -70,6 +70,7 @@ body {
     font-weight: 700;
     text-align: center;
     font-family: 'Source Code Pro', monospace;
+    width: 300px;
 }
 
 #pass-link:focus {
@@ -80,13 +81,13 @@ body {
     color: var(--color);
     background-color: #1c1e20;
     border: transparent;
-    padding: 5px;
+    padding: 10px;
     border-radius: 17px;
     display: flex;
     flex-flow: row nowrap;
     gap: 10px;
     margin: 5px 0;
-    justify-content: flex-end;
+    justify-content: end;
 }
 
 
@@ -397,8 +398,11 @@ border-radius: 12px;
  #main-1 {
     margin: 2%;
  }
-
+@media only screen and (min-width: 960px) {
+	#heading {
+		margin: 1px;
  
+}
 }
 @media only screen and (max-width: 600px) {
 
