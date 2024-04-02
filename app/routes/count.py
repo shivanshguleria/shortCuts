@@ -14,11 +14,11 @@ router = APIRouter()
 @router.post("/api/count/all/{token}")
 def get_all_count(req: Get_all_count,token:str, db:Session = Depends(get_db)):
     check_token_in_db = db.query(models.Tokens).filter(models.Tokens.token == token).first()
-    print()
     if check_token_in_db and check_token_in_db.token == token:
         count_list = list()
         for i in range(len(req.links)):
-            count_list.append({"unique_id":req.links[i], "count": get_count(req.links[i])})
+            count = get_count(req.links[i])
+            count_list.append({"unique_id":req.links[i], "count": count["count"], "analytics": count["analytics"]})
         return count_list
     else:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=f"Token is not true")
@@ -33,10 +33,7 @@ def count(id: str, token:str, db: Session = Depends(get_db)):
         check_unique_id = db.query(models.LinkProd.unique_id).filter(models.LinkProd.unique_id == id).first()
         if check_unique_id != None and check_unique_id[0] == id:
             count = get_count(id)
-            if type(count) is int:
-                return {"count": count}
-            else:
-                return {"message": "Link has been deleted"}
+            return  count
         else:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=f"Link does not exist")    
     else:

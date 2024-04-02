@@ -2,10 +2,12 @@ import {remove_link_from_cache, getUniqueIds} from "./storage.js"
 
 async function count(id) {
     const response = await fetch(`/api/count/${await token()}/${id}`);
+    if(response.status < 300) {
     const count1 = await response.json();
-    const res = count1.count
-    if(res == 0 | res) {
-        return res
+    const res = count1
+    return res
+    } else {
+        return -1
     }
   }
 

@@ -36,6 +36,9 @@ async function count_routine(){
   for(let i =0; i < a.length; i ++) {
     if(a[i].unique_id == lisA[i].unique_id) {
       a[i].clicks = lisA[i].count
+      if(a[i].analytics){
+        a[i].analytics = lisA[i].analytics
+      }
     }
   }
   localStorage.setItem(1, JSON.stringify(a))
@@ -50,7 +53,7 @@ function storage(link, shortLink, unique_id) {
       localStorage.setItem(1, JSON.stringify([{link: link, shortLink: shortLink, clicks: 0, isRefreshed: false, unique_id: unique_id }])) 
     } else  {
       let a = JSON.parse(localStorage.getItem(1))
-      a.push({link: link, shortLink: shortLink, clicks: 0, isRefreshed: false, unique_id: unique_id })
+      a.push({link: link, shortLink: shortLink, clicks: 0, isRefreshed: false, unique_id: unique_id , analytics: {}})
       localStorage.setItem(1, JSON.stringify(a))
     }
   }

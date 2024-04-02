@@ -25,13 +25,17 @@ element.addEventListener('click', async (e) => {
     const unique_id = getUniqueId(e.target.parentNode.parentElement.childNodes[1].firstElementChild.innerText)
 
     const new_count = await count(unique_id)
-    if (new_count == 0 | new_count) {
-    e.target.parentNode.parentElement.childNodes[3].textContent = new_count
+    if (new_count != -1) {
+    e.target.parentNode.parentElement.childNodes[3].textContent = new_count.count
     let a = JSON.parse(localStorage.getItem(1))
     for(let i = 0; i < a.length; i++) {
       if(a[i].unique_id === unique_id) {
         a[i].isRefreshed = true
-        a[i].clicks = new_count
+        a[i].clicks = new_count.count
+        a[i].analytics = new_count.analytics
+        if(a[i].analytics){
+        a[i].analytics = new_count.analytics 
+      }
         localStorage.setItem(1,JSON.stringify(a))
       }
     }
@@ -62,3 +66,4 @@ remove_link_from_cache(unique_id)
   //   }
   // }
 });
+

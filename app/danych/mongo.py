@@ -20,16 +20,22 @@ def push_new_count(unique_id):
 # push_new_count(id)
 
 def update_count(unique_id, country):
-    # country_inc = post.find_one({"_id": unique_id})["analytics"]
-    post.update_one({"_id": unique_id}, {"$inc": {"count": 1, "analytics": {country: 1}}})
+    if country in post.find_one({"_id": unique_id})["analytics"].keys():
+      post.update_many({"_id": unique_id}, {"$inc": {"count": 1, f"analytics.{country}": 1}})
+    else:
+      post.update_many({"_id": unique_id}, {"$inc": {"count": 1},"$set": {f"analytics.{country}": 1}})
     print('[INFO] 🥑 Updated Count')
 
 
 def get_count(unique_id):
     print("[INFO] GOT COUNT FROM SERVER")
-    return post.find_one({"_id": unique_id})["count"]
+    analytics_obj = post.find_one({"_id": unique_id})
+    del analytics_obj["_id"]
+    print(analytics_obj)
+    return analytics_obj
 
 def delete_link(unique_id):
+    print(unique_id)
     post.delete_one({"_id": unique_id})
 
 
