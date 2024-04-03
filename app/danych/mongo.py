@@ -20,7 +20,10 @@ def push_new_count(unique_id):
 # push_new_count(id)
 
 def update_count(unique_id, country):
-    if country in post.find_one({"_id": unique_id})["analytics"].keys():
+    countries = post.find_one({"_id": unique_id})
+    
+   # process data if not  Nonetype, usefull when analytics  database destroyed 
+    if countries is not None and country in countries["analytics"].keys():
       post.update_many({"_id": unique_id}, {"$inc": {"count": 1, f"analytics.{country}": 1}})
     else:
       post.update_many({"_id": unique_id}, {"$inc": {"count": 1},"$set": {f"analytics.{country}": 1}})
