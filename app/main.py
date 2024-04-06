@@ -102,4 +102,34 @@ app.include_router(delete.router)
 #     return "./utils/robots.txt"
 
 
+# app.include_router(admin.router)
+app.include_router(get_link.router)
+app.include_router(count.router)
+app.include_router(token.router)
+app.include_router(gen_link.router)
+app.include_router(update.router)
+app.include_router(delete.router)
+
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
+
+
+@app.exception_handler(500)
+async def internal_exception_handler(request: Request, exc: Exception):
+  return JSONResponse(status_code=500, content=jsonable_encoder({"code": 500, "msg": "Internal Server Error",
+    "server":"expired"}))
+
+# @app.get('/ads.txt', response_class=FileResponse)
+# def ads_txt():
+#     return "./utils/ads.txt"
+
+# @app.get("/sitemap.xml", response_class=FileResponse)
+# def sitemap_xml():
+#     return "./utils/sitemap.xml"
+
+# @app.get("/robots.txt", response_class=FileResponse)
+# def robots_txt():
+#     return "./utils/robots.txt"
+
+
 
