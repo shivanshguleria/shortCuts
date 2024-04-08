@@ -138,7 +138,7 @@ passSubmit.addEventListener("click",async function() {
 
     let payload = {
       link: inputValue, 
-      is_preview: true,
+      is_preview: false,
       token: await token()
     }
   if(newSelectEl.value != "") {
