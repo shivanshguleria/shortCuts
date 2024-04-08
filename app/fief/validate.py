@@ -5,6 +5,8 @@ import validators
 
 
 def validate_link(link: str):
+    if not link: 
+        return False
     if link[:4] == "/esc":
         return True
     if validators.url(link):

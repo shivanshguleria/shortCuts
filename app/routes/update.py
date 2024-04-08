@@ -11,12 +11,15 @@ router = APIRouter()
 @router.put('/api/update/', status_code=status.HTTP_204_NO_CONTENT)
 def update_link(req: schemas.Handle_Update, db: Session= Depends(get_db)):
     check_unique_id_and_token = db.query(models.LinkProd).filter(models.LinkProd.token == req.token and models.LinkProd.unique_id == req.unique_id).first()
-    print(check_unique_id_and_token)
+
+    if not req.link and not req.short_link and (req.is_preview == None ):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Empty Request Sent")
     if check_unique_id_and_token != None :
         if req.link and not req.short_link and not req.is_preview:
             if validate_link(req.link):
                 db.query(models.LinkProd).filter(models.LinkProd.unique_id == req.unique_id).update({"link": req.link}, synchronize_session="fetch")
             else:
+
                 raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Enter Valid Link")
         elif req.short_link and not req.link and not req.is_preview:
             # check_short_link_in_db = db.query(models.LinkProd).filter(models.LinkProd.short_link == req.short_link).first()
@@ -46,6 +49,7 @@ def update_link(req: schemas.Handle_Update, db: Session= Depends(get_db)):
             # check = db.query(models.LinkProd).filter(models.LinkProd.unique_id == req.unique_id).first()
             if validate_link(req.link):
                 if check_unique_id_and_token.short_link != req.short_link:
+        
                     db.query(models.LinkProd).filter(models.LinkProd.unique_id == req.unique_id).update({"is_preview": req.is_preview, "link": req.link, "short_link": req.short_link}, synchronize_session="fetch")
                 else:
                     raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Post with short link exists")

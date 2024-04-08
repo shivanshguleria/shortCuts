@@ -12,15 +12,19 @@ from sqlalchemy.orm import Session
 
 import app.danych.schemas as schemas
 
+
+
 templates = Jinja2Templates(directory="templates")
 
 router = APIRouter()
 
+
 @router.get('/{id}', response_class=RedirectResponse)
 def get_link(id: str, request: Request, db: Session= Depends(get_db)):
+
     link_store = db.query(models.LinkProd).filter(models.LinkProd.short_link == id).first()
     print(link_store)
-    if link_store  and link_store.is_alive:
+    if link_store  and link_store.is_alive and not  link_store.is_disabled:
         if link_store.token:
             if(request.headers["cf-ipcountry"]):
                 update_count(link_store.unique_id, request.headers["cf-ipcountry"])

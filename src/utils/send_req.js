@@ -62,9 +62,40 @@ async function delete_link(id) {
 remove_link_from_cache(id)
 }
 
-
+async function getGeoJson() {
+    const res = await fetch('https://files.shivanshguleria.ml/src/json/alpha-2-cc.json');
+    return await res.json();
+  
+  }
 // async function send_link_gen_req() {
 
 // }
 
-export {token, count, delete_link, getAllCount}
+
+async function sendPutreq(data) {
+console.log(data)
+    
+    if (data.length == 0){
+        return {status: 403, details: "Empty Request sent"}
+    }
+    else {
+        console.log(data)
+        const path = window.location.pathname.split('/')
+        data.push(["token", path[path.length - 2]], ["unique_id", path[path.length - 1]])
+        const url = new URL(window.location.protocol+ window.location.host + "/api/update/")
+    const options = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(data))
+    }
+    const req = await fetch(url, options)
+
+    if (req.status > 300) {
+    return await {status: req.status, details: await req.json()}
+    } 
+
+    return await {status: req.status}
+    }
+}
+
+export {token, count, delete_link, getAllCount, getGeoJson, sendPutreq}

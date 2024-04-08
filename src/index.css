@@ -91,7 +91,34 @@ img {
     color: #1c1e20;   
  } 
 
- 
+ .button{
+    color: #979899;
+    background-color: #131517;
+
+    padding: 18px;
+    max-height: 80px;
+    font-size: 18px;
+    font-weight: 700;
+
+    border: transparent;
+
+    border-radius: 10px;
+
+    text-align: center;
+
+    width: fit-content;
+
+    -moz-appearance: none;
+    -webkit-appearance: none;
+
+    outline: none;
+}
+
+.button:hover {
+background-color: #1a1d1f;
+cursor: pointer;
+
+}
  #clear-cache  {
     color: var(--color);
     background-color: #1c1e20;

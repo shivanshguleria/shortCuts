@@ -44,3 +44,6 @@ class Handle_all(BaseModel):
 
 class Get_all_count(BaseModel):
     links: List[str]
+
+class toggle_link(Link_delete):
+    pass

@@ -58,7 +58,18 @@ remove_link_from_cache(unique_id)
       console.log(error)
     }
   }
+  if(e.target.classList.contains('button')) {
+    try {
+      let a = JSON.parse(localStorage.getItem(1))
+      const token = localStorage.getItem(3)
+      const unique_id = getUniqueId(e.target.parentNode.parentElement.childNodes[1].firstElementChild.innerText)
+      window.open(`/analytics/${token}/${unique_id}`)
+      // renderUser()
 
+    } catch (error) {
+      console.log(error)
+    }
+  }
   // if(e.target.classList.contains('edit')) {
   //   try {
   //     let short_link = e.target.parentNode.parentElement.childNodes[1].firstElementChild.innerText

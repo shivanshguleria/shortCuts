@@ -11,10 +11,12 @@ from typing import Optional
 import app.danych.models as models
 from app.danych.database import engine
 
-from .routes import get_link, count, token, gen_link, delete, update
+from .routes import get_link, count, token, gen_link, delete, update, analytics, disable
 
 from app.orarin.schedule_delete import scheduler
 
+# Add gzip functionality
+from fastapi.middleware.gzip import GZipMiddleware
 models.Base.metadata.create_all(bind=engine)
 scheduler.start()
 # from sqlalchemy import Null, false, null
@@ -28,6 +30,8 @@ app.mount("/public/src", StaticFiles(directory="src"), name="src")
 app.mount("/public/src/modules", StaticFiles(directory="./src/modules"), name="modules")
 
 
+#Middlewares
+app.add_middleware(GZipMiddleware, minimum_size=1000)
 app.add_middleware(
     CORSMiddleware,
     allow_origins = ["*"],
@@ -80,13 +84,6 @@ def hello_world():
     return {"Hello": "World"}
 
 
-# app.include_router(admin.router)
-app.include_router(get_link.router)
-app.include_router(count.router)
-app.include_router(token.router)
-app.include_router(gen_link.router)
-app.include_router(update.router)
-app.include_router(delete.router)
 
 
 # @app.get('/ads.txt', response_class=FileResponse)
@@ -97,9 +94,9 @@ app.include_router(delete.router)
 # def sitemap_xml():
 #     return "./utils/sitemap.xml"
 
-# @app.get("/robots.txt", response_class=FileResponse)
-# def robots_txt():
-#     return "./utils/robots.txt"
+@app.get("/robots.txt", response_class=FileResponse)
+def robots_txt():
+    return "./utils/robots.txt"
 
 
 # app.include_router(admin.router)
@@ -109,7 +106,8 @@ app.include_router(token.router)
 app.include_router(gen_link.router)
 app.include_router(update.router)
 app.include_router(delete.router)
-
+app.include_router(analytics.router)
+app.include_router(disable.router)
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 

@@ -16,10 +16,16 @@ from app.orarin.schedule_delete import add_new_job
 
 import app.danych.schemas as schemas
 
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
 router = APIRouter()
 
+
+reserved_codes = ["esc", "analytics"]
 @router.post('/api/link', status_code=status.HTTP_201_CREATED, response_model=schemas.Handle_link_return)
 def add_link(req:schemas.Link, db: Session = Depends(get_db)):
+    if id in reserved_codes:
+        return JSONResponse(jsonable_encoder({"message": "This is a reserved page"}))
     if validate_link(req.link):
         ref = generate_unique_id()
         if req.token:
