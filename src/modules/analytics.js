@@ -248,15 +248,16 @@ toggleLink.addEventListener("click",async (e) => {
 
   if (req.status < 299){
     if(toggleLink.getAttribute('value') == 1){
-      toggleLink.classList.remove("toggle-link")
-      toggleLink.classList.add("toggle-link-green")
-      toggleLink.textContent = "Enable Link"
-      toggleLink.setAttribute('value', 0)
-    } else {
       toggleLink.classList.remove("toggle-link-green")
       toggleLink.classList.add("toggle-link")
       toggleLink.textContent = "Disable Link"
       toggleLink.setAttribute('value', 1)
+
+    } else {
+      toggleLink.classList.remove("toggle-link")
+      toggleLink.classList.add("toggle-link-green")
+      toggleLink.textContent = "Enable Link"
+      toggleLink.setAttribute('value', 0)
     }
 
     
