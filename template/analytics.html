@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% include 'commonHeader.html' %}
+    <meta charset=UTF-8>
+    <meta content="IE=edge" http-equiv=X-UA-Compatible>
+    <meta content="width=device-width,initial-scale=1" name=viewport>
     <title>Analytics | shortCuts</title>
-    <link rel="stylesheet" href="/public/src/analytics.css">
+    <link rel="stylesheet" href="../src/analytics.css">
 </head>
 
 <body>
     <div id="heading">
-        <h1 ><a href="https://shrk.xyz/{{analytics.short_link}}" target="_blank" class="a">shrk.xyz/{{analytics.short_link}}</a></h1>
-        <p><strong>Unique id</strong> - {{analytics.unique_id}}</p>
+        <h1 ><a href="https://shrk.xyz/{{analytics.short_link}}" target="_blank" class="a">shrk.xyz/Thisiscodejsdf</a></h1>
+        <!-- <p><strong>Unique id</strong> - {{analytics.unique_id}}</p>
         <p><strong>Long Link</strong> - {{analytics.link}}</p>
         <p><strong>Is Preview</strong>- {{analytics.is_preview}}</p>
 </div>
     <div id="inside-div">
-        <div id="buttons-div">
-            <button class="edit-div-input" id="edit-link">Edit Link</button>
-            <button  class="edit-div-input {{analytics.toggle.color}}" id="toggle-link" value={{analytics.toggle.value}}>{{analytics.toggle.textContent}}</button>
-            <button style="color: rgb(176, 7, 7);" class="edit-div-input" id="delete-link">Delete Link</button>
-        </div>
-        <div id="map"></div>
-
-    </div>
+           <div id="buttons-div">
+               <button class="edit-div-input" id="edit-link">Edit Link</button>
+               <button  class="edit-div-input {{analytics.toggle.color}}" id="toggle-link" value={{analytics.toggle.value}}>Disable</button>
+               <button style="color: rgb(176, 7, 7);" class="edit-div-input" id="delete-link">Delete Link</button>
+           </div>
+           <div id="map"></div>
+   
+       </div>
 </body>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
 integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
@@ -29,7 +31,7 @@ crossorigin=""/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
 integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
 crossorigin="" type="module"></script>
-<script src="/public/src/utils/map.js" type="module"></script>
-<script src="/public/src/modules/analytics.js" type="module"></script>
-<script src="/public/src/modules/toasts.js" type="module"></script>
+<script src="/src/utils/map.js" type="module"></script>
+<script src="/src/modules/analytics.js" type="module"></script>
+<script src="/src/modules/toasts.js" type="module"></script>
 </html>

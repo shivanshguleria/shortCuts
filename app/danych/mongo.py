@@ -33,6 +33,7 @@ def update_count(unique_id, country = None):
 def get_count(unique_id):
     print("[INFO] GOT COUNT FROM SERVER")
     analytics_obj = post.find_one({"_id": unique_id})
+
     del analytics_obj["_id"]
     print(analytics_obj)
     return analytics_obj
@@ -41,7 +42,8 @@ def delete_link(unique_id):
     print(unique_id)
     post.delete_one({"_id": unique_id})
 
-
+def find_unique_id(uid):
+   return post.find_one({"_id": uid})
 # print(get_count(id))
 # update_count(id)
 # print(get_count(id))

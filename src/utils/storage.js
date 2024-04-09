@@ -34,11 +34,14 @@ async function count_routine(){
   let a = JSON.parse(localStorage.getItem(1))
 
   for(let i =0; i < a.length; i ++) {
-    if(a[i].unique_id == lisA[i].unique_id) {
+    console.log(a[i], lisA[i])
+    if(a[i].unique_id == lisA[i].unique_id ) {
       a[i].clicks = lisA[i].count
-      if(a[i].analytics){
-        a[i].analytics = lisA[i].analytics
-      }
+      a[i].analytics = lisA[i].analytics
+      console.log("SDFG")
+    } else if(lisA[i] === -1) {
+      console.log("IRAN")
+      a.splice(i,1)
     }
   }
   localStorage.setItem(1, JSON.stringify(a))

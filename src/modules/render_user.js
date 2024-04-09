@@ -33,9 +33,7 @@ element.addEventListener('click', async (e) => {
         a[i].isRefreshed = true
         a[i].clicks = new_count.count
         a[i].analytics = new_count.analytics
-        if(a[i].analytics){
         a[i].analytics = new_count.analytics 
-      }
         localStorage.setItem(1,JSON.stringify(a))
       }
     }
