@@ -24,7 +24,7 @@ class Handle_link_return(BaseModel):
     unique_id: str
 
 class Handle_Update(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
+    # model_config = ConfigDict(from_attributes=True)
 
     token: str
     unique_id: str

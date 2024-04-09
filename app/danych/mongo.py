@@ -19,7 +19,7 @@ def push_new_count(unique_id):
 
 # push_new_count(id)
 
-def update_count(unique_id, country):
+def update_count(unique_id, country = None):
     countries = post.find_one({"_id": unique_id})
     
    # process data if not  Nonetype, usefull when analytics  database destroyed 

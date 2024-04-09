@@ -18,15 +18,15 @@ templates = Jinja2Templates(directory="templates")
 def serve_analytics_page(req: Request, token: str, unique_id: str, db: Session = Depends(get_db)):
     link_info = db.query(models.LinkProd).filter(models.LinkProd.unique_id == unique_id, models.LinkProd.token == token).first()
     # print(link_info.id)
-    print()
     if link_info:
         # print(get_count(link_info.unique_id)['analytics'])
         return templates.TemplateResponse("analytics.html", {"request": req, "analytics": {
             "short_link": link_info.short_link,
             "unique_id": link_info.unique_id,
               "link": link_info.link,
+              "is_preview": link_info.is_preview,
               "toggle": {
-                  "value": 0 if link_info.is_disabled  else 1,
+                  "value": 1 if link_info.is_disabled  else 0,
                   "textContent": "Enable Link" if link_info.is_disabled  else "Disable Link" ,
                   "color": "toggle-link-green" if link_info.is_disabled  else "toggle-link"
               }

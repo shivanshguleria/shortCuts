@@ -29,8 +29,8 @@ editLink.addEventListener("click", (e) => {
   const optionObj = {
     1: {
       "": "Is Preview?",
-      "true": "Yes [Default]", 
-      "false": "No"
+      "false": "No [Default]",
+      "true": "Yes" 
     }
   }
   //Set Placehoders
@@ -103,7 +103,6 @@ function isValidUrl(string) {
     is_preview:createFormIsPreview.value,
     link: createFormInputLink.value
   })
-  let sudo = []
 
 
   for(let i =0; i < entries.length; i++) {
@@ -124,28 +123,28 @@ function isValidUrl(string) {
 
     
     const putRes = await sendPutreq(newArr)
-    createFormInputShortLink.value = ""
-    createFormIsPreview.value =  ""
-    createFormInputLink.value = ""
     if(putRes.status > 299) {
-    
-
-    toasts.push({
-      title: 'Error',
-      content: JSON.stringify(putRes.details.detail),
-      style: 'error',
-      closeButton: true,
-      dismissAfter: "3s",
-      onOpen: toast => {
+      
+      
+      toasts.push({
+        title: 'Error',
+        content: JSON.stringify(putRes.details.detail),
+        style: 'error',
+        closeButton: true,
+        dismissAfter: "3s",
+        onOpen: toast => {
           console.log(toast);
-      },
-      onClose: toast => {
+        },
+        onClose: toast => {
           console.log(toast);
-      }
-  });
+        }
+      });
     }
     else {
-
+      
+      createFormInputShortLink.value = ""
+      createFormIsPreview.value =  ""
+      createFormInputLink.value = ""
 
     toasts.push({
       title: 'Updation Successfull',
@@ -251,13 +250,13 @@ toggleLink.addEventListener("click",async (e) => {
       toggleLink.classList.remove("toggle-link-green")
       toggleLink.classList.add("toggle-link")
       toggleLink.textContent = "Disable Link"
-      toggleLink.setAttribute('value', 1)
+      toggleLink.setAttribute('value', 0)
 
     } else {
       toggleLink.classList.remove("toggle-link")
       toggleLink.classList.add("toggle-link-green")
       toggleLink.textContent = "Enable Link"
-      toggleLink.setAttribute('value', 0)
+      toggleLink.setAttribute('value', 1)
     }
 
     

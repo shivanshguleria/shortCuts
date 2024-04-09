@@ -12,6 +12,8 @@ from sqlalchemy.orm import Session
 
 import app.danych.schemas as schemas
 
+from starlette.background import BackgroundTask
+
 
 
 templates = Jinja2Templates(directory="templates")
@@ -23,15 +25,15 @@ router = APIRouter()
 def get_link(id: str, request: Request, db: Session= Depends(get_db)):
 
     link_store = db.query(models.LinkProd).filter(models.LinkProd.short_link == id).first()
-    print(link_store)
+    print(link_store.is_disabled)
     if link_store  and link_store.is_alive and not  link_store.is_disabled:
         if link_store.token:
             if(request.headers["cf-ipcountry"]):
-                update_count(link_store.unique_id, request.headers["cf-ipcountry"])
+                task = BackgroundTask(update_count, unique_id = link_store.unique_id, country = request.headers["cf-ipcountry"]) 
         if link_store.is_preview:
-            return templates.TemplateResponse("preview.html", {"request": request, "link": link_store.link, "preview": link_store.link[0:40] + "\n..."})
+            return templates.TemplateResponse("preview.html", {"request": request, "link": link_store.link, "preview": link_store.link[0:40] + "\n..."}, background=task)
         else:
-            return RedirectResponse(link_store.link)
+            return RedirectResponse(link_store.link, background=task)
     else:
         return templates.TemplateResponse("temp.html", {"request": request}, status_code=status.HTTP_404_NOT_FOUND)
     

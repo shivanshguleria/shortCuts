@@ -121,7 +121,7 @@ input {
 }
 
 #heading {
-    padding: 15px;
+    padding: 10px;
     padding-top: 0px;
     padding-bottom: 0px;
     margin:0 !important;
@@ -129,13 +129,14 @@ input {
 
 #heading h1 {
     font-size: 50px;
+
 }
 
 #heading p {
     background-color: #1f1f22;
     width: fit-content;
     padding: 10px;
-
+    font-size: 20px;
     border-radius: 15px;
 }
 
@@ -146,6 +147,36 @@ input {
 .toggle-link-green {
   color: rgb(11, 146, 11);
 }
+
+
+@media only screen and (max-width: 600px) {
+
+    
+  body {
+    display: none;
+  }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Toast style */
 
 .toast-notification {
