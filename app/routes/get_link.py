@@ -25,7 +25,6 @@ router = APIRouter()
 def get_link(id: str, request: Request, db: Session= Depends(get_db)):
 
     link_store = db.query(models.LinkProd).filter(models.LinkProd.short_link == id).first()
-    print(link_store.is_disabled)
     if link_store  and link_store.is_alive and not  link_store.is_disabled:
         if link_store.token:
             if(request.headers["cf-ipcountry"]):

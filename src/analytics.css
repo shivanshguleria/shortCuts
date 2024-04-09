@@ -55,9 +55,18 @@ button {
 }
 
 .edit-div {
+
+  margin: 10px auto;
     display: none;
     flex-flow: row wrap;
     justify-content: center;
+  align-items: center;
+    background-color: black;
+    border-radius: 15px;
+
+  padding: 20px;
+    width: fit-content;
+    
 }
 .edit-div-input {
     color: #979899;
@@ -114,6 +123,8 @@ input {
     background-color: black;
     border-radius: 15px;
     flex-flow: row nowrap;
+  
+    width: 400px;
 }
 
 .const-height {
@@ -121,21 +132,23 @@ input {
 }
 
 #heading {
-    padding: 10px;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    margin:0 !important;
+
+
+
+  margin: 10px;
+
+
 }
 
-#heading h1 {
+#heading  h1 {
     font-size: 50px;
 
 }
 
-#heading p {
+#heading  p {
     background-color: #1f1f22;
     width: fit-content;
-    padding: 10px;
+    padding: 12px;
     font-size: 20px;
     border-radius: 15px;
 }
@@ -151,10 +164,85 @@ input {
 
 @media only screen and (max-width: 600px) {
 
-    
-  body {
-    display: none;
+  .edit-div {
+    display: flex;
+
+    background-color: black;
+    border-radius: 15px;
+    flex-flow: row wrap;
+    width:  350px;
+    margin-bottom: 10px;
   }
+
+  #heading  h1 a{
+    font-size: 0.9em;
+    line-break:anywhere;
+}
+
+#heading h1 p {
+  background-color: #1f1f22;
+  width: fit-content;
+  padding: 10px;
+  font-size: 0.6em;
+  border-radius: 15px;
+}
+
+  #inside-div {
+    background-color: #131316;
+    min-height: 50%;
+    min-width:  100%;
+    /* Flex Properties */
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+
+    /* Border Properties */
+    border-radius: 15px;
+}
+
+#map { 
+
+  /* margin: 10px auto; */
+  height: 70vh; 
+  width: 100vw;
+
+  }
+
+
+
+  .edit-div-input {
+    color: #979899;
+    background-color: #1f1f22;
+
+    padding: 16px;
+    font-size: 18px;
+    font-weight: 500;
+    
+    border: transparent;
+
+    border-radius: 10px;
+
+    text-align: center;
+
+    width: max-content;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+}
+
+
+#buttons-div {
+  /* Display config */
+  display: flex;
+  align-self: flex-end;
+  gap: 5px;
+}
+
+
+.edit-input-submit {
+  /* color: #c7670c; */
+  color: rgb(9, 173, 9);
+}
   }
 
 
