@@ -175,7 +175,7 @@ input {
   }
 
   #heading  h1 a{
-    font-size: 0.9em;
+    font-size: 0.8em;
     line-break:anywhere;
 }
 
@@ -235,7 +235,7 @@ input {
   /* Display config */
   display: flex;
   align-self: flex-end;
-  gap: 5px;
+  gap: 4px;
 }
 
 
