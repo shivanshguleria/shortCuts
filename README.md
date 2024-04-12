@@ -6,7 +6,7 @@ shortCuts is  a tiny link shortner that helps you shortner you long URL on the g
 
 ## Important
 
-The applications is divided into submodules, these submodules have indipendent functions.
+The applications is divided into submodules, these submodules have independent functions.
 
 - **Danych** contains code for database 
 - **Fief** initially contained firebase file, now contains utility functions
@@ -16,7 +16,7 @@ The applications is divided into submodules, these submodules have indipendent f
 
 shortCuts uses Postgres DB for storing relational date and MongoDB for analytics, previously realtime DB was used to store analytics data, due to extra latency migration was done.
 
-Create a json file as **"cred.json"** at previous working directory with following schema to store connection strings. This file is refrencenced by get_cred.py submodule to get connection strings.
+Create a json file as **"cred.json"** at previous working directory with following schema to store connection strings. This file is refrenced by get_cred.py submodule to get connection strings.
 
 ```json
 {
@@ -83,7 +83,8 @@ This Documentaion is same as on [docs page](https://shrk.xyz/Documentation), for
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `link`      | `string` | **Required**. Long Url          |
-   `token`     |  `string` | Include token for extra options see [docs](https://shrk.xyz/Documentation)
+   `token`     |  `string` | Include token for extra options see [docs](https://shrk.xyz/Documentation)|
+
 
 
 #### Redirect to long URL
