@@ -48,7 +48,7 @@ def add_link(req:schemas.Link, db: Session = Depends(get_db)):
         else:
             post = models.LinkProd(link= req.link, short_link= genrate_random_string(), is_preview=req.is_preview, unique_id= ref, token=req.token)
     else:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Enter valid Link")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail={"status": 401, "message": "Enter valid Link"})
     db.add(post)
     db.commit()
     return post

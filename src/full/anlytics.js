@@ -14,7 +14,7 @@ const toggleLink = document.getElementById("toggle-link")
 
 const mapDiv = document.getElementById("map")
 const insidediv = document.getElementById("inside-div")
-
+const linkInfo = document.getElementById("link-info")
 
 const toasts = new Toasts({
   width: 300,
@@ -30,8 +30,8 @@ editLink.addEventListener("click", (e) => {
   const optionObj = {
     1: {
       "": "Is Preview?",
-      "false": "No [Default]",
-      "true": "Yes" 
+      "true": "Yes", 
+      "false": "No [Default]"
     }
   }
   //Set Placehoders
@@ -289,4 +289,5 @@ toggleLink.addEventListener("click",async (e) => {
   }
 })
 const countObj = await count()
+linkInfo.appendChild(`<p><strong>Total Count</strong>- ${countObj.count}</p>`)
 draw(countObj.analytics)

@@ -43,8 +43,8 @@ closePopup.onclick = function() {
 const optionObj = {
   1: {
     "": "Is Preview?",
-    "false": "No [Default]",
-    "true": "Yes" 
+    "true": "Yes", 
+    "false": "No [Default]"
   },
   2: {
     "0": "Schedule Link Delete",
