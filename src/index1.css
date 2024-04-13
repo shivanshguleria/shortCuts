@@ -149,8 +149,15 @@ body {
 
 }
 
+.a{
+    color: var(--color);
+    text-decoration: none;
+}
 
-
+.a:hover {
+    color: var(--color-yellow);
+    text-decoration: none;
+}
 
 .randomise {
     align-self: flex-end;

@@ -289,5 +289,5 @@ toggleLink.addEventListener("click",async (e) => {
   }
 })
 const countObj = await count()
-linkInfo.appendChild(`<p><strong>Total Count</strong>- ${countObj.count}</p>`)
+linkInfo.innerHTML += `<p><strong>Total Count</strong>- ${countObj.count}</p>`
 draw(countObj.analytics)
