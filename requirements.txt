@@ -21,7 +21,7 @@ httpcore==0.18.0
 httplib2==0.22.0
 httptools==0.6.0
 httpx==0.25.0
-idna==3.4
+idna==3.7
 itsdangerous==2.1.2
 Jinja2==3.1.2
 MarkupSafe==2.1.3
