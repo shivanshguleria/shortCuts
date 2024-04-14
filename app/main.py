@@ -85,10 +85,9 @@ def hello_world():
 
 
 
-
-# @app.get('/ads.txt', response_class=FileResponse)
-# def ads_txt():
-#     return "./utils/ads.txt"
+@app.get('/ads.txt', response_class=FileResponse)
+def ads_txt():
+     return "./utils/ads.txt"
 
 # @app.get("/sitemap.xml", response_class=FileResponse)
 # def sitemap_xml():
