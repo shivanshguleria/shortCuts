@@ -203,10 +203,9 @@ async function count() {
 
 
 deleteLinkButton.addEventListener("click",async ()=> {
-  confirm("_-_+")
   if(confirm("Delete link Confirmation")){
   const del = await  delete_link()
-}
+
   if(del.status < 299) {
     toasts.push({
       title: 'Link Deletion Successfull',
@@ -234,6 +233,8 @@ deleteLinkButton.addEventListener("click",async ()=> {
           console.log(toast);
       }
   });
+  }
+
   }
 })
 async function delete_link(){

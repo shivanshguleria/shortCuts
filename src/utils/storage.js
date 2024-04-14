@@ -38,9 +38,7 @@ async function count_routine(){
     if(a[i].unique_id == lisA[i].unique_id ) {
       a[i].clicks = lisA[i].count
       a[i].analytics = lisA[i].analytics
-      console.log("SDFG")
     } else if(lisA[i] === -1) {
-      console.log("IRAN")
       a.splice(i,1)
     }
   }

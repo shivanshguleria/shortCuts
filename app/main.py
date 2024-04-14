@@ -11,6 +11,8 @@ from typing import Optional
 import app.danych.models as models
 from app.danych.database import engine
 
+
+from app.fief.get_ver import get_version
 from .routes import get_link, count, token, gen_link, delete, update, analytics, disable
 
 from app.orarin.schedule_delete import scheduler
@@ -69,7 +71,7 @@ def root(request: Request):
 
 @app.get('/About', response_class=HTMLResponse)
 def about(request: Request):
-    return templates.TemplateResponse("about.html", {"request": request, "version": "1.2.1"})
+    return templates.TemplateResponse("about.html", {"request": request, "version": get_version()})
 
 @app.get('/User', response_class=HTMLResponse)
 def user(request: Request):
@@ -77,7 +79,7 @@ def user(request: Request):
 
 @app.get('/Documentation', response_class=HTMLResponse)
 def docs(request: Request):
-    return templates.TemplateResponse("doc.html", {"request": request})
+    return templates.TemplateResponse("doc.html", {"request": request, "version": get_version()})
 
 @app.get("/api")
 def hello_world():

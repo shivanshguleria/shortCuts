@@ -1,4 +1,10 @@
-import { getGeoJson } from "./send_req.js";
+async function getGeoJson(cc) {
+  const res = await fetch(
+    `https://country.api.shrk.xyz/api?country=${cc}`
+  );
+  return await res.json();
+}
+
 async function draw(as) {
   var map = L.map("map", {
     minZoom: 1.6,
@@ -14,10 +20,10 @@ async function draw(as) {
   map.getPane("labels").style.zIndex = 650;
   map.getPane("labels").style.pointerEvents = "none";
   const analyticsAsList = Object.entries(as);
-  const jso = await getGeoJson();
   for (let i = 0; i < analyticsAsList.length; i++) {
+    const jso = await getGeoJson(analyticsAsList[i][0]);
     var geojson = L.geoJson(
-      jso.features[jso.hashmaps.indexOf(analyticsAsList[i][0])].geometry,
+      jso.geometry,
       {
         style: {
           fillColor: "#" + Math.floor(Math.random() * 16777215).toString(16),
@@ -29,7 +35,7 @@ async function draw(as) {
       }
     ).addTo(map);
     geojson.eachLayer(function (layer) {
-      layer.bindPopup(`<b>Country</b> - ${jso.features[jso.hashmaps.indexOf(analyticsAsList[i][0])].properties.name} <br> <b>Clicks</b> - ${analyticsAsList[i][1]}`);
+      layer.bindPopup(`<b>Country</b> - ${jso.properties.name} <br> <b>Clicks</b> - ${analyticsAsList[i][1]}`);
     });
   }
   L.tileLayer(
