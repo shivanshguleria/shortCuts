@@ -1,4 +1,8 @@
+import {createList} from "../modules/analytics.js"
+
+
 async function getGeoJson(cc) {
+
   const res = await fetch(
     `https://country.api.shrk.xyz/api?country=${cc}`
   );
@@ -21,9 +25,10 @@ async function draw(as) {
   map.getPane("labels").style.zIndex = 650;
   map.getPane("labels").style.pointerEvents = "none";
   const analyticsAsList = Object.entries(as);
+  const listObject = []
   for (let i = 0; i < analyticsAsList.length; i++) {
     const jso = JSON.parse(await getGeoJson(analyticsAsList[i][0]));
-    console.log(jso.id)
+    listObject.push([jso.properties.name, analyticsAsList[i][1]])
     var geojson = L.geoJson(
       jso.geometry,
       {
@@ -40,6 +45,7 @@ async function draw(as) {
       layer.bindPopup(`<b>Country</b> - ${jso.properties.name} <br> <b>Clicks</b> - ${analyticsAsList[i][1]}`);
     });
   }
+  createList(listObject)
   L.tileLayer(
     "https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}.png",
     { attribution: " ©CartoDB | shortCuts", pane: "labels" }

@@ -317,6 +317,43 @@ toggleLink.addEventListener("click",async (e) => {
   });
   }
 })
+
+function  createList(listObj) {
+  const newTable = document.createElement('table');
+  const newH3 = document.createElement("h3")
+  createDiv.classList.add("tab")
+  newH3.textContent = "Traffic Countries/Regions"
+  for(let i =0; i < listObj.length; i++) {
+    const newTableRow = document.createElement('tr')
+    if(i == 0){
+      const newTableHeader1 = document.createElement('th')
+      const newTableHeader2 = document.createElement('th')
+      newTableHeader1.textContent = "Country/Region"
+      newTableHeader2.textContent = "Traffic"
+      newTableHeader1.classList.add("l")
+      newTableHeader1.classList.add( "same")
+      newTableHeader2.classList.add( "same")
+      newTableHeader2.classList.add("r")
+      newTableRow.append(newTableHeader1, newTableHeader2)
+      newTable.append(newTableRow)
+    } else {
+    const newTableData1 = document.createElement('td')
+    const newTableData2 = document.createElement('td')
+    newTableData1.textContent = listObj[i][0]
+    newTableData1.classList.add("l")
+    newTableData1.classList.add( "same")
+    newTableData2.classList.add( "same")
+    newTableData2.textContent = listObj[i][1]
+    newTableData2.classList.add("r")
+    newTableRow.append(newTableData1, newTableData2)
+    newTable.append(newTableRow)
+    }
+  }
+  createDiv.append(newH3, newTable)
+  insidediv.append(createDiv)
+}
 const countObj = await count()
 linkInfo.innerHTML += `<p><strong>Total Count</strong>- ${countObj.count}</p>`
 draw(countObj.analytics)
+
+export {createList}
