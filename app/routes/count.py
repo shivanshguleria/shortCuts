@@ -15,6 +15,8 @@ router = APIRouter()
 def get_all_count(req: Get_all_count,token:str, db:Session = Depends(get_db)):
     check_token_in_db = db.query(models.Tokens).filter(models.Tokens.token == token).first()
     if check_token_in_db and check_token_in_db.token == token:
+        if not req.links:
+            return [-1]
         count_list = list()
         for i in range(len(req.links)):
             if find_unique_id(req.links[i]):
