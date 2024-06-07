@@ -11,18 +11,19 @@ from typing import Optional
 import app.danych.models as models
 from app.danych.database import engine
 
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
+
 
 from app.fief.get_ver import get_version
 from .routes import get_link, count, token, gen_link, delete, update, analytics, disable
-
+from .vids import vid_route
 from app.orarin.schedule_delete import scheduler
 
 # Add gzip functionality
 from fastapi.middleware.gzip import GZipMiddleware
 models.Base.metadata.create_all(bind=engine)
 scheduler.start()
-# from sqlalchemy import Null, false, null
-# from .get_ver import get_version ---- redoc_url=None, docs_url=None
 
 
 app = FastAPI(redoc_url=None, docs_url=None)
@@ -100,7 +101,7 @@ def robots_txt():
     return "./utils/robots.txt"
 
 
-# app.include_router(admin.router)
+app.include_router(vid_route.router)
 app.include_router(get_link.router)
 app.include_router(count.router)
 app.include_router(token.router)
@@ -109,8 +110,6 @@ app.include_router(update.router)
 app.include_router(delete.router)
 app.include_router(analytics.router)
 app.include_router(disable.router)
-from fastapi.encoders import jsonable_encoder
-from fastapi.responses import JSONResponse
 
 
 @app.exception_handler(500)
@@ -128,7 +127,7 @@ async def internal_exception_handler(request: Request, exc: Exception):
 
 # @app.get("/robots.txt", response_class=FileResponse)
 # def robots_txt():
-#     return "./utils/robots.txt"
+#    return "./utils/robots.txt"
 
 
 
