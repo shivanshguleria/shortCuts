@@ -101,7 +101,7 @@ def robots_txt():
     return "./utils/robots.txt"
 
 
-app.include_router(vid_route.router)
+
 app.include_router(get_link.router)
 app.include_router(count.router)
 app.include_router(token.router)
