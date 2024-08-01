@@ -20,21 +20,20 @@ def push_new_count(unique_id):
 # push_new_count(id)
 
 def update_count(unique_id, country = None):
-    countries = post.find_one({"_id": unique_id})
-    
+    # countries = post.find_one({"_id": unique_id})
+
    # process data if not  Nonetype, usefull when analytics  database destroyed 
-    if countries is not None and country in countries["analytics"].keys():
-      post.update_many({"_id": unique_id}, {"$inc": {"count": 1, f"analytics.{country}": 1}})
-    else:
-      post.update_many({"_id": unique_id}, {"$inc": {"count": 1},"$set": {f"analytics.{country}": 1}})
+    # if countries is not None and country in countries["analytics"].keys():
+    #   post.update_many({"_id": unique_id}, {"$inc": {"count": 1, f"analytics.{country}": 1}})
+    # else:
+    #   post.update_many({"_id": unique_id}, {"$inc": {"count": 1},"$set": {f"analytics.{country}": 1}})
+    post.find_one_and_update({"_id": unique_id}, {"$inc": {"count": 1, f"analytics.{country}": 1}}, upsert=True)
     print('[INFO] 🥑 Updated Count')
 
 
 def get_count(unique_id):
     print("[INFO] GOT COUNT FROM SERVER")
-    analytics_obj = post.find_one({"_id": unique_id})
-
-    del analytics_obj["_id"]
+    analytics_obj = post.find_one({"_id": unique_id}, {"_id": 0}) 
     print(analytics_obj)
     return analytics_obj
 

@@ -17,11 +17,13 @@ from fastapi.responses import JSONResponse
 
 from app.fief.get_ver import get_version
 from .routes import get_link, count, token, gen_link, delete, update, analytics, disable
-from .vids import vid_route
+
 from app.orarin.schedule_delete import scheduler
 
 # Add gzip functionality
 from fastapi.middleware.gzip import GZipMiddleware
+
+
 models.Base.metadata.create_all(bind=engine)
 scheduler.start()
 
@@ -88,13 +90,13 @@ def hello_world():
 
 
 
-@app.get('/ads.txt', response_class=FileResponse)
-def ads_txt():
-     return "./utils/ads.txt"
+# @app.get('/ads.txt', response_class=FileResponse)
+# def ads_txt():
+#      return "./utils/ads.txt"
 
-# @app.get("/sitemap.xml", response_class=FileResponse)
-# def sitemap_xml():
-#     return "./utils/sitemap.xml"
+@app.get("/sitemap.xml", response_class=FileResponse)
+def sitemap_xml():
+    return "./utils/sitemap.xml"
 
 @app.get("/robots.txt", response_class=FileResponse)
 def robots_txt():
@@ -116,18 +118,3 @@ app.include_router(disable.router)
 async def internal_exception_handler(request: Request, exc: Exception):
   return JSONResponse(status_code=500, content=jsonable_encoder({"code": 500, "msg": "Internal Server Error",
     "server":"expired"}))
-
-# @app.get('/ads.txt', response_class=FileResponse)
-# def ads_txt():
-#     return "./utils/ads.txt"
-
-# @app.get("/sitemap.xml", response_class=FileResponse)
-# def sitemap_xml():
-#     return "./utils/sitemap.xml"
-
-# @app.get("/robots.txt", response_class=FileResponse)
-# def robots_txt():
-#    return "./utils/robots.txt"
-
-
-

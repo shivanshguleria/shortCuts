@@ -26,9 +26,10 @@ def get_link(id: str, request: Request, db: Session= Depends(get_db)):
 
     link_store = db.query(models.LinkProd).filter(models.LinkProd.short_link == id).first()
     if link_store  and link_store.is_alive and not  link_store.is_disabled:
+        task = None
         if link_store.token:
-            if(request.headers["cf-ipcountry"]):
-                task = BackgroundTask(update_count, unique_id = link_store.unique_id, country = request.headers["cf-ipcountry"]) 
+            if(request.headers.get("cf-ipcountry")):
+                task = BackgroundTask(update_count, unique_id = link_store.unique_id, country=request.headers.get("cf-ipcountry")) 
         if link_store.is_preview:
             return templates.TemplateResponse("preview.html", {"request": request, "link": link_store.link, "preview": link_store.link[0:40] + "\n..."}, background=task)
         else:
