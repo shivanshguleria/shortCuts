@@ -12,4 +12,6 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
-        script: ~/./update.sh | ~/./return.sh
+        script: | 
+                ~/./update.sh 
+                ~/./return.sh
