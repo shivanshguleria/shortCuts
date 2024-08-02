@@ -1,5 +1,5 @@
 annotated-types==0.5.0
-anyio==3.7.1
+anyio==4.4.0
 APScheduler==3.10.4
 CacheControl==0.13.1
 cachetools==5.3.2
