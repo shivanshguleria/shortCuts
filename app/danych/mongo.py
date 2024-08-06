@@ -41,6 +41,9 @@ def delete_link(unique_id):
     print(unique_id)
     post.delete_one({"_id": unique_id})
 
+def delete_link_upsert(id):
+    print(id)
+    print(post.update_one({"_id": id}, {'$set':{"is_alive": False}}, upsert=True))
 def find_unique_id(uid):
    return post.find_one({"_id": uid})
 # print(get_count(id))
