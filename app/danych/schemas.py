@@ -47,3 +47,8 @@ class Get_all_count(BaseModel):
 
 class toggle_link(Link_delete):
     pass
+
+class Handle_raw_link_return(BaseModel):
+    link: str
+    status: int = 200
+    
