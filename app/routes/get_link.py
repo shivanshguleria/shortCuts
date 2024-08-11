@@ -38,7 +38,7 @@ def get_link(id: str, request: Request, db: Session= Depends(get_db)):
     
 # 
 
-@router.get('/api/raw/{id}', response_model=schemas.Handle_raw_link_return, status_code=status.HTTP_200_OK         )
+@router.get('/raw/{id}', response_model=schemas.Handle_raw_link_return, status_code=status.HTTP_200_OK         )
 def get_raw_response(id: str, request:Request, db: Session= Depends(get_db)):
     """
     @Desc: Function for return raw link for given {id}

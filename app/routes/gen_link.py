@@ -21,7 +21,7 @@ from fastapi.responses import JSONResponse
 router = APIRouter()
 
 
-reserved_codes = ["esc", "analytics"]
+reserved_codes = ["esc", "analytics", "raw"]
 @router.post('/api/link', status_code=status.HTTP_201_CREATED, response_model=schemas.Handle_link_return)
 def add_link(req:schemas.Link, db: Session = Depends(get_db)):
     if id in reserved_codes:
