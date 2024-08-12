@@ -28,7 +28,8 @@ models.Base.metadata.create_all(bind=engine)
 scheduler.start()
 
 
-app = FastAPI(redoc_url=None, docs_url=None)
+# app = FastAPI(redoc_url=None, docs_url=None)
+app = FastAPI()
 
 app.mount("/public/src", StaticFiles(directory="src"), name="src")
 
@@ -84,9 +85,6 @@ def user(request: Request):
 def docs(request: Request):
     return templates.TemplateResponse("doc.html", {"request": request, "version": get_version()})
 
-@app.get("/api")
-def hello_world():
-    return {"Hello": "World"}
 
 
 
@@ -103,6 +101,11 @@ def robots_txt():
     return "./utils/robots.txt"
 
 
+# API endpoints start
+
+@app.get("/api")
+def hello_world():
+    return {"Hello": "World"}
 
 app.include_router(get_link.router)
 app.include_router(count.router)
@@ -112,6 +115,10 @@ app.include_router(update.router)
 app.include_router(delete.router)
 app.include_router(analytics.router)
 app.include_router(disable.router)
+
+@app.exception_handler(404)
+async def internal_exception_handler(request: Request, exc: Exception):
+  return templates.TemplateResponse("temp.html", {"request": request}, status_code=status.HTTP_404_NOT_FOUND)
 
 
 @app.exception_handler(500)
