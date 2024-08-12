@@ -28,8 +28,8 @@ models.Base.metadata.create_all(bind=engine)
 scheduler.start()
 
 
-# app = FastAPI(redoc_url=None, docs_url=None)
-app = FastAPI()
+app = FastAPI(redoc_url=None, docs_url=None)
+
 
 app.mount("/public/src", StaticFiles(directory="src"), name="src")
 
@@ -118,7 +118,7 @@ app.include_router(disable.router)
 
 @app.exception_handler(404)
 async def internal_exception_handler(request: Request, exc: Exception):
-  return templates.TemplateResponse("temp.html", {"request": request}, status_code=status.HTTP_404_NOT_FOUND)
+  return templates.TemplateResponse("404.html", {"request": request}, status_code=status.HTTP_404_NOT_FOUND)
 
 
 @app.exception_handler(500)
