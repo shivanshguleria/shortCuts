@@ -126,5 +126,3 @@ async def internal_exception_handler(request: Request, exc: Exception):
   return JSONResponse(status_code=500, content=jsonable_encoder({"code": 500, "msg": "Internal Server Error",
     "server":"expired"}))
 
-
-# test 2

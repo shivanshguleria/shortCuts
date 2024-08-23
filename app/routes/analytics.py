@@ -1,5 +1,6 @@
 #Code for analytics page 
 from fastapi import APIRouter, Depends,HTTPException,status, Request
+    
 
 #Get Templating lib
 from fastapi.templating import Jinja2Templates
