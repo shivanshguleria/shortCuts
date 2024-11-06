@@ -332,9 +332,10 @@ toggleLink.addEventListener("click", async(e)=>{
 )
 
 function createList(listObj) {
+    const createDivForList = document.createElement('div');
     const newTable = document.createElement('table');
     const newH3 = document.createElement("h3")
-    createDiv.classList.add("tab")
+    createDivForList.classList.add("tab")
     newH3.textContent = "Traffic Countries/Regions"
     const newTableRow = document.createElement('tr')
     const newTableHeader1 = document.createElement('th')
@@ -360,11 +361,79 @@ function createList(listObj) {
         newTableRow.append(newTableData1, newTableData2)
         newTable.append(newTableRow)
     }
-    createDiv.append(newH3, newTable)
-    insidediv.append(createDiv)
+    createDivForList.append(newH3, newTable)
+    insidediv.append(createDivForList)
 }
+
+function createLineChart(obj) {
+    const entries = Object.entries(obj)
+    console.log(entries)
+    const dataForLineChart = new Map()
+    let lis = []
+    for(let i = 0; i < entries.length; i++) {
+        const key = entries[i][1].date
+        const dates = Object.entries(key)
+        for(let j = 0; j < dates.length; j++) {
+            const dateKey =  dates[j][0]
+            if(dataForLineChart.has(dateKey)) {
+            dataForLineChart.set(dateKey, dataForLineChart.get(dateKey)+entries[i][1].date[dateKey])
+            }else {
+                dataForLineChart.set(dateKey, entries[i][1].date[dateKey])
+            }
+        }
+    }
+
+    const data = Object.fromEntries(dataForLineChart)
+    console.log(Object.values(data))
+    var options = {
+    series: [{
+        name: "Visits",
+      data: Object.values(data)
+  }],
+
+    chart: {
+    height: 400,
+    background: '#131316',
+    // color: 'white',
+    type: 'area',
+    zoom: {
+      enabled: false
+    }
+  },
+  dataLabels: {
+    enabled: false
+  },
+  stroke: {
+    curve: 'monotoneCubic'
+  },
+
+  xaxis: {
+    name: "Date",
+    categories:Object.keys(data),
+    title: {
+        text: 'Date',
+      }
+}, 
+yaxis: {
+    title: {
+        text: 'Visits Per Day',
+      }
+},
+  theme: {
+    mode: "dark"
+  },
+  grid: {
+    show: false
+  },
+  };
+
+  var chart = new ApexCharts(document.querySelector("#chart"), options);
+  chart.render();
+
+}
+
 const countObj = await count()
 linkInfo.innerHTML += `<p><strong>Total Count</strong>- ${countObj.count}</p>`
+createLineChart(countObj.analytics)
 draw(countObj.analytics)
-
 export {createList}

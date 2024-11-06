@@ -28,7 +28,7 @@ async function draw(as) {
   const listObject = []
   for (let i = 0; i < analyticsAsList.length; i++) {
     const jso = JSON.parse(await getGeoJson(analyticsAsList[i][0]));
-    listObject.push([jso.properties.name, analyticsAsList[i][1]])
+    listObject.push([jso.properties.name, analyticsAsList[i][1].count])
     var geojson = L.geoJson(
       jso.geometry,
       {
@@ -42,9 +42,10 @@ async function draw(as) {
       }
     ).addTo(map);
     geojson.eachLayer(function (layer) {
-      layer.bindPopup(`<b>Country</b> - ${jso.properties.name} <br> <b>Clicks</b> - ${analyticsAsList[i][1]}`);
+      layer.bindPopup(`<b>Country</b> - ${jso.properties.name} <br> <b>Clicks</b> - ${analyticsAsList[i][1].count}`);
     });
   }
+
   createList(listObject)
   L.tileLayer(
     "https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}.png",

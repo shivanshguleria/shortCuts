@@ -4,12 +4,13 @@
     {% include 'commonHeader.html' %}
     <title>Analytics | shortCuts</title>
     <link rel="stylesheet" href="/public/src/analytics-min.css">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 
 <body>
     <div id="heading">
         <div id="link-info">
-            <h1 ><a href="https://shrk.xyz/{{analytics.short_link}}" target="_blank" class="a">shrk.xyz/{{analytics.short_link}}</a></h1>
+            <h1 ><a href="https://shrnk.xyz/{{analytics.short_link}}" target="_blank" class="a">shrnk.xyz/{{analytics.short_link}}</a></h1>
             <p><strong>Unique id</strong> - {{analytics.unique_id}}</p>
             <p><strong>Long Link</strong> - {{analytics.link}}</p>
             <p><strong>Is Preview</strong>- {{analytics.is_preview}}</p>
@@ -22,7 +23,11 @@
                 <button style="color: rgb(176, 7, 7);" class="edit-div-input" id="delete-link">Delete Link</button>
             </div>
             <div id="map"></div>
-    
+            <br>
+            <div id="chart">
+                <h3>Clicks Per day</h3>
+            </div>
+            <br>
         </div>
 </div>
 </body>

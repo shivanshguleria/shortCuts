@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 from app.danych.get_cred import Credentials
+import datetime
 client = MongoClient(Credentials.mongo)
 
 
@@ -27,7 +28,8 @@ def update_count(unique_id, country = None):
     #   post.update_many({"_id": unique_id}, {"$inc": {"count": 1, f"analytics.{country}": 1}})
     # else:
     #   post.update_many({"_id": unique_id}, {"$inc": {"count": 1},"$set": {f"analytics.{country}": 1}})
-    post.find_one_and_update({"_id": unique_id}, {"$inc": {"count": 1, f"analytics.{country}": 1}}, upsert=True)
+    post.find_one_and_update({"_id": unique_id}, {"$inc": {"count": 1, f"analytics.{country}.count": 1, f"analytics.{country}.date.{datetime.datetime.now().date()}": 1}}, upsert=True)
+    # post.find_one_and_update({"_id": unique_id}, {"$inc": {"count": 1, f"analytics.{country}": 1}}, upsert=True)
     print('[INFO] 🥑 Updated Count')
 
 
