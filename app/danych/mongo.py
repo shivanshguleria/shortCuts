@@ -2,8 +2,6 @@ from pymongo import MongoClient
 from app.danych.get_cred import Credentials
 import datetime
 client = MongoClient(Credentials.mongo)
-
-
 db = client.count_db
 
 collection = db.collection
@@ -14,7 +12,8 @@ def push_new_count(unique_id):
     post.insert_one({
         "_id": unique_id,
         "count": 0,
-        "analytics": {}
+        "analytics": {},
+        "v": 2
         })
     print("[INFO] 🔥 Pushed Data")
 
@@ -28,15 +27,19 @@ def update_count(unique_id, country = None):
     #   post.update_many({"_id": unique_id}, {"$inc": {"count": 1, f"analytics.{country}": 1}})
     # else:
     #   post.update_many({"_id": unique_id}, {"$inc": {"count": 1},"$set": {f"analytics.{country}": 1}})
-    post.find_one_and_update({"_id": unique_id}, {"$inc": {"count": 1, f"analytics.{country}.count": 1, f"analytics.{country}.date.{datetime.datetime.now().date()}": 1}}, upsert=True)
+    post.find_one_and_update({"_id": unique_id}, {"$inc": {"count": 1, f"analytics.{country}.count": 1, f"analytics.{country}.date.{datetime.datetime.now().date()}": 1}, "v": 2}, upsert=True)
     # post.find_one_and_update({"_id": unique_id}, {"$inc": {"count": 1, f"analytics.{country}": 1}}, upsert=True)
     print('[INFO] 🥑 Updated Count')
-
 
 def get_count(unique_id):
     print("[INFO] GOT COUNT FROM SERVER")
     analytics_obj = post.find_one({"_id": unique_id}, {"_id": 0}) 
-    print(analytics_obj)
+    # print(analytics_obj)
+    a = None
+    if "v" not in analytics_obj:
+        for i in analytics_obj['analytics']:
+            analytics_obj['analytics'][i] = {"count": analytics_obj['analytics'][i], "date": None}
+
     return analytics_obj
 
 def delete_link(unique_id):
@@ -50,6 +53,7 @@ def find_unique_id(uid):
    return post.find_one({"_id": uid})
 
 
+# print(get_count('d7f0cd9499'))
 # print(get_count(id))
 # update_count(id)
 # print(get_count(id))
