@@ -368,6 +368,7 @@ function createList(listObj) {
 function createLineChart(obj) {
     const entries = Object.entries(obj)
     console.log(entries)
+    if(entries[0][1].date){
     const dataForLineChart = new Map()
     let lis = []
     for(let i = 0; i < entries.length; i++) {
@@ -429,7 +430,9 @@ yaxis: {
 
   var chart = new ApexCharts(document.querySelector("#chart"), options);
   chart.render();
-
+    } else {
+        document.getElementById("chart").innerHTML = ""
+    }
 }
 
 const countObj = await count()
