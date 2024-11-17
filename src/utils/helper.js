@@ -12,7 +12,8 @@ const copyBtn = document.getElementById("copy-button")
 function copyFunction() {
 copyBtn.addEventListener("click", function () {
     const storage = document.createElement('textarea');
-    storage.value = generateEl.innerHTML;
+    console.log(generateEl.textContent, generateEl.innerHTML)
+    storage.value = generateEl.innerText;
     searchFlexLink.appendChild(storage);
     storage.select();
     storage.setSelectionRange(0, 35);
