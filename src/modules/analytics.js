@@ -405,7 +405,7 @@ function createLineChart(obj) {
     enabled: false
   },
   stroke: {
-    curve: 'monotoneCubic'
+    curve: 'smooth'
   },
 
   xaxis: {

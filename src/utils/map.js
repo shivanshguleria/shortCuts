@@ -4,7 +4,7 @@ import {createList} from "../modules/analytics.js"
 async function getGeoJson(cc) {
 
   const res = await fetch(
-    `https://country.api.shrk.xyz/api?country=${cc}`
+    `https://country.api.shrnk.xyz/api?country=${cc}`
   );
   // console.log(await typeof(res.text()))
   return await res.text();

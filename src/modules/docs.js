@@ -78,7 +78,7 @@ else if(sendPath.value == 1 && localStorage.getItem(3)) {
  else if(obj[pointer].method == 'GET' && sendPath.value == 3){
     
     console.log(inputId, inputToken)
-    console.log("https://shrk.xyz" + "/api/count/" + inputToken.value + inputId.value)
+    console.log("https://shrnk.xyz" + "/api/count/" + inputToken.value + inputId.value)
         await fetch(path + "/api/count/" + inputToken.value + "/" + inputId.value, {
           method: obj[pointer].method
         })

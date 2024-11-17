@@ -168,7 +168,7 @@ passSubmit.addEventListener("click",async function() {
         
         .then((json) => {
           if(json.short_link){
-          document.getElementById("result").innerHTML = `<a href="https://shrk.xyz/${json.short_link}" target="_blank" class="a">https://shrk.xyz/${json.short_link}</a>`
+          document.getElementById("result").innerHTML = `<a href="https://shrnk.xyz/${json.short_link}" target="_blank" class="a">https://shrnk.xyz/${json.short_link}</a>`
           storage(inputValue, json.short_link, json.unique_id)
           copyFunction()
         } else {
