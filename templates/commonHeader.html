@@ -1,8 +1,24 @@
-<meta charset=UTF-8><meta content="IE=edge"http-equiv=X-UA-Compatible><meta content="width=device-width,initial-scale=1"name=viewport><link href=/public/src/logo.ico rel=icon type=image/x-icon><link href=https://shrnk.xyz/ rel=canonical>{% include 'commonMeta.html' %}
+<meta charset=UTF-8>
+<meta content="IE=edge" http-equiv=X-UA-Compatible>
+<meta content="width=device-width,initial-scale=1" name=viewport>
+<link href=/public/src/logo.ico rel=icon type=image/x-icon>
+<link href=https://shrnk.xyz/ rel=canonical>{% include 'commonMeta.html' %}
 <script>
-    if(!localStorage.getItem("rm")) {
+    if (!localStorage.getItem("rm")) {
         localStorage.removeItem(1)
         localStorage.removeItem(3)
         localStorage.setItem("rm", 1)
     }
+</script>
+<!-- <section>shortCuts has been archived, This app is no longer maintained or supported.</section>
+  -->
+  <div style="display: flex; justify-content: center;">
+  <div  id="banner"style="background-color: #f8d7da; color: #721c24; padding: 12px;border-radius:0px 0px 15px 15px; border: 1px solid #f5c6cb;display: flex;justify-content: space-between; width:90%;bottom:">
+    <div>    🚫 <strong>shortcuts has been archived.</strong> This application is no longer maintained or supported.</div>
+    <button style="background-color: transparent;border: none;cursor: pointer;font-size: larger;color: #721c24;margin-right: 15px;" onclick="bannerClick()">X</button>
+  </div>
+  </div>
+<script>
+    function bannerClick() {
+        document.getElementById("banner").style.display = "none"    }
 </script>

@@ -6,3 +6,4 @@ app/key.json
 readme.txt
 .vscode/
 null_code/
+fly.toml
