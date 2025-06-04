@@ -1,0 +1,21 @@
+# 
+FROM python
+
+# 
+WORKDIR /code
+RUN ["apt-get", "update"]
+RUN ["apt-get", "install", "-y", "vim"]
+# 
+COPY ./requirements.txt /code/requirements.txt
+
+# 
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+
+# 
+COPY ./  /code/
+
+# 
+CMD ["cd code"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
+
+#flyctl launch --dockerfile ./Dockerfi
